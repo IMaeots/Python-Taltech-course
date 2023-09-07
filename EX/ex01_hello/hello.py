@@ -1,2 +1,2 @@
-""" Print statement """
+"""Print statement."""
 print("Hello world!")
