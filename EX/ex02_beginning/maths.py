@@ -101,7 +101,7 @@ output
 """
 ects = int(input("Enter the amount of ECTS: "))
 weeks = int(input("Enter the number of weeks: "))
-if (weeks * 24) < (ects * 26) or weeks <= 0:  # Checking the logic whether there are enough hours to learn
+if (weeks * 7 * 24) < (ects * 26) or weeks <= 0:  # Checking the logic whether there are enough hours to learn
     print("-1")
 else:
     print(f"{ects * 26 / weeks}")
