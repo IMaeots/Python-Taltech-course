@@ -25,7 +25,7 @@ def control_number(encrypted_string: str) -> bool:
             encryption_number += 1
         elif i.isupper():
             encryption_number += 2
-        elif i in ['!', '?', '@', '#']:
+        elif i in "!?@#":
             encryption_number += 5
 
     return encrypted_string.endswith(str(encryption_number))
