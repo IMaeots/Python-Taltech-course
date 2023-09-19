@@ -86,7 +86,7 @@ def is_different_from_old_password(old_pass: str, new_pass: str) -> bool:
     """
     old_pass = old_pass.lower()
     new_pass = new_pass.lower()
-    maximum_overlap = len(new_pass) / 2
+    maximum_overlap = len(old_pass) / 2
 
     if old_pass == new_pass or old_pass == new_pass[::-1]:
         return False
