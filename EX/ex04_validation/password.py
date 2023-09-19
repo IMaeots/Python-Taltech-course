@@ -9,7 +9,7 @@ def is_correct_length(password: str) -> bool:
     :param password: Password to be checked
     :return: True if the password's length is within the valid range, False otherwise
     """
-    if 7 < len(password) < 64:
+    if 8 <= len(password) <= 64:
         return True
     else:
         return False
