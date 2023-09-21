@@ -31,25 +31,27 @@ def find_domain(email: str):
 
 def is_valid_domain(email: str):
     domain = find_domain(email)
+
     dot_count = 0
-    count = 0
-    for i in domain:
-        count += 1
-        if not i.isalpha():
-            if i == "." and dot_count == 0:
-                dot_count = 1
-                if count < 3 or count > 10:
-                    return False
-                else:
-                    count = 0
-            else:
+    alpha_count = 0
+    for char in domain:
+        if char == ".":
+            dot_count += 1
+            if dot_count > 1:
                 return False
-    if count < 2 or count > 5:
+            elif alpha_count < 3 or alpha_count > 10:
+                return False
+            else:
+                alpha_count = 0
+        elif not char.isalpha():
+            return False
+        else:
+            alpha_count += 1
+
+    if alpha_count < 2 or alpha_count > 5:
         return False
-    elif dot_count == 1:
-        return True
-    else:
-        return False
+
+    return dot_count == 1
 
 
 def is_valid_email_address(email: str):
