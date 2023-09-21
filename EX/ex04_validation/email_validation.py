@@ -10,7 +10,6 @@ def has_at_symbol(email: str):
     return False
 
 
-"""Check username correctness."""
 def is_valid_username(email: str):
     """Check username correctness."""
     email_parts = email.split("@")
