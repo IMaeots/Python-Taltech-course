@@ -1,8 +1,8 @@
 """Email validation."""
 
 
-# Write your functions here
 def has_at_symbol(email: str):
+    """Look for symbol in email."""
     for i in email:
         if i == "@":
             return True
@@ -10,7 +10,9 @@ def has_at_symbol(email: str):
     return False
 
 
+"""Check username correctness."""
 def is_valid_username(email: str):
+    """Check username correctness."""
     email_parts = email.split("@")
     if len(email_parts) > 2:
         return False
@@ -26,10 +28,12 @@ def is_valid_username(email: str):
 
 
 def find_domain(email: str):
+    """Find the domain part of email."""
     return email.split("@")[-1]
 
 
 def is_valid_domain(email: str):
+    """Evaluate the correctness of domain name."""
     domain = find_domain(email)
 
     dot_count = 0
@@ -55,11 +59,13 @@ def is_valid_domain(email: str):
 
 
 def is_valid_email_address(email: str):
+    """Evaluate the correctness of email."""
     return has_at_symbol(email) and is_valid_username(email) \
         and is_valid_domain(email)
 
 
 def create_email_address(domain: str, username: str):
+    """Try to create an email."""
     email = f"{username}@{domain}"
     if is_valid_email_address(email):
         return email

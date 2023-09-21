@@ -93,8 +93,8 @@ def is_different_from_old_password(old_pass: str, new_pass: str) -> bool:
 
     overlap_length = math.ceil(len(new_pass) / 2)
     for i in range(len(old_pass) + 1 - overlap_length):
-        test_old_pass = old_pass[i:i + overlap_length]
-        if test_old_pass in new_pass or test_old_pass in new_pass[::-1]:
+        old_pass_sub_string = old_pass[i:i + overlap_length]
+        if old_pass_sub_string in new_pass or old_pass_sub_string in new_pass[::-1]:
             return False
 
     return True
