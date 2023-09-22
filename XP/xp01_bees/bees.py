@@ -2,8 +2,7 @@
 
 
 def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data: str) -> bool:
-    """
-    Given honeycomb structure and bees' datas, return True if the two bees land on the same hex at some point, \\
+    """ Given honeycomb structure and bees' datas, return True if the two bees land on the same hex at some point, \\
      otherwise False.
 
     :param honeycomb_width: length of the honeycomb cell side (number of cells at the side)
@@ -67,27 +66,25 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
         # Check for geometrical increase:
         if all(ratio == ratios[0] for ratio in ratios):
-            multiplier = ratios[0]
+            multiplier = differences[1] - differences[0]
             new_data_list = data_list[:4]
             i = 3
             while i < 100000 and i < len(new_data_list):
                 new_value = new_data_list[i] * multiplier
-                if abs(new_value) != float("inf"):
-                    new_data_list.append(int(new_value))
+                new_data_list.append(int(new_value))
                 i += 1
 
             return new_data_list
 
         # Check for geometric step:
         if differences[2] - differences[1] == differences[0]:
-            multiplier = ratios[0]
+            multiplier = differences[1] - differences[0]
             new_data_list = data_list[:4]
             i = 3
             while i < 100000:
                 last_step = new_data_list[i] - new_data_list[i - 1]
                 new_value = new_data_list[i] + last_step * multiplier
-                if abs(new_value) != float("inf"):
-                    new_data_list.append(int(new_value))
+                new_data_list.append(int(new_value))
                 i += 1
 
             return new_data_list
