@@ -2,8 +2,7 @@
 
 
 def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data: str) -> bool:
-    """ Given honeycomb structure and bees' datas, return True if the two bees land on the same hex at some point, \\
-     otherwise False.
+    """Given honeycomb structure and bees' datas, return True if the two bees land on the same hex, otherwise False.
 
     :param honeycomb_width: length of the honeycomb cell side (number of cells at the side)
     :param honeyhopper_data: honeyhopper bee positions as words, separated by a comma (no spaces)
@@ -26,7 +25,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         return current_hex
 
     def pollenpaddle_new_position(overall_position: int) -> int:
-        current_hex: int = TOTAL_HEXES + 1 - (overall_position % TOTAL_HEXES)
+        current_hex = int(TOTAL_HEXES + 1 - (overall_position % TOTAL_HEXES))
         if current_hex == TOTAL_HEXES + 1:
             return 1
         else:
@@ -108,3 +107,8 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 if __name__ == '__main__':
     print(do_bees_meet(50, "1,2,3,4,5", "1,2,4,8,16"))
+    sequence_1 = ",".join(str(x) for x in range(50000, 200001, 10000))  # Arithmetic sequence with a large difference.
+    sequence_2 = ",".join(str(2 ** x) for x in range(30, 45))  # Geometric sequence with a ratio of 2, but starting
+    # from a larger power.
+    print(do_bees_meet(300, sequence_1, sequence_2))  # TRUE
+    print(do_bees_meet(61, "1,2,3,4", "1,2,3,4"))  # True.
