@@ -38,6 +38,9 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         # Find the differences.
         differences = [data_list[i + 1] - data_list[i] for i in range(3)]
 
+        if all(diff == 0 for diff in differences):
+            raise ValueError("Insufficient data for sequence identification")
+
         # Check for constant:
         if all(diff == differences[0] for diff in differences):
             new_data_list = data_list[:4]
