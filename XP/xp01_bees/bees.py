@@ -103,14 +103,14 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         if all(ratio == ratios[0] for ratio in ratios):
             return geometric_increase(ratios[0], data_list[:4])
 
-        if (differences[1] or differences[0]) == 0:
+        if differences[1] == 0 or differences[0] == 0:
             raise ValueError("Insufficient data for sequence identification")
 
         # Check for geometric step:
-        if differences[2] / (differences[1] / differences[0]) == data_list[2]:  # TODO: Divison by zero
+        if differences[2] / (differences[1] / differences[0]) == data_list[2]:
             return geometric_step(differences, data_list[:4])
 
-        raise ValueError("Insufficient data for sequence identification")  # TODO: Called at wrong time
+        raise ValueError("Insufficient data for sequence identification")
 
     'Function that simulates bees movement.'
 
