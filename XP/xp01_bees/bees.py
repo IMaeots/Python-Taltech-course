@@ -48,7 +48,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         increment = differences[1] - differences[0]
         new_data_list = data_list[:4]
         i = 3
-        while i < 100000:
+        while i < 1000:
             last_step = new_data_list[i] - new_data_list[i - 1]
             new_data_list.append(new_data_list[i] + last_step + increment)
             i += 1
@@ -60,7 +60,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         multiplier = int(multiplier)
         new_data_list = data_list
         i = 3
-        while i < 100000:
+        while i < 1000:
             new_value = new_data_list[i] * multiplier
             new_data_list.append(int(new_value))
             i += 1
@@ -88,9 +88,6 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         # Find the differences.
         differences = [data_list[i + 1] - data_list[i] for i in range(3)]
 
-        if (differences[0] or differences[1]) == 0 and differences[2] == (differences[1] or differences[0]):
-            raise ValueError("Insufficient data for sequence identification")
-
         # Check for constant:
         if all(diff == differences[0] for diff in differences):
             return constant_increase(differences, data_list[:4])
@@ -106,11 +103,14 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         if all(ratio == ratios[0] for ratio in ratios):
             return geometric_increase(ratios[0], data_list[:4])
 
+        if (differences[1] or differences[0]) == 0:
+            raise ValueError("Insufficient data for sequence identification")
+
         # Check for geometric step:
-        if differences[2] / (differences[1] / differences[0]) == data_list[2]: # TODO: Divison by zero
+        if differences[2] / (differences[1] / differences[0]) == data_list[2]:  # TODO: Divison by zero
             return geometric_step(differences, data_list[:4])
 
-        raise ValueError("Insufficient data for sequence identification") # TODO: Called at wrong time
+        raise ValueError("Insufficient data for sequence identification")  # TODO: Called at wrong time
 
     'Function that simulates bees movement.'
 
