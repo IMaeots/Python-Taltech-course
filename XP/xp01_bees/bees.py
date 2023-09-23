@@ -19,14 +19,14 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     'Defining helper functions.'
 
     def honeyhopper_new_position(overall_position: int) -> int:
-        """Generates honeyhopper position."""
+        """Generate honeyhopper position."""
         current_hex = overall_position % TOTAL_HEXES
         if current_hex == 0:
             current_hex = TOTAL_HEXES
         return current_hex
 
     def pollenpaddle_new_position(overall_position: int) -> int:
-        """Generates pollenpaddle position."""
+        """Generate pollenpaddle position."""
         current_hex = int(TOTAL_HEXES + 1 - (overall_position % TOTAL_HEXES))
         if current_hex == TOTAL_HEXES + 1:
             return 1
@@ -34,7 +34,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
             return current_hex
 
     def constant_increase(differences, data_list):
-        """Makes constantly increasing data list."""
+        """Make constantly increasing data list."""
         new_data_list = data_list[:4]
         i = 3
         while i < 100000:
@@ -44,7 +44,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         return new_data_list
 
     def arithmetic_increase(differences, data_list):
-        """Makes arithmetically increasing data list."""
+        """Make arithmetically increasing data list."""
         increment = differences[1] - differences[0]
         new_data_list = data_list[:4]
         i = 3
@@ -56,7 +56,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         return new_data_list
 
     def geometric_increase(multiplier, data_list):
-        """Makes geometrically increasing data list."""
+        """Make geometrically increasing data list."""
         multiplier = int(multiplier)
         new_data_list = data_list
         i = 3
@@ -68,7 +68,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         return new_data_list
 
     def geometric_step(differences, data_list):
-        """Makes geometrically increasing step data list."""
+        """Make geometrically increasing step data list."""
         multiplier = differences[1] // differences[0]
         new_data_list = data_list[:4]
         i = 3
@@ -81,7 +81,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         return new_data_list
 
     def calculate_complete_bee_data(bee_data: str) -> list[int]:
-        """Evaluates list type and returns a larger list."""
+        """Evaluate list type and return a larger list."""
         # Recycle out the numbers.
         data_list = [int(num) for num in bee_data.split(',')]
 
@@ -104,10 +104,6 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
             return geometric_increase(ratios[0], data_list[:4])
 
         # Check for geometric step:
-        for diff in differences:
-            if diff == 0:
-                raise ValueError("Insufficient data for sequence identification")
-
         if differences[2] / (differences[1] / differences[0]) == data_list[2]:
             return geometric_step(differences, data_list[:4])
 
@@ -116,7 +112,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     'Function that simulates bees movement.'
 
     def simulation(honeyhopper, pollenpaddle) -> bool:
-        """Simulates the process and returns the answer."""
+        """Simulate the process and return the answer."""
         for pos1, pos2 in zip(honeyhopper, pollenpaddle):
             if honeyhopper_new_position(pos1) == pollenpaddle_new_position(pos2):
                 return True
