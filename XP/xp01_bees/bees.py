@@ -65,10 +65,10 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
         # Check for geometrical increase:
         if all(ratio == ratios[0] for ratio in ratios):
-            multiplier = differences[1] - differences[0]
+            multiplier = int(ratios[0])
             new_data_list = data_list[:4]
             i = 3
-            while i < 100000 and i < len(new_data_list):
+            while i < 100:
                 new_value = new_data_list[i] * multiplier
                 new_data_list.append(int(new_value))
                 i += 1
@@ -76,11 +76,11 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
             return new_data_list
 
         # Check for geometric step:
-        if differences[2] - differences[1] == differences[0]:
-            multiplier = differences[1] - differences[0]
+        if differences[2] / (differences[1] / differences[0]) == data_list[2]:
+            multiplier = differences[1] // differences[0]
             new_data_list = data_list[:4]
             i = 3
-            while i < 100000:
+            while i < 100:
                 last_step = new_data_list[i] - new_data_list[i - 1]
                 new_value = new_data_list[i] + last_step * multiplier
                 new_data_list.append(int(new_value))
