@@ -60,7 +60,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         multiplier = int(multiplier)
         new_data_list = data_list
         i = 3
-        while i < 100:
+        while i < 100000:
             new_value = new_data_list[i] * multiplier
             new_data_list.append(int(new_value))
             i += 1
@@ -72,7 +72,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
         multiplier = differences[1] // differences[0]
         new_data_list = data_list[:4]
         i = 3
-        while i < 100:
+        while i < 100000:
             last_step = new_data_list[i] - new_data_list[i - 1]
             new_value = new_data_list[i] + last_step * multiplier
             new_data_list.append(int(new_value))
@@ -87,6 +87,9 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
         # Find the differences.
         differences = [data_list[i + 1] - data_list[i] for i in range(3)]
+
+        if (differences[0] or differences[1]) == 0 and differences[2] == (differences[1] or differences[0]):
+            raise ValueError("Insufficient data for sequence identification")
 
         # Check for constant:
         if all(diff == differences[0] for diff in differences):
@@ -104,10 +107,10 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
             return geometric_increase(ratios[0], data_list[:4])
 
         # Check for geometric step:
-        if differences[2] / (differences[1] / differences[0]) == data_list[2]:
+        if differences[2] / (differences[1] / differences[0]) == data_list[2]: # TODO: Divison by zero
             return geometric_step(differences, data_list[:4])
 
-        raise ValueError("Insufficient data for sequence identification")
+        raise ValueError("Insufficient data for sequence identification") # TODO: Called at wrong time
 
     'Function that simulates bees movement.'
 
@@ -132,3 +135,4 @@ if __name__ == '__main__':
     # from a larger power.
     print(do_bees_meet(300, sequence_1, sequence_2))  # TRUE
     print(do_bees_meet(61, "1,2,3,4", "1,2,3,4"))  # True.
+    print(do_bees_meet(1029, "1,3,5,7", "1,3,9,27"))
