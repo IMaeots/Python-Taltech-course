@@ -1,5 +1,119 @@
 """Whether bees meet."""
 
+'Define helper functions for do_bees_meet.'
+
+
+def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
+    """Generate honeyhopper position."""
+    current_hex = overall_position % TOTAL_HEXES
+    if current_hex == 0:
+        current_hex = TOTAL_HEXES
+    return current_hex
+
+
+def pollenpaddle_new_position(overall_position: int, TOTAL_HEXES) -> int:
+    """Generate pollenpaddle position."""
+    current_hex = int(TOTAL_HEXES + 1 - (overall_position % TOTAL_HEXES))
+    if current_hex == TOTAL_HEXES + 1:
+        return 1
+    else:
+        return current_hex
+
+
+def constant_increase(differences, data_list):
+    """Make constantly increasing data list."""
+    new_data_list = data_list[:4]
+    i = 3
+    while i < 100000:
+        new_data_list.append(new_data_list[i] + differences[0])
+        i += 1
+
+    return new_data_list
+
+
+def arithmetic_increase(differences, data_list):
+    """Make arithmetically increasing data list."""
+    increment = differences[1] - differences[0]
+    new_data_list = data_list[:4]
+    i = 3
+    while i < 1000:
+        last_step = new_data_list[i] - new_data_list[i - 1]
+        new_data_list.append(new_data_list[i] + last_step + increment)
+        i += 1
+
+    return new_data_list
+
+
+def geometric_increase(multiplier, data_list):
+    """Make geometrically increasing data list."""
+    multiplier = int(multiplier)
+    new_data_list = data_list
+    i = 3
+    while i < 1000:
+        new_value = new_data_list[i] * multiplier
+        new_data_list.append(int(new_value))
+        i += 1
+
+    return new_data_list
+
+
+def geometric_step(differences, data_list):
+    """Make geometrically increasing step data list."""
+    multiplier = differences[1] // differences[0]
+    new_data_list = data_list[:4]
+    i = 3
+    while i < 100000:
+        last_step = new_data_list[i] - new_data_list[i - 1]
+        new_value = new_data_list[i] + last_step * multiplier
+        new_data_list.append(int(new_value))
+        i += 1
+
+    return new_data_list
+
+
+def calculate_complete_bee_data(bee_data: str) -> list[int]:
+    """Evaluate list type and return a larger list."""
+    # Recycle out the numbers.
+    data_list = [int(num) for num in bee_data.split(',')]
+
+    # Find the differences.
+    differences = [data_list[i + 1] - data_list[i] for i in range(3)]
+
+    # Check for constant:
+    if all(diff == differences[0] for diff in differences):
+        return constant_increase(differences, data_list[:4])
+
+    # Check for arithmetic increase:
+    if differences[2] - differences[1] == differences[0]:
+        return arithmetic_increase(differences, data_list)
+
+    # Find the ratios.
+    ratios = [data_list[i + 1] / data_list[i] for i in range(3)]
+
+    # Check for geometrical increase:
+    if all(ratio == ratios[0] for ratio in ratios):
+        return geometric_increase(ratios[0], data_list[:4])
+
+    if differences[1] == 0 or differences[0] == 0:
+        raise ValueError("Insufficient data for sequence identification")
+
+    # Check for geometric step:
+    if differences[2] / (differences[1] / differences[0]) == data_list[2]:
+        return geometric_step(differences, data_list[:4])
+
+    raise ValueError("Insufficient data for sequence identification")
+
+
+def simulation(honeyhopper, pollenpaddle, TOTAL_HEXES) -> bool:
+    """Simulate the process and return the answer."""
+    for pos1, pos2 in zip(honeyhopper, pollenpaddle):
+        if honeyhopper_new_position(pos1, TOTAL_HEXES) == pollenpaddle_new_position(pos2, TOTAL_HEXES):
+            return True
+        else:
+            continue
+
+    return False
+
 
 def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data: str) -> bool:
     """Given honeycomb structure and bees' datas, return True if the two bees land on the same hex, otherwise False.
@@ -16,116 +130,9 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     if honeycomb_width <= 0 or len(honeyhopper_data.split(',')) < 4 or len(pollenpaddle_data.split(',')) < 4:
         raise ValueError("Insufficient data for sequence identification")
 
-    'Defining helper functions.'
-
-    def honeyhopper_new_position(overall_position: int) -> int:
-        """Generate honeyhopper position."""
-        current_hex = overall_position % TOTAL_HEXES
-        if current_hex == 0:
-            current_hex = TOTAL_HEXES
-        return current_hex
-
-    def pollenpaddle_new_position(overall_position: int) -> int:
-        """Generate pollenpaddle position."""
-        current_hex = int(TOTAL_HEXES + 1 - (overall_position % TOTAL_HEXES))
-        if current_hex == TOTAL_HEXES + 1:
-            return 1
-        else:
-            return current_hex
-
-    def constant_increase(differences, data_list):
-        """Make constantly increasing data list."""
-        new_data_list = data_list[:4]
-        i = 3
-        while i < 100000:
-            new_data_list.append(new_data_list[i] + differences[0])
-            i += 1
-
-        return new_data_list
-
-    def arithmetic_increase(differences, data_list):
-        """Make arithmetically increasing data list."""
-        increment = differences[1] - differences[0]
-        new_data_list = data_list[:4]
-        i = 3
-        while i < 1000:
-            last_step = new_data_list[i] - new_data_list[i - 1]
-            new_data_list.append(new_data_list[i] + last_step + increment)
-            i += 1
-
-        return new_data_list
-
-    def geometric_increase(multiplier, data_list):
-        """Make geometrically increasing data list."""
-        multiplier = int(multiplier)
-        new_data_list = data_list
-        i = 3
-        while i < 1000:
-            new_value = new_data_list[i] * multiplier
-            new_data_list.append(int(new_value))
-            i += 1
-
-        return new_data_list
-
-    def geometric_step(differences, data_list):
-        """Make geometrically increasing step data list."""
-        multiplier = differences[1] // differences[0]
-        new_data_list = data_list[:4]
-        i = 3
-        while i < 100000:
-            last_step = new_data_list[i] - new_data_list[i - 1]
-            new_value = new_data_list[i] + last_step * multiplier
-            new_data_list.append(int(new_value))
-            i += 1
-
-        return new_data_list
-
-    def calculate_complete_bee_data(bee_data: str) -> list[int]:
-        """Evaluate list type and return a larger list."""
-        # Recycle out the numbers.
-        data_list = [int(num) for num in bee_data.split(',')]
-
-        # Find the differences.
-        differences = [data_list[i + 1] - data_list[i] for i in range(3)]
-
-        # Check for constant:
-        if all(diff == differences[0] for diff in differences):
-            return constant_increase(differences, data_list[:4])
-
-        # Check for arithmetic increase:
-        if differences[2] - differences[1] == differences[0]:
-            return arithmetic_increase(differences, data_list)
-
-        # Find the ratios.
-        ratios = [data_list[i + 1] / data_list[i] for i in range(3)]
-
-        # Check for geometrical increase:
-        if all(ratio == ratios[0] for ratio in ratios):
-            return geometric_increase(ratios[0], data_list[:4])
-
-        if differences[1] == 0 or differences[0] == 0:
-            raise ValueError("Insufficient data for sequence identification")
-
-        # Check for geometric step:
-        if differences[2] / (differences[1] / differences[0]) == data_list[2]:
-            return geometric_step(differences, data_list[:4])
-
-        raise ValueError("Insufficient data for sequence identification")
-
-    'Function that simulates bees movement.'
-
-    def simulation(honeyhopper, pollenpaddle) -> bool:
-        """Simulate the process and return the answer."""
-        for pos1, pos2 in zip(honeyhopper, pollenpaddle):
-            if honeyhopper_new_position(pos1) == pollenpaddle_new_position(pos2):
-                return True
-            else:
-                continue
-
-        return False
-
     # Calling the simulation function.
-    return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data))
+    return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
+                      TOTAL_HEXES)
 
 
 if __name__ == '__main__':
