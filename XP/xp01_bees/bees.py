@@ -3,6 +3,11 @@
 'Define helper functions for do_bees_meet.'
 
 
+def error():
+    """Raise value error."""
+    raise ValueError("Insufficient data for sequence identification")
+
+
 def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     """Check input for errors."""
     honeyhopper_numeric_data = honeyhopper_data.split(',')
@@ -12,19 +17,13 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
 
     for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
         if int(num1) <= 0 or int(num2) <= 0:
-            return False
+            raise ValueError("nuvot")
 
     for i in range(3):
         if honeyhopper_numeric_data[i] > honeyhopper_numeric_data[i + 1]:
-            return False
+            raise ValueError("nuvot")
         if pollenpaddle_numeric_data[i] > pollenpaddle_numeric_data[i + 1]:
-            return False
-
-
-
-def error():
-    """Raise value error."""
-    raise ValueError("Insufficient data for sequence identification")
+            raise ValueError("nuvot")
 
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
