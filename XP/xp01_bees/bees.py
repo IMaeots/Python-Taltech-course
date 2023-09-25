@@ -104,8 +104,8 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
         if ((data_list[3] - data_list[2]) // (data_list[1] - data_list[0])) == differences[1]:
             return geometric_step(differences, data_list[:4])
     except ZeroDivisionError:
-        error()
-    error()
+        raise ValueError("Insufficient data for sequence identification")
+    raise ValueError("Insufficient data for sequence identification")
 
 
 def simulation(honeyhopper, pollenpaddle, TOTAL_HEXES) -> bool:
