@@ -79,7 +79,7 @@ def geometric_step(differences, data_list):
 def calculate_complete_bee_data(bee_data: str) -> list[int]:
     """Evaluate list type and return a larger list."""
     # Recycle out the numbers.
-    data_list = [int(num) for num in bee_data.split(',')]
+    data_list = [abs(int(num)) for num in bee_data.split(',')]
 
     # Find the differences.
     differences = [abs(data_list[i + 1] - data_list[i]) for i in range(3)]
@@ -100,7 +100,7 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
         return geometric_increase(ratios[1], data_list[:4])
 
     # Check for geometric step:
-    if (data_list[3] - data_list[2]) // (data_list[1] - data_list[0]) == differences[1]:
+    if ((data_list[3] - data_list[2]) // (data_list[1] - data_list[0])) == differences[1]:
         return geometric_step(differences, data_list[:4])
 
     error()  # TODO: growing geometric, negative, negative large, large__width.
