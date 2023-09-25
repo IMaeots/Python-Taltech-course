@@ -3,6 +3,10 @@
 'Define helper functions for do_bees_meet.'
 
 
+def error():
+    raise ValueError("Insufficient data for sequence identification")
+
+
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
     """Generate honeyhopper position."""
     current_hex = overall_position % TOTAL_HEXES
@@ -77,7 +81,7 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
     data_list = [int(num) for num in bee_data.split(',')]
 
     # Find the differences.
-    differences = [data_list[i + 1] - data_list[i] for i in range(3)]
+    differences = [abs(data_list[i + 1] - data_list[i]) for i in range(3)]
 
     # Check for constant:
     if all(diff == differences[0] for diff in differences):
@@ -88,20 +92,20 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
         return arithmetic_increase(differences, data_list)
 
     # Find the ratios.
-    ratios = [data_list[i + 1] / data_list[i] for i in range(3)]
+    ratios = [data_list[i + 1] // data_list[i] if data_list[i] != 0 else error() for i in range(3)]
 
     # Check for geometrical increase:
     if all(ratio == ratios[0] for ratio in ratios):
         return geometric_increase(ratios[0], data_list[:4])
 
     if differences[1] == 0 or differences[0] == 0:
-        raise ValueError("Insufficient data for sequence identification")
+        error()  # TODO: growing arithmetic
 
     # Check for geometric step:
-    if differences[2] / (differences[1] / differences[0]) == data_list[2]:
+    if (data_list[3] - data_list[2]) // (data_list[1] - data_list[0]) == differences[1]:
         return geometric_step(differences, data_list[:4])
 
-    raise ValueError("Insufficient data for sequence identification")
+    error()  # TODO: growing geometric, negative, negative large, large__width.
 
 
 def simulation(honeyhopper, pollenpaddle, TOTAL_HEXES) -> bool:
@@ -128,7 +132,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
     # Check for errors in input.
     if honeycomb_width <= 0 or len(honeyhopper_data.split(',')) < 4 or len(pollenpaddle_data.split(',')) < 4:
-        raise ValueError("Insufficient data for sequence identification")
+        error()
 
     # Calling the simulation function.
     return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
@@ -136,6 +140,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 
 if __name__ == '__main__':
+    print(do_bees_meet(5, "1,3,7,15", "1,1,1,1"))  # True
     print(do_bees_meet(50, "1,2,3,4,5", "1,2,4,8,16"))
     sequence_1 = ",".join(str(x) for x in range(50000, 200001, 10000))  # Arithmetic sequence with a large difference.
     sequence_2 = ",".join(str(2 ** x) for x in range(30, 45))  # Geometric sequence with a ratio of 2, but starting
@@ -143,3 +148,4 @@ if __name__ == '__main__':
     print(do_bees_meet(300, sequence_1, sequence_2))  # TRUE
     print(do_bees_meet(61, "1,2,3,4", "1,2,3,4"))  # True.
     print(do_bees_meet(1029, "1,3,5,7", "1,3,9,27"))
+    assert do_bees_meet(5, "1,3,7,15", "1,1,1,1") is True
