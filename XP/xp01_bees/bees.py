@@ -10,19 +10,13 @@ def error():
 
 def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     """Check input for errors."""
+    if not type(honeyhopper_data) == str and type(pollenpaddle_data) == str:
+        error()
+
     honeyhopper_numeric_data = honeyhopper_data.split(',')
     pollenpaddle_numeric_data = pollenpaddle_data.split(',')
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
-
-    prev_num1, prev_num2 = -1, -1
-    for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
-        if prev_num1 == -1:
-            prev_num1 = int(num1)
-            prev_num2 = int(num2)
-        else:
-            if int(num1) < prev_num1 or int(num2) < prev_num2:
-                error()
 
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
@@ -158,7 +152,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 
 if __name__ == '__main__':
-    # Failing tests:
+    print(do_bees_meet(61,"2,4,2,1", "0,1,2,3"))
     print(do_bees_meet(61, "1,1,2,4", "1,2,4,8"))  # Growing arithmetic and random.
     print(do_bees_meet(61, "2,6,12,20", "1,2,4,8"))  # Negative and random.
     print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8"))  # large width i guess.
