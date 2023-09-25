@@ -133,8 +133,14 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     TOTAL_HEXES: int = 1 + 3 * (honeycomb_width - 1) * honeycomb_width
 
     # Check for errors in input.
-    if honeycomb_width <= 0 or len(honeyhopper_data.split(',')) < 4 or len(pollenpaddle_data.split(',')) < 4:
+    honeyhopper_numeric_data = honeyhopper_data.split(',')
+    pollenpaddle_numeric_data = pollenpaddle_data.split(',')
+    if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
+
+    for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
+        if int(num1) <= 0 or int(num2) <= 0:
+            error()
 
     # Calling the simulation function.
     return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
