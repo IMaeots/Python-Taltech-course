@@ -13,6 +13,12 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if not isinstance(honeyhopper_data, str) and not isinstance(pollenpaddle_data, str):
         error()
 
+    if honeyhopper_data[0] > honeyhopper_data[1] or honeyhopper_data[2]:
+        error()
+
+    if pollenpaddle_data[0] > pollenpaddle_data[1] or pollenpaddle_data[2]:
+        error()
+
     honeyhopper_numeric_data = honeyhopper_data.split(',')
     pollenpaddle_numeric_data = pollenpaddle_data.split(',')
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
@@ -147,13 +153,8 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width)
 
     # Calling the simulation function.
-    try:
-        answer = simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
-                      TOTAL_HEXES)
-    except AssertionError:
-        raise ValueError(f"{honeycomb_width},{honeyhopper_data},{pollenpaddle_data}")
-
-    return answer
+    return simulation(calculate_complete_bee_data(honeyhopper_data),
+                      calculate_complete_bee_data(pollenpaddle_data), TOTAL_HEXES)
 
 
 if __name__ == '__main__':
