@@ -20,9 +20,9 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
             raise ValueError("nuvot")
 
     for i in range(3):
-        if honeyhopper_numeric_data[i] > honeyhopper_numeric_data[i + 1]:
+        if int(honeyhopper_numeric_data[i]) > int(honeyhopper_numeric_data[i + 1]):
             raise ValueError("nuvot")
-        if pollenpaddle_numeric_data[i] > pollenpaddle_numeric_data[i + 1]:
+        if int(pollenpaddle_numeric_data[i]) > int(pollenpaddle_numeric_data[i + 1]):
             raise ValueError("nuvot")
 
 
