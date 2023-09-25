@@ -151,12 +151,8 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width)
 
     # Calling the simulation function.
-    value = simulation(calculate_complete_bee_data(honeyhopper_data),
+    return simulation(calculate_complete_bee_data(honeyhopper_data),
                       calculate_complete_bee_data(pollenpaddle_data), TOTAL_HEXES)
-
-    if value is None:
-        error()
-    return value
 
 
 if __name__ == '__main__':
