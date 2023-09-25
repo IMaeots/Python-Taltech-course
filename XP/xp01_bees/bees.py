@@ -99,9 +99,6 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
     if all(ratio == ratios[0] for ratio in ratios):
         return geometric_increase(ratios[0], data_list[:4])
 
-    if differences[1] == 0 or differences[0] == 0:
-        error()  # TODO: growing arithmetic
-
     # Check for geometric step:
     if (data_list[3] - data_list[2]) // (data_list[1] - data_list[0]) == differences[1]:
         return geometric_step(differences, data_list[:4])
