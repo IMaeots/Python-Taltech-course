@@ -11,12 +11,6 @@ def error():
 
 def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     """Check input for errors."""
-    if not isinstance(honeyhopper_data, str) and not isinstance(pollenpaddle_data, str):
-        error()
-
-    if not bool(re.match(r'^\d+(,\d+)*$', honeyhopper_data)) or not bool(re.match(r'^\d+(,\d+)*$', pollenpaddle_data)):
-        error()
-
     honeyhopper_numeric_data = honeyhopper_data.split(',')
     pollenpaddle_numeric_data = pollenpaddle_data.split(',')
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
@@ -151,12 +145,17 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width)
 
     # Calling the simulation function.
-    return simulation(calculate_complete_bee_data(honeyhopper_data),
+    value = simulation(calculate_complete_bee_data(honeyhopper_data),
+                      calculate_complete_bee_data(pollenpaddle_data), TOTAL_HEXES)
+
+    if value is None:
+        error()
+    else:
+        return simulation(calculate_complete_bee_data(honeyhopper_data),
                       calculate_complete_bee_data(pollenpaddle_data), TOTAL_HEXES)
 
 
 if __name__ == '__main__':
-    print(do_bees_meet(61, "2,4,2,1", "0,1,2,3"))
     print(do_bees_meet(61, "1,1,2,4", "1,2,4,8"))  # Growing arithmetic and random.
     print(do_bees_meet(61, "2,6,12,20", "1,2,4,8"))  # Negative and random.
     print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8"))  # large width i guess.
