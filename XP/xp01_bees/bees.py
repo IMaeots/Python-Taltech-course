@@ -89,7 +89,7 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
         return constant_increase(differences, data_list[:4])
 
     # Check for arithmetic increase:
-    if differences[2] - differences[1] == differences[0]:
+    if differences[2] - differences[1] == differences[1] - differences[0]:
         return arithmetic_increase(differences, data_list)
 
     # Find the ratios.
@@ -148,6 +148,11 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 
 if __name__ == '__main__':
+    # Failing tests:
+    print(do_bees_meet(61,"1,1,2,4", "1,2,4,8")) # Growing arithmetic
+    print(do_bees_meet(61, "2,6,12,20", "1,2,4,8")) # Negative
+    print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8")) # large width
+
     print(do_bees_meet(5, "1,3,7,15", "1,1,1,1"))  # True
     print(do_bees_meet(50, "1,2,3,4,5", "1,2,4,8,16"))
     sequence_1 = ",".join(str(x) for x in range(50000, 200001, 10000))  # Arithmetic sequence with a large difference.
