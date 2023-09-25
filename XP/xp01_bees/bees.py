@@ -29,7 +29,7 @@ def constant_increase(differences, data_list):
     """Make constantly increasing data list."""
     new_data_list = data_list[:4]
     i = 3
-    while i < 1000000:
+    while i < 100000:
         new_data_list.append(new_data_list[i] + differences[0])
         i += 1
 
