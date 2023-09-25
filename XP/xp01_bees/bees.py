@@ -10,7 +10,7 @@ def error():
 
 def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     """Check input for errors."""
-    if honeyhopper_data is not str or pollenpaddle_data is not str:
+    if not isinstance(honeyhopper_data, str) and not isinstance(pollenpaddle_data, str):
         error()
 
     honeyhopper_numeric_data = honeyhopper_data.split(',')
