@@ -3,6 +3,25 @@
 'Define helper functions for do_bees_meet.'
 
 
+def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
+    """Check input for errors."""
+    honeyhopper_numeric_data = honeyhopper_data.split(',')
+    pollenpaddle_numeric_data = pollenpaddle_data.split(',')
+    if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
+        error()
+
+    for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
+        if int(num1) <= 0 or int(num2) <= 0:
+            return False
+
+    for i in range(3):
+        if honeyhopper_numeric_data[i] > honeyhopper_numeric_data[i + 1]:
+            return False
+        if pollenpaddle_numeric_data[i] > pollenpaddle_numeric_data[i + 1]:
+            return False
+
+
+
 def error():
     """Raise value error."""
     raise ValueError("Insufficient data for sequence identification")
@@ -104,8 +123,8 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
         if ((data_list[3] - data_list[2]) // (data_list[1] - data_list[0])) == differences[1]:
             return geometric_step(differences, data_list[:4])
     except ZeroDivisionError:
-        raise ValueError(f"{data_list} + {ratios} + {differences}")
-    raise ValueError(f"{data_list} + {ratios} + {differences}")
+        error()
+    error()
 
 
 def simulation(honeyhopper, pollenpaddle, TOTAL_HEXES) -> bool:
@@ -129,18 +148,11 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     :param pollenpaddle_data: pollenpaddle bee positions as words, separated by a comma (no spaces)
     :return: validation
     """
-    # Number of hexes
+    # Number of hexes.
     TOTAL_HEXES: int = 1 + 3 * (honeycomb_width - 1) * honeycomb_width
 
-    # Check for errors in input.
-    honeyhopper_numeric_data = honeyhopper_data.split(',')
-    pollenpaddle_numeric_data = pollenpaddle_data.split(',')
-    if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
-        error()
-
-    for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
-        if int(num1) <= 0 or int(num2) <= 0:
-            error()
+    # Check for errors.
+    check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width)
 
     # Calling the simulation function.
     return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
@@ -149,10 +161,9 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 if __name__ == '__main__':
     # Failing tests:
-    print(do_bees_meet(61,"1,1,2,4", "1,2,4,8")) # Growing arithmetic
-    print(do_bees_meet(61, "2,6,12,20", "1,2,4,8")) # Negative
-    print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8")) # large width
-
+    print(do_bees_meet(61, "1,1,2,4", "1,2,4,8"))  # Growing arithmetic and random.
+    print(do_bees_meet(61, "2,6,12,20", "1,2,4,8"))  # Negative and random.
+    print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8"))  # large width i guess.
     print(do_bees_meet(5, "1,3,7,15", "1,1,1,1"))  # True
     print(do_bees_meet(50, "1,2,3,4,5", "1,2,4,8,16"))
     sequence_1 = ",".join(str(x) for x in range(50000, 200001, 10000))  # Arithmetic sequence with a large difference.
