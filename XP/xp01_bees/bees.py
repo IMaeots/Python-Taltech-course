@@ -4,6 +4,7 @@
 
 
 def error():
+    """Raise value error."""
     raise ValueError("Insufficient data for sequence identification")
 
 
@@ -40,7 +41,7 @@ def arithmetic_increase(differences, data_list):
     increment = differences[1] - differences[0]
     new_data_list = data_list[:4]
     i = 3
-    while i < 1000:
+    while i < 100000:
         last_step = new_data_list[i] - new_data_list[i - 1]
         new_data_list.append(new_data_list[i] + last_step + increment)
         i += 1
@@ -53,7 +54,7 @@ def geometric_increase(multiplier, data_list):
     multiplier = int(multiplier)
     new_data_list = data_list
     i = 3
-    while i < 1000:
+    while i < 100000:
         new_value = new_data_list[i] * multiplier
         new_data_list.append(int(new_value))
         i += 1
@@ -111,7 +112,9 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
 def simulation(honeyhopper, pollenpaddle, TOTAL_HEXES) -> bool:
     """Simulate the process and return the answer."""
     for pos1, pos2 in zip(honeyhopper, pollenpaddle):
-        if honeyhopper_new_position(pos1, TOTAL_HEXES) == pollenpaddle_new_position(pos2, TOTAL_HEXES):
+        honey_new_pos = honeyhopper_new_position(pos1, TOTAL_HEXES)
+        pollen_new_pos = pollenpaddle_new_position(pos2, TOTAL_HEXES)
+        if honey_new_pos == pollen_new_pos:
             return True
         else:
             continue
@@ -145,7 +148,7 @@ if __name__ == '__main__':
     sequence_1 = ",".join(str(x) for x in range(50000, 200001, 10000))  # Arithmetic sequence with a large difference.
     sequence_2 = ",".join(str(2 ** x) for x in range(30, 45))  # Geometric sequence with a ratio of 2, but starting
     # from a larger power.
-    print(do_bees_meet(300, sequence_1, sequence_2))  # TRUE
+    print(do_bees_meet(30, sequence_1, sequence_2))  # TRUE
     print(do_bees_meet(61, "1,2,3,4", "1,2,3,4"))  # True.
     print(do_bees_meet(1029, "1,3,5,7", "1,3,9,27"))
     assert do_bees_meet(5, "1,3,7,15", "1,1,1,1") is True
