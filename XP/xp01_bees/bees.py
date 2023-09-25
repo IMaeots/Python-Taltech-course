@@ -13,10 +13,10 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if not isinstance(honeyhopper_data, str) and not isinstance(pollenpaddle_data, str):
         error()
 
-    if honeyhopper_data[0] > honeyhopper_data[1] or honeyhopper_data[2]:
+    if int(honeyhopper_data[0]) > int(honeyhopper_data[1]) or int(honeyhopper_data[2]):
         error()
 
-    if pollenpaddle_data[0] > pollenpaddle_data[1] or pollenpaddle_data[2]:
+    if int(pollenpaddle_data[0]) > int(pollenpaddle_data[1]) or int(pollenpaddle_data[2]):
         error()
 
     honeyhopper_numeric_data = honeyhopper_data.split(',')
