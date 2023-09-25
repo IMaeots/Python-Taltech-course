@@ -147,8 +147,13 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width)
 
     # Calling the simulation function.
-    return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
+    try:
+        answer = simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
                       TOTAL_HEXES)
+    except AssertionError:
+        raise ValueError(f"{honeycomb_width},{honeyhopper_data},{pollenpaddle_data}")
+
+    return answer
 
 
 if __name__ == '__main__':
