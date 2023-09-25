@@ -15,16 +15,6 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
 
-    for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
-        if int(num1) <= 0 or int(num2) <= 0:
-            raise ValueError("nuvot")
-
-    for i in range(3):
-        if int(honeyhopper_numeric_data[i]) > int(honeyhopper_numeric_data[i + 1]):
-            raise ValueError("nuvot")
-        if int(pollenpaddle_numeric_data[i]) > int(pollenpaddle_numeric_data[i + 1]):
-            raise ValueError("nuvot")
-
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
     """Generate honeyhopper position."""
@@ -47,7 +37,7 @@ def constant_increase(differences, data_list):
     """Make constantly increasing data list."""
     new_data_list = data_list[:4]
     i = 3
-    while i < 100000:
+    while i < 1000000:
         new_data_list.append(new_data_list[i] + differences[0])
         i += 1
 
@@ -59,7 +49,7 @@ def arithmetic_increase(differences, data_list):
     increment = differences[1] - differences[0]
     new_data_list = data_list[:4]
     i = 3
-    while i < 100000:
+    while i < 1000000:
         last_step = new_data_list[i] - new_data_list[i - 1]
         new_data_list.append(new_data_list[i] + last_step + increment)
         i += 1
@@ -72,7 +62,7 @@ def geometric_increase(multiplier, data_list):
     multiplier = int(multiplier)
     new_data_list = data_list
     i = 3
-    while i < 10000:
+    while i < 1000000:
         new_value = new_data_list[i] * multiplier
         new_data_list.append(new_value)
         i += 1
@@ -85,7 +75,7 @@ def geometric_step(differences, data_list):
     multiplier = differences[1] // differences[0]
     new_data_list = data_list[:4]
     i = 3
-    while i < 10000:
+    while i < 1000000:
         last_step = new_data_list[i] - new_data_list[i - 1]
         new_value = new_data_list[i] + last_step * multiplier
         new_data_list.append(int(new_value))
