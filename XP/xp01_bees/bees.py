@@ -140,7 +140,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
     for num1, num2 in zip(honeyhopper_numeric_data, pollenpaddle_numeric_data):
         if int(num1) <= 0 or int(num2) <= 0:
-            error()
+            raise NameError('yup')
 
     # Calling the simulation function.
     return simulation(calculate_complete_bee_data(honeyhopper_data), calculate_complete_bee_data(pollenpaddle_data),
