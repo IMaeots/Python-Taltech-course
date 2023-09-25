@@ -14,7 +14,7 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if not isinstance(honeyhopper_data, str) and not isinstance(pollenpaddle_data, str):
         error()
 
-    if not bool(re.match(r'^\d+(,\d+)*$', honeyhopper_data)) or bool(re.match(r'^\d+(,\d+)*$', pollenpaddle_data)):
+    if not bool(re.match(r'^\d+(,\d+)*$', honeyhopper_data)) or not bool(re.match(r'^\d+(,\d+)*$', pollenpaddle_data)):
         error()
 
     honeyhopper_numeric_data = honeyhopper_data.split(',')
