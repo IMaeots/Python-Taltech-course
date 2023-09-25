@@ -62,7 +62,7 @@ def geometric_increase(multiplier, data_list):
     multiplier = int(multiplier)
     new_data_list = data_list
     i = 3
-    while i < 10000:
+    while i < 100000:
         new_value = new_data_list[i] * multiplier
         new_data_list.append(new_value)
         i += 1
