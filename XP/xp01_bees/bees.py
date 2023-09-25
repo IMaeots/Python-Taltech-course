@@ -1,4 +1,5 @@
 """Whether bees meet."""
+import re
 
 'Define helper functions for do_bees_meet.'
 
@@ -13,10 +14,7 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if not isinstance(honeyhopper_data, str) and not isinstance(pollenpaddle_data, str):
         error()
 
-    if int(honeyhopper_data[0]) > int(honeyhopper_data[1]) or int(honeyhopper_data[2]):
-        error()
-
-    if int(pollenpaddle_data[0]) > int(pollenpaddle_data[1]) or int(pollenpaddle_data[2]):
+    if not bool(re.match(r'^\d+(,\d+)*$', honeyhopper_data)) or bool(re.match(r'^\d+(,\d+)*$', pollenpaddle_data)):
         error()
 
     honeyhopper_numeric_data = honeyhopper_data.split(',')
@@ -153,8 +151,12 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
     check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width)
 
     # Calling the simulation function.
-    return simulation(calculate_complete_bee_data(honeyhopper_data),
+    value = simulation(calculate_complete_bee_data(honeyhopper_data),
                       calculate_complete_bee_data(pollenpaddle_data), TOTAL_HEXES)
+
+    if value is None:
+        error()
+    return value
 
 
 if __name__ == '__main__':
