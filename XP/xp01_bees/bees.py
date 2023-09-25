@@ -82,7 +82,7 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
     data_list = [abs(int(num)) for num in bee_data.split(',')]
 
     # Find the differences.
-    differences = [abs(data_list[i + 1] - data_list[i]) for i in range(3)]
+    differences = [abs(int(data_list[i + 1] - data_list[i])) for i in range(3)]
 
     # Check for constant:
     if all(diff == differences[0] for diff in differences):
@@ -105,7 +105,7 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
             return geometric_step(differences, data_list[:4])
     except ZeroDivisionError:
         error()
-    error()  # TODO: growing geometric, negative, negative large, large__width.
+    error()
 
 
 def simulation(honeyhopper, pollenpaddle, TOTAL_HEXES) -> bool:
