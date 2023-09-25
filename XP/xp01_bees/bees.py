@@ -10,15 +10,13 @@ def error():
 
 def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     """Check input for errors."""
-    if ',' not in honeyhopper_data or pollenpaddle_data:
+    if ',' not in honeyhopper_data or ',' not in pollenpaddle_data:
         error()
 
     honeyhopper_numeric_data = honeyhopper_data.split(',')
     pollenpaddle_numeric_data = pollenpaddle_data.split(',')
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
-
-
 
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
