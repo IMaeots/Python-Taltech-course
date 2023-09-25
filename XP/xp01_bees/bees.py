@@ -54,7 +54,7 @@ def geometric_increase(multiplier, data_list):
     multiplier = int(multiplier)
     new_data_list = data_list
     i = 3
-    while i < 100000:
+    while i < 10000:
         new_value = new_data_list[i] * multiplier
         new_data_list.append(new_value)
         i += 1
@@ -67,7 +67,7 @@ def geometric_step(differences, data_list):
     multiplier = differences[1] // differences[0]
     new_data_list = data_list[:4]
     i = 3
-    while i < 100000:
+    while i < 10000:
         last_step = new_data_list[i] - new_data_list[i - 1]
         new_value = new_data_list[i] + last_step * multiplier
         new_data_list.append(int(new_value))
