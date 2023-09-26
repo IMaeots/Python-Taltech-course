@@ -15,8 +15,6 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
 
-    raise AssertionError(f"width: {type(honeycomb_width)}, honey: {type(honeyhopper_data)} pollen: {type(pollenpaddle_data)}")
-
     if 0 < (int(pollenpaddle_numeric_data[3]) - int(pollenpaddle_numeric_data[0])) < 2:
         error()
     elif 0 < (int(honeyhopper_numeric_data[3]) - int(honeyhopper_numeric_data[0])) < 2:
