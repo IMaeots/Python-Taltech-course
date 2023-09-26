@@ -16,9 +16,9 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
         error()
 
     if 0 < (int(pollenpaddle_numeric_data[3]) - int(pollenpaddle_numeric_data[0])) < 2:
-        raise AssertionError()
+        raise ValueError("Insufficient data for sequence identification")
     elif 0 < (int(honeyhopper_numeric_data[3]) - int(honeyhopper_numeric_data[0])) < 2:
-        raise AssertionError
+        raise ValueError("Insufficient data for sequence identification")
 
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
