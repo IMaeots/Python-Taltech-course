@@ -15,7 +15,7 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
 
-    raise ValueError(f"{honeyhopper_data},{pollenpaddle_data},{honeycomb_width}")
+    raise AssertionError(f"{honeyhopper_data},{pollenpaddle_data},{honeycomb_width}")
 
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
