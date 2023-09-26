@@ -15,8 +15,6 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
 
-    raise AssertionError(f"honeycomb width: {honeycomb_width} then honeyhopper: {honeyhopper_data} then pollen: {pollenpaddle_data}")
-
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
     """Generate honeyhopper position."""
@@ -109,6 +107,9 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
     if all(ratio == ratios[0] for ratio in ratios):
         return geometric_increase(ratios[1], data_list[:4])
 
+    if differences[1] == 0:
+        error()
+
     # Check for geometric step:
     try:
         if ((data_list[3] - data_list[2]) // (data_list[1] - data_list[0])) == differences[1]:
@@ -151,7 +152,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 
 if __name__ == '__main__':
-    print(do_bees_meet(1,"1,1,1,1","1,1,2,5"))
+    print(do_bees_meet(5,"1,1,1,1","1,1,1,2"))
     print(do_bees_meet(61, "1,1,2,4", "1,2,4,8"))  # Growing arithmetic and random.
     print(do_bees_meet(61, "2,6,12,20", "1,2,4,8"))  # Negative and random.
     print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8"))  # large width i guess.
