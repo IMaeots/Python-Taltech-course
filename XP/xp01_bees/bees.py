@@ -15,24 +15,6 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
     if honeycomb_width <= 0 or len(honeyhopper_numeric_data) < 4 or len(pollenpaddle_numeric_data) < 4:
         error()
 
-    last_element = 0
-    for element in honeyhopper_numeric_data:
-        if not int(element) > 0:
-            error()
-        if int(element) >= last_element:
-            last_element = int(element)
-        else:
-            error()
-
-    last_element = 0
-    for element in pollenpaddle_numeric_data:
-        if not int(element) > 0:
-            error()
-        if int(element) >= last_element:
-            last_element = int(element)
-        else:
-            error()
-
 
 def honeyhopper_new_position(overall_position: int, TOTAL_HEXES) -> int:
     """Generate honeyhopper position."""
