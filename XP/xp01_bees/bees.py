@@ -17,19 +17,19 @@ def check_input(honeyhopper_data, pollenpaddle_data, honeycomb_width):
 
     last_element = 0
     for element in honeyhopper_numeric_data:
-        if not element > 0:
+        if not int(element) > 0:
             error()
-        if element >= last_element:
-            last_element = element
+        if int(element) >= last_element:
+            last_element = int(element)
         else:
             error()
 
     last_element = 0
     for element in pollenpaddle_numeric_data:
-        if not element > 0:
+        if not int(element) > 0:
             error()
-        if element >= last_element:
-            last_element = element
+        if int(element) >= last_element:
+            last_element = int(element)
         else:
             error()
 
