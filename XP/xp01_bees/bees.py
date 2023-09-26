@@ -106,7 +106,7 @@ def calculate_complete_bee_data(bee_data: str) -> list[int]:
         return arithmetic_increase(differences, data_list)
 
     # Find the ratios.
-    ratios = [data_list[i + 1] // data_list[i] if data_list[i] != 0 else error() for i in range(3)]
+    ratios = [data_list[i + 1] / data_list[i] if data_list[i] != 0 else error() for i in range(3)]
 
     # Check for geometrical increase:
     if all(ratio == ratios[0] for ratio in ratios):
@@ -154,7 +154,8 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 
 if __name__ == '__main__':
-    print(do_bees_meet(5, "1,1,1,1", "1,1,1,2"))
+    print(do_bees_meet(5,"30,40,51,64","1,1,1,1")) # Wrong sequence
+    # print(do_bees_meet(5, "1,1,1,1", "1,1,1,2"))
     print(do_bees_meet(61, "1,1,2,4", "1,2,4,8"))  # Growing arithmetic and random.
     print(do_bees_meet(61, "2,6,12,20", "1,2,4,8"))  # Negative and random.
     print(do_bees_meet(1212, "5,12,21,32", "1,2,4,8"))  # large width i guess.
