@@ -62,7 +62,7 @@ def geometric_increase(multiplier, data_list):
     multiplier = int(multiplier)
     new_data_list = data_list
     i = 3
-    while i < 35000:
+    while i < 33000:
         new_value = new_data_list[i] * multiplier
         new_data_list.append(new_value)
         i += 1
@@ -149,7 +149,7 @@ def do_bees_meet(honeycomb_width: int, honeyhopper_data: str, pollenpaddle_data:
 
 
 if __name__ == '__main__':
-    print(do_bees_meet(5,"1,8,57,401", "1,1,1,1"))
+    print(do_bees_meet(5, "1,8,57,401", "1,1,1,1"))
     print(do_bees_meet(5, "30,40,51,64", "1,1,1,1"))  # Wrong sequence
     print(do_bees_meet(5, "1,1,1,1", "1,1,1,2"))
     print(do_bees_meet(61, "1,1,2,4", "1,2,4,8"))  # Growing arithmetic and random.
