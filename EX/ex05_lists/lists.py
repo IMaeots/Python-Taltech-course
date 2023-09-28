@@ -56,7 +56,7 @@ def phone_models(all_phones: str) -> list:
 
     phone_models_list = []
     for i in list_of_phones(all_phones):
-        model = i.split(" ")[1:]
+        model = " ".join(i.split(" ")[1:])
         if model in phone_models_list:
             continue
         else:
@@ -66,6 +66,7 @@ def phone_models(all_phones: str) -> list:
 
 
 def search_by_brand(all_phones: str, search: str) -> list:
+    """Return list of results based on the searched brad."""
     brands = phone_brands(all_phones)
     for i in brands:
         if search.lower() in i.lower():
@@ -75,6 +76,7 @@ def search_by_brand(all_phones: str, search: str) -> list:
 
 
 def search_by_model(all_phones: str, search: str) -> list:
+    """Return list of results based on the searched model."""
     models = phone_models(all_phones)
     case_insensitive_search = search.lower()
     for model in models:
@@ -90,4 +92,4 @@ print(list_of_phones("Google Pixel,Honor Magic5,Google Pixel"))  # ["Google Pixe
 print(phone_brands("Google Pixel,Honor Magic5,Google Pix,Honor Magic6,IPhone 12,Samsung S10,Honor Magic,IPhone 11"))  # ['Google', 'Honor', 'IPhone', 'Samsung']
 print(phone_brands("Google Pixel,Google Pixel,Google Pixel,Google Pixel"))  # ['Google']
 print(phone_brands(""))  # []
-print(phone_models("IPhone 14,Google Pixel,Honor Magic5,IPhone 14"))  # ['14', 'Pixel', 'Magic5']
+print(phone_models("IPhone 14,Google Pixel,Honor Magic5,IPhone 14 Pro"))  # ['14', 'Pixel', 'Magic5']
