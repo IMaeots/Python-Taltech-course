@@ -100,9 +100,9 @@ def search_by_model(all_phones: str, search: str) -> list:
         if " " in model:
             list_model = model.split(" ")
             for item in list_model:
-                for i in range(len(item)):
-                    if case_insensitive_search == item[i].lower():
-                        searched_model = model
+                if case_insensitive_search == item.lower():
+                    searched_model = case_insensitive_search
+                    break
         else:
             if case_insensitive_search == model.lower():
                 searched_model = model
@@ -121,3 +121,4 @@ print(search_by_brand("Google Pixel, Iphone 11 Pro", 'Google'))  # ['Google Pixe
 print(search_by_model("Google Pixel, Iphone 11 Pro", "Pixel"))  # ['Google Pixel']
 print(search_by_brand("Google Pixel, GOOGLE Pixel, GooGle Pixel, GooGLE Pixel2, google Pixel 2022, Samsa Pixel", "Google"))  # 'Google Pixel', 'GOOGLE Pixel', 'GooGle Pixel', 'GooGLE Pixel2', 'google Pixel 2022']
 print(search_by_model("Google Pixel, GOOGLE Pixel, GooGle Pixel, GooGLE Pixel2, google Pixel 2022, Samsa Pixel", "Pixel"))  # 'Google Pixel', 'GOOGLE Pixel', 'GooGle Pixel', 'GooGLE Pixel2', 'google Pixel 2022']
+print(search_by_model('Google Pixel 2021, Google Pixel 2022', "pixel"))  # ['Google Pixel 2021', 'Google Pixel 2022']
