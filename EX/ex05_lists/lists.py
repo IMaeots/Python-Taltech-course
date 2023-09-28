@@ -72,10 +72,7 @@ def filter_search_result(all_phones, search):
         case_insensitive_search = search.lower()
         for phone in list_of_phones(all_phones):
             if case_insensitive_search in phone.lower():
-                if phone in result_list:
-                    continue
-                else:
-                    result_list.append(phone)
+                result_list.append(phone)
 
         return result_list
     else:
