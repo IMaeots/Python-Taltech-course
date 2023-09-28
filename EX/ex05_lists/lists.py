@@ -71,7 +71,7 @@ def search_by_brand(all_phones: str, search: str) -> list:
     case_insensitive_search = search.lower()
     searched_brand = ""
     for brand in brands:
-        if case_insensitive_search in brand.lower():
+        if case_insensitive_search == brand.lower():
             searched_brand = brand
 
     if searched_brand != "":
@@ -98,7 +98,7 @@ def search_by_model(all_phones: str, search: str) -> list:
                     if case_insensitive_search == item[i].lower():
                         searched_model = model
         else:
-            if case_insensitive_search in model.lower():
+            if case_insensitive_search == model.lower():
                 searched_model = model
 
     if searched_model != "":
