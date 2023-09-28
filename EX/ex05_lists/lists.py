@@ -1,7 +1,8 @@
 """Phone inventory."""
 
 
-def unvalid_input_check(all_phones: str) -> bool:
+def invalid_input_check(all_phones: str) -> bool:
+    """Return True if list has more than one character else False."""
     return len(all_phones) < 1
 
 
@@ -14,7 +15,7 @@ def list_of_phones(all_phones: str) -> list:
 
     "Google Pixel,Honor Magic5,Google Pixel" => ["Google Pixel', 'Honor Magic5', 'Google Pixel"]
     """
-    if unvalid_input_check(all_phones):
+    if invalid_input_check(all_phones):
         return []
 
     return all_phones.split(',')
@@ -28,7 +29,7 @@ def phone_brands(all_phones: str) -> list:
 
     "Google Pixel,Honor Magic5,Google Pixel" => ["Google", "Honor"]
     """
-    if unvalid_input_check(all_phones):
+    if invalid_input_check(all_phones):
         return []
 
     phone_brands_list = []
@@ -50,7 +51,7 @@ def phone_models(all_phones: str) -> list:
 
     "Honor Magic5,Google Pixel,Honor Magic4" => ['Magic5', 'Pixel', 'Magic4']
     """
-    if unvalid_input_check(all_phones):
+    if invalid_input_check(all_phones):
         return []
 
     phone_models_list = []
@@ -64,8 +65,29 @@ def phone_models(all_phones: str) -> list:
     return phone_models_list
 
 
+def search_by_brand(all_phones: str, search: str) -> list:
+    brands = phone_brands(all_phones)
+    for i in brands:
+        if search.lower() in i.lower():
+            return i
+
+    return []
+
+
+def search_by_model(all_phones: str, search: str) -> list:
+    models = phone_models(all_phones)
+    case_insensitive_search = search.lower()
+    for model in models:
+        for list_model in model:
+            for i in range(len(list_model)):
+                if case_insensitive_search == list_model[i].lower():
+                    return list_model
+
+    return []
+
+
 print(list_of_phones("Google Pixel,Honor Magic5,Google Pixel"))  # ["Google Pixel', 'Honor Magic5', 'Google Pixel"]
-print(phone_brands("Google Pixel,Honor Magic5,Google Pix,Honor Magic6,IPhone 12,Samsung S10,Honor Magic,IPhone 11")) # ['Google', 'Honor', 'IPhone', 'Samsung']
+print(phone_brands("Google Pixel,Honor Magic5,Google Pix,Honor Magic6,IPhone 12,Samsung S10,Honor Magic,IPhone 11"))  # ['Google', 'Honor', 'IPhone', 'Samsung']
 print(phone_brands("Google Pixel,Google Pixel,Google Pixel,Google Pixel"))  # ['Google']
 print(phone_brands(""))  # []
 print(phone_models("IPhone 14,Google Pixel,Honor Magic5,IPhone 14"))  # ['14', 'Pixel', 'Magic5']
