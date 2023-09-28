@@ -76,9 +76,13 @@ def search_by_brand(all_phones: str, search: str) -> list:
 
     if searched_brand != "":
         result_list = []
+        case_insensitive_search_brand = searched_brand.lower()
         for phone in list_of_phones(all_phones):
-            if searched_brand in phone:
-                result_list.append(phone)
+            if case_insensitive_search_brand in phone.lower():
+                if phone in result_list:
+                    continue
+                else:
+                    result_list.append(phone)
 
         return result_list
     else:
@@ -103,9 +107,13 @@ def search_by_model(all_phones: str, search: str) -> list:
 
     if searched_model != "":
         result_list = []
+        case_insensitive_searched_model = searched_model.lower()
         for phone in list_of_phones(all_phones):
-            if searched_model in phone:
-                result_list.append(phone)
+            if case_insensitive_searched_model in phone.lower():
+                if phone in result_list:
+                    continue
+                else:
+                    result_list.append(phone)
 
         return result_list
     else:
@@ -121,3 +129,5 @@ print(phone_brands(""))  # []
 print(phone_models("IPhone 14,Google Pixel,Honor Magic5,IPhone 14 Pro"))  # ['14', 'Pixel', 'Magic5']
 print(search_by_brand("Google Pixel, Iphone 11 Pro", 'Google'))  # ['Google Pixel']
 print(search_by_model("Google Pixel, Iphone 11 Pro", "Pixel"))  # ['Google Pixel']
+print(search_by_brand("Google Pixel, GOOGLE Pixel, GooGle Pixel, GooGLE Pixel2, google Pixel 2022, Samsa Pixel", "Google"))  #'Google Pixel', 'GOOGLE Pixel', 'GooGle Pixel', 'GooGLE Pixel2', 'google Pixel 2022']
+print(search_by_model("Google Pixel, GOOGLE Pixel, GooGle Pixel, GooGLE Pixel2, google Pixel 2022, Samsa Pixel", "Pixel"))  #'Google Pixel', 'GOOGLE Pixel', 'GooGle Pixel', 'GooGLE Pixel2', 'google Pixel 2022']
