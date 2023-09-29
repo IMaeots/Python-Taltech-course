@@ -101,15 +101,14 @@ def phone_list_as_string(phone_list: list) -> str:
     [['IPhone', ['11']], ['Google', ['Pixel']]] =>
     "IPhone 11,Google Pixel"
     """
-    phones_string = ""
-    for brand, models in phone_list:
-        if phones_string != "":
-            phones_string += ","
+    phones = []
 
+    for brand, models in phone_list:
         brand = brand + " "
-        string_model = ""
         for model in models:
-            phones_string += brand + model
+            phones.append(brand + model)
+
+    phones_string = ",".join(phones)
 
     return phones_string
 
