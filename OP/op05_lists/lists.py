@@ -16,27 +16,21 @@ def phone_brand_and_models(all_phones: str):
     "Honor Magic5,IPhone 11,IPhone 12,Google Pixel,Samsung Galaxy S22,IPhone 13,IPhone 13,Google Pixel2" => [[
     'Honor', ['Magic5']], ['IPhone', ['11', '12', '13']], ['Google', ['Pixel', 'Pixel2']], ['Samsung', ['Galaxy S22']]]
     """
-    # Split input:
     all_phones_list = all_phones.split(",")
-    # Init empty dictionary:
     brand_model_dict = {}
 
-    # Populate the dictionary:
     for phone_name in all_phones_list:
-        # Split phone name into brand and model:
         parts = phone_name.strip().split(' ')
         if len(parts) >= 2:
             brand = parts[0]
             models = ' '.join(parts[1:])
 
-            # Add brand and model to the dictionary:
             if brand not in brand_model_dict:
                 brand_model_dict[brand] = [models]
             else:
                 if models not in brand_model_dict[brand]:
                     brand_model_dict[brand].append(models)
 
-    # Transform dictionary to desired list output format:
     output_list = [[brand, models] for brand, models in brand_model_dict.items()]
 
     return output_list
@@ -87,7 +81,12 @@ def number_of_phones(all_phones: str) -> list:
     if len(all_phones) < 1:
         return []
 
-    return []
+    list_of_phones = phone_brand_and_models(all_phones)
+    quantity_dict = {}
+    for phone in list_of_phones:
+        quantity_dict[phone[0]] = len(phone[1:])
+
+    return [(brand, quantity) for brand, quantity in quantity_dict.items()]
 
 
 def phone_list_as_string(phone_list: list) -> str:
@@ -99,7 +98,19 @@ def phone_list_as_string(phone_list: list) -> str:
     [['IPhone', ['11']], ['Google', ['Pixel']]] =>
     "IPhone 11,Google Pixel"
     """
-    return ""
+    phones_string = ""
+    for brand, models in phone_list:
+        if phones_string != "":
+            phones_string += ", "
+
+        brand = brand + " "
+        string_model = ""
+        for model in models:
+            string_model += str(model)
+
+        phones_string += brand + string_model
+
+    return phones_string
 
 
 print(phone_brand_and_models("Honor Magic5,Google Pixel2,Google Pixel6,IPhone 7,Google Pixel,Google Pixel,IPhone 14"))
