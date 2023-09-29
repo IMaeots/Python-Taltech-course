@@ -109,9 +109,7 @@ def phone_list_as_string(phone_list: list) -> str:
         brand = brand + " "
         string_model = ""
         for model in models:
-            string_model += str(model)
-
-        phones_string += brand + string_model
+            phones_string += brand + model
 
     return phones_string
 
