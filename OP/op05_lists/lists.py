@@ -84,7 +84,10 @@ def number_of_phones(all_phones: str) -> list:
     list_of_phones = phone_brand_and_models(all_phones)
     quantity_dict = {}
     for phone in list_of_phones:
-        quantity_dict[phone[0]] = len(phone[1:])
+        if phone[0] in quantity_dict:
+            quantity_dict[phone[0]] += len(phone[1:])
+        else:
+            quantity_dict[phone[0]] = len(phone[1:])
 
     return [(brand, quantity) for brand, quantity in quantity_dict.items()]
 
@@ -101,7 +104,7 @@ def phone_list_as_string(phone_list: list) -> str:
     phones_string = ""
     for brand, models in phone_list:
         if phones_string != "":
-            phones_string += ", "
+            phones_string += ","
 
         brand = brand + " "
         string_model = ""
