@@ -43,7 +43,7 @@ def sorta_sum(a: int, b: int) -> int:
     :return: Sum or 20
     """
     sum_of_ints = a + b
-    if sum_of_ints in range(11, 20):
+    if sum_of_ints in range(10, 20):
         sum_of_ints = 20
 
     return sum_of_ints
