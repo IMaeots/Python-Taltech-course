@@ -16,7 +16,7 @@ def read_words(filename: str) -> dict:
     word_dict = {}
     with open(filename, "r") as file:
         for line in file:
-            word = line.strip().lower()
+            word = line.strip()
             if word in word_dict:
                 word_dict[word] += 1
             else:
