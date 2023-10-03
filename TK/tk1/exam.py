@@ -122,7 +122,7 @@ def remove_in_middle(text: str, to_remove: str) -> str:
     :param to_remove: substring to be removed.
     :return: string with middle substrings removed.
     """
-    if to_remove not in text:
+    if to_remove not in text or to_remove == "":
         return text
 
     parts = text.split(to_remove)
