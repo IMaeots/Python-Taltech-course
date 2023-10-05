@@ -150,4 +150,30 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
     Use the output from read_words.
     :return: The letter with the best probability.
     """
-    return 't'
+    #  available_letters = set("abcdefghijklmnopqrstuvwxyz") - set(guessed_letters) - set(" ")
+    letter_probabilities = {}
+
+    # Current sentence
+    current_sentence = "".join([
+        char if char in guessed_letters else "_" if char != " " else " "
+        for char in sentence
+    ]).split(" ")
+
+    for current_word in current_sentence:
+        for current_word_char in current_word:
+            if current_word_char == "_":
+                suiting_words = [
+                    possible_word for possible_word in word_dict.keys()
+                    if len(possible_word) == len(current_word)
+                    and all(current_word_char == "_" or current_word_char == word_char
+                            for current_word_char, word_char in zip(current_word, possible_word))
+                ]
+                for word in suiting_words:
+                    if word[current_word.index(current_word_char)] in letter_probabilities:
+                        letter_probabilities[word[current_word.index(current_word_char)]] += 1
+                    else:
+                        letter_probabilities[word[current_word.index(current_word_char)]] = 1
+
+    best_guess = max(letter_probabilities, key=letter_probabilities.get)
+
+    return best_guess
