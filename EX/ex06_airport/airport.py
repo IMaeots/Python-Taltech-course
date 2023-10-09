@@ -99,11 +99,8 @@ def flights_schedule(flights: list) -> dict:
 
     for i in flights:
         input_list = i.strip().split(",")
-        destination = input_list[0]
-        if not input_list[1] in schedule_dict:
-            schedule_dict[input_list[1]] = (destination,)
-        else:
-            schedule_dict[input_list[1]] += destination
+        destination = input_list[0:2]
+        schedule_dict[input_list[1]] = (destination,)
 
     return schedule_dict
 
