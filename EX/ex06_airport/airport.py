@@ -99,8 +99,7 @@ def flights_schedule(flights: list) -> dict:
 
     for i in flights:
         input_list = i.strip().split(",")
-        destination = input_list[0:2]
-        schedule_dict[input_list[1]] = (destination,)
+        schedule_dict[input_list[1]] = (input_list[0], input_list[1])
 
     return schedule_dict
 
@@ -138,7 +137,11 @@ def airlines_operating_today(schedule: dict, airline_names: dict) -> set:
     """
     airline_codes = []
     for values in schedule.values():
-        airline_code = values[1] # TODO
+        if len(values) > 1:
+            airline_code = values[1]
+        else:
+            airline_code = values
+
         if airline_code not in airline_codes:
             airline = ""
             for char in airline_code:
@@ -171,8 +174,11 @@ def destinations_by_airline(schedule: dict, airline_names: dict) -> dict:
     airline_dict = {}
 
     for flight in schedule.values():
-        airline_code = flight[1][:3] # TODO
-        airline_name = airline_names.get(airline_code)
+        if len(flight) > 1:
+            airline_code = flight[1][:3]
+            airline_name = airline_names.get(airline_code)
+        else:
+            airline_name = airline_names.get(flight)
 
         if airline_name not in airline_dict:
             airline_dict[airline_name] = set()
