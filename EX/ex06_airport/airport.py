@@ -99,10 +99,11 @@ def flights_schedule(flights: list) -> dict:
 
     for i in flights:
         input_list = i.strip().split(",")
+        destination = input_list[0]
         if not input_list[1] in schedule_dict:
-            schedule_dict[input_list[1]] = (str(input_list[0]),)
+            schedule_dict[input_list[1]] = (destination,)
         else:
-            schedule_dict[input_list[1]] += input_list[0]
+            schedule_dict[input_list[1]] += destination
 
     return schedule_dict
 
@@ -120,7 +121,7 @@ def destinations_list(schedule: dict) -> list:
         if destination not in destinations:
             destinations.append(destination)
 
-    return destinations
+    return sorted(destinations)
 
 
 def airlines_operating_today(schedule: dict, airline_names: dict) -> set:
@@ -141,7 +142,7 @@ def airlines_operating_today(schedule: dict, airline_names: dict) -> set:
     airline_codes = []
     for values in schedule.values():
         airline_code = values[1]
-        if airline_code not in airlines:
+        if airline_code not in airline_codes:
             airline = ""
             for char in airline_code:
                 if char.isdigit():
