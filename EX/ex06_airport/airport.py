@@ -19,17 +19,18 @@ def destinations_and_times(flights: list) -> dict:
     :param flights: given list from database.
     :return: dictionary where keys are destinations and values are lists of departure times.
     """
-    input_dict = {}
-    destination_and_times_dict = {}
+    flights_dictionary = {}
 
     for i in flights:
-        input_list = i.strip().split(",")
-        if not input_list[0] in input_dict:
-            input_dict[input_list[0]] = [input_list[1]]
+        flights_list = i.strip().split(",")
+        if not flights_list[0] in flights_dictionary:
+            flights_dictionary[flights_list[0]] = [flights_list[1]]
         else:
-            input_dict[input_list[0]].append(input_list[1])
+            flights_dictionary[flights_list[0]].append(flights_list[1])
 
-    for key, value in input_dict.items():
+    destination_and_times_dict = {}
+
+    for key, value in flights_dictionary.items():
         if key in destination_and_times_dict:
             destination_and_times_dict[key].append(value)
         else:
@@ -112,6 +113,7 @@ def destinations_list(schedule: dict) -> list:
     :return: Alphabetically sorted list of unique destinations.
     """
     destinations = []
+
     for values in schedule.values():
         destination = values[0]
         if destination not in destinations:
@@ -136,6 +138,7 @@ def airlines_operating_today(schedule: dict, airline_names: dict) -> set:
     :return: Set of unique airline names operating today.
     """
     airline_codes = []
+
     for value in schedule.values():
         airline_code = value[1]
 
@@ -148,6 +151,7 @@ def airlines_operating_today(schedule: dict, airline_names: dict) -> set:
             airline_codes.append(airline)
 
     operating_airlines = set()
+
     for item in airline_codes:
         operating_airlines.add(airline_names[item])
 
