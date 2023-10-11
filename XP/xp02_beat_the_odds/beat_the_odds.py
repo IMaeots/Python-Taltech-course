@@ -186,11 +186,12 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
 
 
 def test_guess():
+    """Test."""
     # Example 1
-    assert guess( "__", [], {"hi": 1}) == "h"
+    assert guess("__", [], {"hi": 1}) == "h"
 
     # Example 2
-    assert guess( "__", [], {"hi": 1, "he": 1}) == "h"  # "h" and "i" have equal probability
+    assert guess("__", [], {"hi": 1, "he": 1}) == "h"  # "h" and "i" have equal probability
 
     # Example 3
     assert guess("__", [], {"hi": 1, "he": 1, "so": 1}) == "h"  # "h" has the highest probability
@@ -205,4 +206,4 @@ def test_guess():
     assert guess("t___ __ t__t", ['t'], {'term': 3, 'is': 1, 'of': 1, 'that': 4, 'test': 5, 'thin': 2, 'tide': 2}) == "e"  # "e" has the highest probability for the first and third word
 
 
-test_guess()
+#  test_guess() - for testing.
