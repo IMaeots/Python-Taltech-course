@@ -150,30 +150,36 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
     Use the output from read_words.
     :return: The letter with the best probability.
     """
-    #  available_letters = set("abcdefghijklmnopqrstuvwxyz") - set(guessed_letters) - set(" ")
+    #  Check probability in each word separately - the letter that is most probable in a word is the best one
+    #  In 1 word from the sentence the highest probable one wins - not the overall.
+
     letter_probabilities = {}
+    best_letter = ''
+    best_letter_value = 0
 
-    # Current sentence
-    current_sentence = "".join([
-        char if char in guessed_letters else "_" if char != " " else " "
-        for char in sentence
-    ]).split(" ")
+    for current_word in sentence.split(" "):
+        suitable_words = [
+            suitable_word for suitable_word in word_dict.keys()
+            if len(suitable_word) == len(current_word)
+            and all(current_word_char == "_" or current_word_char == suitable_word_char
+                    for current_word_char, suitable_word_char in zip(current_word, suitable_word))
+        ]
 
-    for current_word in current_sentence:
-        for current_word_char in current_word:
-            if current_word_char == "_":
-                suiting_words = [
-                    possible_word for possible_word in word_dict.keys()
-                    if len(possible_word) == len(current_word)
-                    and all(current_word_char == "_" or current_word_char == word_char
-                            for current_word_char, word_char in zip(current_word, possible_word))
-                ]
-                for word in suiting_words:
-                    if word[current_word.index(current_word_char)] in letter_probabilities:
-                        letter_probabilities[word[current_word.index(current_word_char)]] += 1
-                    else:
-                        letter_probabilities[word[current_word.index(current_word_char)]] = 1
+        for word in suitable_words:
+            for letter in word:
+                if letter in guessed_letters:
+                    continue
+                elif letter in letter_probabilities:
+                    letter_probabilities[letter] += 1
+                else:
+                    letter_probabilities[letter] = 1
 
-    best_guess = max(letter_probabilities, key=letter_probabilities.get)
+            if len(letter_probabilities) != 0:
+                this_word_best = max(letter_probabilities, key=letter_probabilities.get)
+                if best_letter_value < letter_probabilities[this_word_best]:
+                    best_letter = this_word_best
+                    best_letter_value = letter_probabilities[best_letter]
 
-    return best_guess
+            letter_probabilities = {}
+
+    return best_letter
