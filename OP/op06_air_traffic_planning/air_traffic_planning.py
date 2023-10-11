@@ -1,8 +1,8 @@
 """Air traffic planning."""
 
 
-def update_delayed_flight(schedule: dict[str, tuple[str, str]], delayed_flight_number: str, new_departure_time: str) -> \
-dict[str, tuple[str, str]]:
+def update_delayed_flight(schedule: dict[str, tuple[str, str]], delayed_flight_number: str, new_departure_time: str)\
+        -> dict[str, tuple[str, str]]:
     """
     Update the departure time of a delayed flight in the flight schedule.
 
@@ -47,7 +47,6 @@ def cancel_flight(schedule: dict[str, tuple[str, str]], cancelled_flight_number:
     return updated_schedule
 
 
-
 def busiest_time(schedule: dict[str, tuple[str, str]]) -> list[str]:
     """
     Find the busiest hour(s) at the airport based on the flight schedule.
@@ -79,7 +78,7 @@ def busiest_time(schedule: dict[str, tuple[str, str]]) -> list[str]:
 
 
 def convert_time_to_minutes(time_string: str) -> int:
-    """Helper function: Convert a string in format HH:mm to time in minutes."""
+    """Convert a string in format HH:mm to time in minutes."""
     time = time_string.strip().split(":")
     return int(time[0]) * 60 + int(time[1])
 
@@ -156,23 +155,24 @@ def busiest_hour(schedule: dict[str, tuple[str, str]]) -> list[str]:
 
     for time in schedule:
         time_in_minutes = convert_time_to_minutes(time)
-        hour_slot_start = (time_in_minutes // 60) * 60
 
-        if hour_slot_start not in hour_slot_count:
-            hour_slot_count[hour_slot_start] = 0
-        hour_slot_count[hour_slot_start] += 1
+        if len(hour_slot_count) >= 1:
+            for slot_time in hour_slot_count:
+                slot_time_in_minutes = convert_time_to_minutes(slot_time)
+                if (time_in_minutes - slot_time_in_minutes) < 60:
+                    hour_slot_count[slot_time] += 1
+
+        hour_slot_count[time] = 1
 
     max_count = max(hour_slot_count.values(), default=0)
 
-    busiest_slots = [hour for hour, count in hour_slot_count.items() if count == max_count]
-    busiest_slots.sort()
-    busiest_slots_formatted = [f"{hour // 60:02d}:{hour % 60:02d}" for hour in busiest_slots]
+    busiest_slots = [time for time, count in hour_slot_count.items() if count == max_count]
 
-    return busiest_slots_formatted
+    return sorted(busiest_slots)
 
 
 def create_destination_popularity_dictionary(schedule: dict[str, tuple[str, str]], passenger_count: dict[str, int]) -> dict:
-    """Helper function: Return dictionary of destinations based on popularity."""
+    """Return dictionary of destinations based on popularity."""
     destination_dict = {}
 
     for destinations in schedule.values():
@@ -203,6 +203,7 @@ def most_popular_destination(schedule: dict[str, tuple[str, str]], passenger_cou
     destination_dict = create_destination_popularity_dictionary(schedule, passenger_count)
 
     return max(destination_dict, key=destination_dict.get)
+
 
 def least_popular_destination(schedule: dict[str, tuple[str, str]], passenger_count: dict[str, int]) -> str:
     """
