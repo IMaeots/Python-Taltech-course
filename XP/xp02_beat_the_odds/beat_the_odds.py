@@ -155,7 +155,7 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
 
     letter_probabilities = {}
     the_best_letter = ''
-    the_best_letter_value = 0
+    the_best_letter_probability = 0
 
     for current_word in sentence.split(" "):
         suitable_words = [
@@ -176,9 +176,15 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
 
         if letter_probabilities:
             current_best_letter = max(letter_probabilities, key=letter_probabilities.get)
-            if the_best_letter_value < letter_probabilities[current_best_letter]:
+            num_words = 0
+
+            for suitable_word in suitable_words:
+                num_words += word_dict[suitable_word]
+
+            current_best_letter_probability = letter_probabilities[current_best_letter] / num_words
+            if the_best_letter_probability < current_best_letter_probability:
                 the_best_letter = current_best_letter
-                the_best_letter_value = letter_probabilities[current_best_letter]
+                the_best_letter_probability = current_best_letter_probability
 
         letter_probabilities = {}
 
@@ -206,4 +212,4 @@ def test_guess():
     assert guess("t___ __ t__t", ['t'], {'term': 3, 'is': 1, 'of': 1, 'that': 4, 'test': 5, 'thin': 2, 'tide': 2}) == "e"  # "e" has the highest probability for the first and third word
 
 
-#  test_guess() - for testing.
+#  test_guess()
