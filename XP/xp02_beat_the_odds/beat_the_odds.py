@@ -170,9 +170,9 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
                 if letter in guessed_letters:
                     continue
                 elif letter in letter_probabilities:
-                    letter_probabilities[letter] += 1
+                    letter_probabilities[letter] += (1 * word_dict[word])
                 else:
-                    letter_probabilities[letter] = 1
+                    letter_probabilities[letter] = (1 * word_dict[word])
 
         if letter_probabilities:
             current_best_letter = max(letter_probabilities, key=letter_probabilities.get)
