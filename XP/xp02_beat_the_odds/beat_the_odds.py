@@ -150,8 +150,9 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
     Use the output from read_words.
     :return: The letter with the best probability.
     """
-    #  Check probability in each word separately - the letter that is most probable in a word is the best one
-    #  In 1 word from the sentence the highest probable one wins - not the overall.
+    #  Check probability in each word separately:
+    #  The letter that is most probable in all suitable words for that word is the best one.
+    #  Overall does not matter.
 
     letter_probabilities = {}
     the_best_letter = ''
@@ -188,28 +189,7 @@ def guess(sentence: str, guessed_letters: list, word_dict: dict) -> str:
 
         letter_probabilities = {}
 
-    return the_best_letter
-
-
-def test_guess():
-    """Test."""
-    # Example 1
-    assert guess("__", [], {"hi": 1}) == "h"
-
-    # Example 2
-    assert guess("__", [], {"hi": 1, "he": 1}) == "h"  # "h" and "i" have equal probability
-
-    # Example 3
-    assert guess("__", [], {"hi": 1, "he": 1, "so": 1}) == "h"  # "h" has the highest probability
-
-    # Example 4
-    assert guess("__", [], {"hi": 1, "he": 3, "so": 1}) == "h"  # "h" has the highest probability
-
-    # Example 5
-    assert guess("__ ___", [], {'this': 2, 'is': 2, 'he': 3, 'so': 1, 'fun': 1, 'sun': 2, 'far': 1}) == "n"  # "n" has the highest probability for both words
-
-    # Example 6
-    assert guess("t___ __ t__t", ['t'], {'term': 3, 'is': 1, 'of': 1, 'that': 4, 'test': 5, 'thin': 2, 'tide': 2}) == "e"  # "e" has the highest probability for the first and third word
-
-
-#  test_guess()
+    if the_best_letter == '':
+        return None
+    else:
+        return the_best_letter
