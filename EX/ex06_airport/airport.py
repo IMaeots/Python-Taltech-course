@@ -28,15 +28,7 @@ def destinations_and_times(flights: list) -> dict:
         else:
             flights_dictionary[flights_list[0]].append(flights_list[1])
 
-    destination_and_times_dict = {}
-
-    for key, value in flights_dictionary.items():
-        if key in destination_and_times_dict:
-            destination_and_times_dict[key].append(value)
-        else:
-            destination_and_times_dict[key] = value
-
-    return destination_and_times_dict
+    return flights_dictionary
 
 
 def sort_dict_values(dictionary: dict) -> dict:
