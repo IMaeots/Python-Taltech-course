@@ -19,7 +19,7 @@ def parse(row: str) -> tuple:
     :param row: given string to find values from
     :return: tuple of values found in given string
     """
-    pattern = r'([A-Z][a-z]+)?([A-Z][a-z]+)?(\d{11})(\+?\d{3}?\s?\d{7,8})?(\d{2}\-\d{2}\-\d{4})?(.+)?'
+    pattern = r'([A-Z][a-z]+)?([A-Z][a-z]+)?(\d{11})((?:\+\d{3})?\s?\d{7,8})?(\d{2}\-\d{2}\-\d{4})?(.+)?'
     match = re.search(pattern, row)
 
     return match[1], match[2], match[3], match[4], match[5], match[6]
@@ -40,3 +40,6 @@ if __name__ == '__main__':
     print()
     print(parse('39712047623'))
     # (None, None, '39712047623', None, None, None)
+    print()
+    print(parse('HeinoPlekk697120476235688736412-09-2020Tartu mnt 183,Tallinn,16881,Eesti'))
+    #  ('Heino', 'Plekk', '69712047623', '56887364', '12-09-2020', 'Tartu mnt 183,Tallinn,16881,Eesti')
