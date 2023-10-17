@@ -16,7 +16,7 @@ def find_words(text: str) -> list:
      find words from
     :return: list of words found in given string
     """
-    pattern = '[A-ZÕ-Ü][a-zõ-ü]+'
+    pattern = '[A-ZÕ-Ü][a-zõäöü]+'
     matches = re.findall(pattern, text)
 
     return matches
@@ -35,7 +35,7 @@ def find_words_with_vowels(text: str) -> list:
     :param text: given string to find words from
     :return: list of words that start with a vowel found in given string
     """
-    pattern = '[AEIOUÕÄÖÜ][a-zõ-ü]+'
+    pattern = '[AEIOUÕÄÖÜ][a-zõäöü]+'
     matches = re.findall(pattern, text)
 
     return matches
@@ -54,7 +54,7 @@ def find_sentences(text: str) -> list:
     :param text: given string to find sentences from
     :return: list of sentences found in given string
     """
-    pattern = '[A-ZÕ-Ü].*?[.!?]'
+    pattern = '[A-ZÕÄÖÜ].*?[.!?]'
     matches = re.findall(pattern, text)
 
     return matches
@@ -74,7 +74,8 @@ def find_words_from_sentence(sentence: str) -> list:
     :param sentence: given sentence to find words from
     :return: list of words found in given sentence
     """
-    matches = re.findall(r'\w*?(?=[ ,.!?])', sentence)
+    pattern = r'\w*?(?=[ \,\.!?])'
+    matches = re.findall(pattern, sentence)
     matches = [match.rstrip() for match in matches if len(match) > 0]
 
     return matches
@@ -90,7 +91,13 @@ def find_words_from_sentences_only(text: str) -> list:
     :param text: given string to find words from
     :return: list of words found in sentences from given string
     """
-    pass
+    word_list = []
+
+    for sentence in find_sentences(text):
+        for word in find_words_from_sentence(sentence):
+            word_list.append(word)
+
+    return word_list
 
 
 def find_years(text: str) -> list:
@@ -108,7 +115,10 @@ def find_years(text: str) -> list:
     :param text: given string to find years from
     :return: list of years (integers) found in given string
     """
-    pass
+    pattern = r'(?<!\d)\d{4}(?!\d)'
+    years = re.findall(pattern, text)
+
+    return years
 
 
 def find_phone_numbers(text: str) -> dict:
@@ -129,7 +139,23 @@ def find_phone_numbers(text: str) -> dict:
     :param text: given string to find phone numbers from
     :return: dict containing the numbers
     """
-    pass
+    pattern = r'(\+\d{3})?\s?(\d{7,8})'
+    matches = re.findall(pattern, text)
+
+    area_to_phone = {}
+
+    for match in matches:
+        area_code, phone_number = match
+
+        if area_code is None:
+            area_code = ""
+
+        if area_code not in area_to_phone:
+            area_to_phone[area_code] = []
+
+        area_to_phone[area_code].append(phone_number)
+
+    return area_to_phone
 
 
 if __name__ == '__main__':
