@@ -1,3 +1,4 @@
+"""Testing file for conversation."""
 import re
 
 regex_a = r'([-+]?\s*\d*)x2'  # Leiab ruutliikme kordaja
@@ -7,9 +8,9 @@ regex_c = r'(?<!x)([-+]?\s*\d+)(?![\dx])'  # Leiab vabaliikme
 if __name__ == '__main__':
 
     def print_regex_results(regex, f1):
+        """Print regex results to display."""
         for match in re.finditer(regex, f1):
             print(match.group(1))
-
 
     f = "3x2 - 4x + 1"
 
