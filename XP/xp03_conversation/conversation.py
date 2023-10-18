@@ -91,7 +91,7 @@ class Student:
         :param is_prime: boolean whether the number is prime or not
         """
         biggest_num = max(self.possible_answers)
-        prime_numbers = set(find_primes_in_range(biggest_num + 1))
+        prime_numbers = set(find_primes_in_range(biggest_num))
 
         self.possible_answers = self.possible_answers & prime_numbers if is_prime \
             else self.possible_answers - prime_numbers
@@ -104,7 +104,7 @@ class Student:
         :param is_composite: boolean whether the number is composite or not
         """
         biggest_num = max(self.possible_answers)
-        composite_numbers = set(find_composites_in_range(biggest_num + 1))
+        composite_numbers = set(find_composites_in_range(biggest_num))
 
         self.possible_answers = self.possible_answers & composite_numbers if is_composite \
             else self.possible_answers - composite_numbers
@@ -232,7 +232,22 @@ def find_primes_in_range(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
     :return: list of primes
     """
-    pass
+    if biggest_number < 2:
+        return []
+
+    primes = []
+
+    for num in range(2, biggest_number + 1):
+        is_prime = True  # Assume num is prime until proven otherwise.
+        for divisor in range(2, int(num ** 0.5) + 1):
+            if num % divisor == 0:
+                is_prime = False
+                break  # If a divisor is found, num is not prime.
+
+        if is_prime:
+            primes.append(num)  # If no divisors were found, num is prime.
+
+    return primes
 
 
 def find_composites_in_range(biggest_number: int) -> list:
@@ -243,7 +258,13 @@ def find_composites_in_range(biggest_number: int) -> list:
     :return: list of composites
     :param biggest_number: all composites in range of biggest_number(included)
     """
-    pass
+    if biggest_number < 2:
+        return []
+
+    primes = find_primes_in_range(biggest_number)
+    composites = [num for num in range(2, biggest_number + 1) if num not in primes]
+
+    return composites
 
 
 def find_fibonacci_numbers(biggest_number: int) -> list:
@@ -255,7 +276,12 @@ def find_fibonacci_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Fibonacci_number
     :return: list of fibonacci numbers
     """
-    pass
+    fibonacci_numbers = []
+
+    a, b = 0, 1
+    while a <= biggest_number:
+        fibonacci_numbers.append(a)
+        a, b = b, a + b
 
 
 def find_catalan_numbers(biggest_number: int) -> list:
@@ -267,4 +293,17 @@ def find_catalan_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Catalan_number
     :return: list of catalan numbers
     """
-    pass
+
+    def catalan_number(n):
+        if n <= 1:
+            return 1
+        res = 0
+        for i in range(n):
+            res += catalan_number(i) * catalan_number(n - 1 - i)
+        return res
+
+    catalan_numbers = []
+    for i in range(biggest_number + 1):
+        catalan_numbers.append(catalan_number(i))
+
+    return catalan_numbers
