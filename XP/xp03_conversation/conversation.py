@@ -27,7 +27,12 @@ class Student:
         f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence)}." if there are multiple possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
-        pass
+        """
+        if (completed):
+            return f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence}."
+        else: 
+            return f"The number I needed to guess was {final_answer}."
+        """
 
     def intersect_possible_answers(self, update: list):
         """
@@ -37,7 +42,7 @@ class Student:
         conjunction between self.possible_answers and update
         https://en.wikipedia.org/wiki/Logical_conjunction
         """
-        pass
+        self.possible_answers = set(update).intersection(self.possible_answers)
 
     def exclude_possible_answers(self, update: list):
         """
@@ -46,7 +51,7 @@ class Student:
         :param update: new list to be excluded from self.possible_answers
         update excluded from self.possible_answers
         """
-        pass
+        self.possible_answers = self.possible_answers - set(update)
 
     def deal_with_number_of_zeroes(self, amount_of_zeroes: int):
         """
@@ -54,7 +59,14 @@ class Student:
 
         :param amount_of_zeroes: number of zeroes in the correct number's binary form
         """
-        pass
+        possible_answers = set()
+        for num in self.possible_answers:
+            binary_representation = bin(num)[2:]
+            zero_count = binary_representation.count('0')
+            if zero_count == amount_of_zeroes:
+                possible_answers.add(num)
+
+        self.possible_answers = possible_answers
 
     def deal_with_number_of_ones(self, amount_of_ones: int):
         """
@@ -62,7 +74,14 @@ class Student:
 
         :param amount_of_ones: number of zeroes in the correct number's binary form
         """
-        pass
+        possible_answers = set()
+        for num in self.possible_answers:
+            binary_representation = bin(num)[2:]
+            one_count = binary_representation.count('1')
+            if one_count == amount_of_ones:
+                possible_answers.add(num)
+
+        self.possible_answers = possible_answers
 
     def deal_with_primes(self, is_prime: bool):
         """
@@ -71,7 +90,11 @@ class Student:
         Call find_primes_in_range to get all composite numbers in range.
         :param is_prime: boolean whether the number is prime or not
         """
-        pass
+        biggest_num = max(self.possible_answers)
+        prime_numbers = set(find_primes_in_range(biggest_num + 1))
+
+        self.possible_answers = self.possible_answers & prime_numbers if is_prime \
+            else self.possible_answers - prime_numbers
 
     def deal_with_composites(self, is_composite: bool):
         """
@@ -80,7 +103,11 @@ class Student:
         Call find_composites_in_range to get all composite numbers in range.
         :param is_composite: boolean whether the number is composite or not
         """
-        pass
+        biggest_num = max(self.possible_answers)
+        composite_numbers = set(find_composites_in_range(biggest_num + 1))
+
+        self.possible_answers = self.possible_answers & composite_numbers if is_composite \
+            else self.possible_answers - composite_numbers
 
     def deal_with_dec_value(self, decimal_value: str):
         """
@@ -88,15 +115,33 @@ class Student:
 
         :param decimal_value: decimal value within the number like 9 in 192
         """
-        pass
+        possible_answers = set()
+        for num in self.possible_answers:
+            if len(str(num)) < 2:
+                continue
+            elif str(num)[1] != decimal_value:
+                continue
+            else:
+                possible_answers.add(num)
+
+        self.possible_answers = possible_answers  # I currently assume that the numbers are not with commas and weird.
 
     def deal_with_hex_value(self, hex_value: str):
         """
         Filter possible answers to remove all numbers that doesn't have the decimal_value in them.
 
-        :param decimal_value: hex value within the number like e in fe2
+        :param hex_value: hex value within the number like e in fe2
         """
-        pass
+        possible_answers = set()
+        for num in self.possible_answers:
+            if len(str(num)) < 2:
+                continue
+            elif str(num)[1] != hex_value:
+                continue
+            else:
+                possible_answers.add(num)
+
+        self.possible_answers = possible_answers  # I currently assume that the numbers are not with commas and weird.
 
     def deal_with_quadratic_equation(self, equation: str, to_multiply: bool, multiplicative: float, is_bigger: bool):
         """
@@ -119,7 +164,10 @@ class Student:
         Call find_fibonacci_numbers to get all fibonacci numbers in range.
         :param is_in: boolean whether the number is in fibonacci sequence or not
         """
-        pass
+        biggest_number = max(self.possible_answers)
+        fibonacci_numbers = set(find_fibonacci_numbers(biggest_number + 1))
+        self.possible_answers = self.possible_answers & fibonacci_numbers if is_in \
+            else self.possible_answers - fibonacci_numbers
 
     def deal_with_catalan_sequence(self, is_in: bool):
         """
@@ -128,7 +176,10 @@ class Student:
         Call find_catalan_numbers to get all catalan numbers in range.
         :param is_in: boolean whether the number is in catalan sequence or not
         """
-        pass
+        biggest_number = max(self.possible_answers)
+        catalan_numbers = set(find_catalan_numbers(biggest_number + 1))
+        self.possible_answers = self.possible_answers & catalan_numbers if is_in \
+            else self.possible_answers - catalan_numbers
 
     def deal_with_number_order(self, increasing: bool, to_be: bool):
         """
