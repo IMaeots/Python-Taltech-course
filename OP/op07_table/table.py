@@ -104,7 +104,7 @@ def get_usernames(text: str) -> list[str]:
 
 def get_errors(text: str) -> list[int]:
     """Get errors from text."""
-    pattern = r'error (\d{1,3})'
+    pattern = r'error (\d{1,3}(?!\d))'
     matches = re.findall(pattern, text, re.IGNORECASE)
 
     if matches is None:
@@ -154,11 +154,6 @@ if __name__ == '__main__':
                 """
     print(create_table_string(logs1))
     print()
-    # time     | 5:36 AM, 2:48 PM
-    # user     | kasutaja
-    # error    | 418
-    # ipv4     | 192.168.0.255
-    # endpoint | /tere
 
     logs2 = """
                 [14?36 UTC+9] /tere eRRoR 418 192.168.0.255
@@ -166,20 +161,10 @@ if __name__ == '__main__':
                 """
     print(create_table_string(logs2))
     print()
-    # time     | 5:36 AM, 2:48 PM
-    # user     | kasutaja
-    # error    | 418
-    # ipv4     | 192.168.0.255
-    # endpoint | /tere
 
     logs3 = """
-                [14?36 UTC+9] /tere eRRoR 418 192.168.0.255
+                [14?36 UTC+9] /tere eRRoR 41 eRROR 23 error 22 error 1000 192.168.0.255
                 [8B48 UTC-6] usr:kasutaja
                 """
     print(create_table_string(logs3))
     print()
-    # time     | 5:36 AM, 2:48 PM
-    # user     | kasutaja
-    # error    | 418
-    # ipv4     | 192.168.0.255
-    # endpoint | /tere
