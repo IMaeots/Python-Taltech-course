@@ -50,7 +50,7 @@ def create_table_string(text: str) -> str:
     endpoints = get_endpoints(text)
 
     # Format times in UTC in 12-hour format
-    formatted_times = [f"{((hour - offset) % 12) if ((hour - offset) % 12) != 0 else 12}:{minute:02} {'AM' if (hour - offset) <= 12 else 'PM'}" for hour, minute, offset in times]
+    formatted_times = [f"{((hour - offset) % 12) if ((hour - offset) % 12) != 0 else 12}:{minute:02} {'AM' if ((hour - offset) % 24) < 12 else 'PM'}" for hour, minute, offset in times]
 
     # Create the table string
     table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
@@ -75,7 +75,7 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
     :param text: text to search for the times
     :return: list of tuples containing the time and offset
     """
-    pattern = r'(?<=\[)(\d{1,2}[^0-9]\d{1,2})\sUTC([+-]{0,1}\d{1,2})'
+    pattern = r'\[(\d{1,2}[^0-9]\d{1,2})\sUTC([+-]{0,1}\d{1,2})'
     matches = re.findall(pattern, text)
     times = []
 
@@ -163,8 +163,31 @@ if __name__ == '__main__':
     print()
 
     logs3 = """
-                [12?00 UTC0] /tere eRRoR 41 eRROR 23 error 22 error 1000 192.168.0.255
+                [12?05 UTC0] /tere eRRoR 41 eRROR 23 error 22 error 1000 192.168.0.255
                 [12B4 UTC-6] usr:kasutaja
                 """
     print(create_table_string(logs3))
     print()
+
+    logs4 = """
+    [-1b35 UTC-4] errOR 741
+    [24a48 UTC+0] 776.330.579.818
+    [02:53 UTC+5] usr:96NC9yqb /aA?Y4pK
+    [5b05 UTC+5] ERrOr 700 268.495.856.225
+    [24-09 UTC+10] usr:uJV5sf82_ eRrOR 844 715.545.485.989
+    [04=54 UTC+3] eRROR 452
+    [11=57 UTC-6] 15.822.272.473 error 9
+    [15=53 UTC+7] /NBYFaC0 468.793.214.681
+    [23-7 UTC+12] /1slr8I
+    [07.46 UTC+4] usr:B3HIyLm 119.892.677.533
+    
+    [0:60 UTC+0] bad
+    [0?0 UTC+0] ok
+    [0.0 UTC+0] also ok
+    """
+    print(create_table_string(logs4))
+    # time     | 12:00 AM, 12:05 AM, 1:54 AM, 3:46 AM, 8:53 AM, 11:07 AM, 5:57 PM, 9:53 PM
+    # user     | 96NC9yqb, B3HIyLm, uJV5sf82_
+    # error    | 9, 452, 700, 741, 844
+    # ipv4     | 119.892.677.533, 15.822.272.473, 268.495.856.225, 468.793.214.681, 715.545.485.989, 776.330.579.818
+    # endpoint | /1slr8I, /NBYFaC0, /aA?Y4pK
