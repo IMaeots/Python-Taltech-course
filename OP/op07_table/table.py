@@ -75,7 +75,7 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
     :param text: text to search for the times
     :return: list of tuples containing the time and offset
     """
-    pattern = r'\[(\d{1,2}[^0-9]\d{1,2})\sUTC([+-]\d{1,2})'
+    pattern = r'\[(\d{1,2}[^0-9]\d{1,2})\sUTC([+-]{0,1}\d{1,2})'
     matches = re.findall(pattern, text)
     times = []
 
@@ -141,6 +141,43 @@ if __name__ == '__main__':
             [8B48 UTC-6] usr:kasutaja
             """
     print(create_table_string(logs))
+    print()
+    # time     | 5:36 AM, 2:48 PM
+    # user     | kasutaja
+    # error    | 418
+    # ipv4     | 192.168.0.255
+    # endpoint | /tere
+
+    logs1 = """
+                [24?36 UTC+9] /tere3 eRRoR 418 192.168.0.255
+                [13B48 UTC0] usr:ja_jaJa
+                """
+    print(create_table_string(logs1))
+    print()
+    # time     | 5:36 AM, 2:48 PM
+    # user     | kasutaja
+    # error    | 418
+    # ipv4     | 192.168.0.255
+    # endpoint | /tere
+
+    logs2 = """
+                [14?36 UTC+9] /tere eRRoR 418 192.168.0.255
+                [8B48 UTC-6] usr:kasutaja
+                """
+    print(create_table_string(logs2))
+    print()
+    # time     | 5:36 AM, 2:48 PM
+    # user     | kasutaja
+    # error    | 418
+    # ipv4     | 192.168.0.255
+    # endpoint | /tere
+
+    logs3 = """
+                [14?36 UTC+9] /tere eRRoR 418 192.168.0.255
+                [8B48 UTC-6] usr:kasutaja
+                """
+    print(create_table_string(logs3))
+    print()
     # time     | 5:36 AM, 2:48 PM
     # user     | kasutaja
     # error    | 418
