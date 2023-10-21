@@ -96,6 +96,9 @@ def get_usernames(text: str) -> list[str]:
     pattern = r'usr:(\w+)'
     matches = re.findall(pattern, text)
 
+    if matches is None:
+        return []
+
     return matches
 
 
@@ -103,6 +106,9 @@ def get_errors(text: str) -> list[int]:
     """Get errors from text."""
     pattern = r'error (\d{1,3})'
     matches = re.findall(pattern, text, re.IGNORECASE)
+
+    if matches is None:
+        return []
 
     return [int(match) for match in matches]
 
@@ -112,6 +118,9 @@ def get_addresses(text: str) -> list[str]:
     pattern = r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
     matches = re.findall(pattern, text)
 
+    if matches is None:
+        return []
+
     return matches
 
 
@@ -119,6 +128,9 @@ def get_endpoints(text: str) -> list[str]:
     """Get endpoints from text."""
     pattern = r'(/[\w&/=?-_%]+)'
     matches = re.findall(pattern, text)
+
+    if matches is None:
+        return []
 
     return matches
 
