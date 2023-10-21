@@ -50,7 +50,7 @@ def create_table_string(text: str) -> str:
     endpoints = get_endpoints(text)
 
     # Format times in UTC in 12-hour format
-    formatted_times = [f"{hour}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, _ in times]
+    formatted_times = [f"{hour % 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, _ in times]
 
     # Create the table string
     table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
