@@ -49,8 +49,13 @@ def create_table_string(text: str) -> str:
     addresses = get_addresses(text)
     endpoints = get_endpoints(text)
 
-    # Format times in UTC in 12-hour format
-    formatted_times = [f"{((hour - offset) % 12) if ((hour - offset) % 12) != 0 else 12}:{minute:02} {'AM' if ((hour - offset) % 24) < 12 else 'PM'}" for hour, minute, offset in times]
+    formatted_times = []
+    for hour, minute, offset in times:
+        real_hour = (hour - offset) % 24
+        adjusted_hour = (24 + real_hour) % 12 if real_hour < 0 else real_hour % 12
+        period = 'AM' if real_hour < 12 else 'PM'
+        formatted_time = f"{adjusted_hour if adjusted_hour != 0 else 12}:{minute:02} {period}"
+        formatted_times.append(formatted_time)
 
     # Create the table string
     table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
@@ -180,7 +185,6 @@ if __name__ == '__main__':
     [15=53 UTC+7] /NBYFaC0 468.793.214.681
     [23-7 UTC+12] /1slr8I
     [07.46 UTC+4] usr:B3HIyLm 119.892.677.533
-    
     [0:60 UTC+0] bad
     [0?0 UTC+0] ok
     [0.0 UTC+0] also ok
