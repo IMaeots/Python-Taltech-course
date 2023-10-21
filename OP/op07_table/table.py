@@ -85,7 +85,8 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
         offset = int(offset_str)
         if hour > 24 or hour == 24:
             break
-        times.append((hour, minute, offset))
+        else:
+            times.append((hour, minute, offset))
 
     return times
 
