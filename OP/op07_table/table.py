@@ -50,7 +50,7 @@ def create_table_string(text: str) -> str:
     endpoints = get_endpoints(text)
 
     # Format times in UTC in 12-hour format
-    formatted_times = [f"{((hour - offset) % 12) if hour != 12 else 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, offset in times]
+    formatted_times = [f"{((hour - offset) % 12) if ((hour - offset) % 12) != 12 else 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, offset in times]
 
     # Create the table string
     table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
@@ -163,7 +163,7 @@ if __name__ == '__main__':
     print()
 
     logs3 = """
-                [14?36 UTC+9] /tere eRRoR 41 eRROR 23 error 22 error 1000 192.168.0.255
+                [13?36 UTC+1] /tere eRRoR 41 eRROR 23 error 22 error 1000 192.168.0.255
                 [8B48 UTC-6] usr:kasutaja
                 """
     print(create_table_string(logs3))
