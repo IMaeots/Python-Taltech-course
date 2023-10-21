@@ -50,7 +50,7 @@ def create_table_string(text: str) -> str:
     endpoints = get_endpoints(text)
 
     # Format times in UTC in 12-hour format
-    formatted_times = [f"{(hour - offset) % 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, offset in times]
+    formatted_times = [f"{((hour - offset) % 12) if hour != 12 else 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, offset in times]
 
     # Create the table string
     table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
@@ -75,7 +75,7 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
     :param text: text to search for the times
     :return: list of tuples containing the time and offset
     """
-    pattern = r'\[(\d{1,2}[^0-9]\d{1,2})\sUTC([+-]{0,1}\d{1,2})'
+    pattern = r'(?<=\[)(\d{1,2}[^0-9]\d{1,2})\sUTC([+-]{0,1}\d{1,2})'
     matches = re.findall(pattern, text)
     times = []
 
