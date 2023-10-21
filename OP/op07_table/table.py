@@ -43,22 +43,19 @@ def create_table_string(text: str) -> str:
     and "12:00 AM".
     Times in the table should be displayed in UTC(https://et.wikipedia.org/wiki/UTC) time.
     """
-    try:
-        times = get_times(text)
-        usernames = get_usernames(text)
-        errors = get_errors(text)
-        addresses = get_addresses(text)
-        endpoints = get_endpoints(text)
+    times = get_times(text)
+    usernames = get_usernames(text)
+    errors = get_errors(text)
+    addresses = get_addresses(text)
+    endpoints = get_endpoints(text)
 
-        # Format times in UTC in 12-hour format
-        formatted_times = [f"{hour % 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, _ in times]
+    # Format times in UTC in 12-hour format
+    formatted_times = [f"{(hour - offset) % 12}:{minute:02} {'AM' if hour < 12 else 'PM'}" for hour, minute, offset in times]
 
-        # Create the table string
-        table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
-                 f"error    | {', '.join(map(str, errors))}", f"ipv4     | {', '.join(addresses)}",
-                 f"endpoint | {', '.join(endpoints)}"]
-    except AssertionError:
-        raise AssertionError('\n'.join(times))
+    # Create the table string
+    table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
+             f"error    | {', '.join(map(str, errors))}", f"ipv4     | {', '.join(addresses)}",
+             f"endpoint | {', '.join(endpoints)}"]
 
     return '\n'.join(table)
 
