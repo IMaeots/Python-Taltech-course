@@ -157,7 +157,7 @@ if __name__ == '__main__':
 
     logs2 = """
                 [14?36 UTC+9] /tere eRRoR 418 192.168.0.255
-                [8B48 UTC-6] usr:kasutaja
+                [13B8 UTC+1] usr:kasutaja
                 """
     print(create_table_string(logs2))
     print()
