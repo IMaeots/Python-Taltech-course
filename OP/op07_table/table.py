@@ -162,12 +162,17 @@ def get_addresses(text: str) -> list[str]:
 def get_endpoints(text: str) -> list[str]:
     """Get endpoints from text."""
     pattern = r'(/[\w&/=?-_%]+)'
-    matches = re.findall(pattern, text)
+    matches = re.finditer(pattern, text)
 
     if matches is None:
         return []
 
-    return sorted(list(set(matches)), key=lambda x: len(x))
+    unique_list = []
+    for match in matches:
+        if match.group() not in unique_list:
+            unique_list.append(match.group())
+
+    return unique_list
 
 
 if __name__ == '__main__':
@@ -227,6 +232,6 @@ if __name__ == '__main__':
     # user     | 96NC9yqb, B3HIyLm, uJV5sf82_
     # error    | 9, 452, 700, 741, 844
     # ipv4     | 119.892.677.533, 15.822.272.473, 268.495.856.225, 468.793.214.681, 715.545.485.989, 776.330.579.818
-    # endpoint | /1slr8I, /NBYFaC0, /aA?Y4pK
+    # endpoint | /NBYFaC0, /1slr8I, /NBYFaC0, /aA?Y4pK
     print()
     print(create_table_string("[0.0 UTC+0]"))
