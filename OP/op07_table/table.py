@@ -167,7 +167,7 @@ def get_endpoints(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return list(set(matches))
+    return sorted(list(set(matches)), key=lambda x: len(x))
 
 
 if __name__ == '__main__':
