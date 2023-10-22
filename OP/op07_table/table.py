@@ -68,9 +68,15 @@ def create_table_string(text: str) -> str:
             formatted_times.append(formatted_time)
 
     # Create the table string
-    table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(sorted(usernames))}",
-             f"error    | {', '.join(map(str, sorted(errors)))}", f"ipv4     | {', '.join(sorted(addresses))}",
-             f"endpoint | {', '.join(sorted(endpoints))}"]
+    table = [f"time     | {', '.join(formatted_times)}"] if formatted_times else []
+    if usernames:
+        table += [f"user     | {', '.join(sorted(usernames))}"]
+    if errors:
+        table += [f"error    | {', '.join(map(str, sorted(errors)))}"]
+    if addresses:
+        table += [f"ipv4     | {', '.join(sorted(addresses))}"]
+    if endpoints:
+        table += [f"endpoint | {', '.join(sorted(endpoints))}"]
 
     return '\n'.join(table)
 
@@ -202,3 +208,5 @@ if __name__ == '__main__':
     # error    | 9, 452, 700, 741, 844
     # ipv4     | 119.892.677.533, 15.822.272.473, 268.495.856.225, 468.793.214.681, 715.545.485.989, 776.330.579.818
     # endpoint | /1slr8I, /NBYFaC0, /aA?Y4pK
+    print()
+    print(create_table_string("[0.0 UTC+0]"))
