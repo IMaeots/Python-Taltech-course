@@ -137,7 +137,7 @@ def get_usernames(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return sorted(list(set(matches)))
+    return list(set(matches))
 
 
 def get_errors(text: str) -> list[int]:
@@ -156,7 +156,7 @@ def get_addresses(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return sorted(list(set(matches)))
+    return list(set(matches))
 
 
 def get_endpoints(text: str) -> list[str]:
@@ -167,7 +167,7 @@ def get_endpoints(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return sorted(list(set(matches)))
+    return list(set(matches))
 
 
 if __name__ == '__main__':
