@@ -58,9 +58,9 @@ def create_table_string(text: str) -> str:
         formatted_times.append(formatted_time)
 
     # Create the table string
-    table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(usernames)}",
-             f"error    | {', '.join(map(str, errors))}", f"ipv4     | {', '.join(addresses)}",
-             f"endpoint | {', '.join(endpoints)}"]
+    table = [f"time     | {', '.join(sorted(formatted_times))}", f"user     | {', '.join(sorted(usernames))}",
+             f"error    | {', '.join(map(str, sorted(errors)))}", f"ipv4     | {', '.join(sorted(addresses))}",
+             f"endpoint | {', '.join(sorted(endpoints))}"]
 
     return '\n'.join(table)
 
@@ -111,9 +111,6 @@ def get_errors(text: str) -> list[int]:
     """Get errors from text."""
     pattern = r'error (\d{1,3}(?!\d))'
     matches = re.findall(pattern, text, re.IGNORECASE)
-
-    if matches is None:
-        return []
 
     return [int(match) for match in matches]
 
