@@ -2,6 +2,33 @@
 import re
 
 
+def format_table(formatted_times, usernames, errors, addresses, endpoints):
+    """Format the table."""
+    # Create a dictionary to map column names to their data
+    data_dict = {
+        "time": formatted_times,
+        "user": usernames,
+        "error": errors,
+        "ipv4": addresses,
+        "endpoint": endpoints,
+    }
+
+    # Determine the maximum width among columns with data
+    if endpoints:
+        width = 9
+    elif errors:
+        width = 6
+    else:
+        width = 5
+
+    table = []
+    for col in data_dict:
+        if data_dict[col]:
+            table.append(f"{col:<{width}}| {', '.join(map(str, data_dict[col]))}")
+
+    return '\n'.join(table)
+
+
 def create_table_string(text: str) -> str:
     """
     Create table string from the given logs.
@@ -68,17 +95,7 @@ def create_table_string(text: str) -> str:
             formatted_times.append(formatted_time)
 
     # Create the table string
-    table = [f"time     | {', '.join(formatted_times)}"] if formatted_times else []
-    if usernames:
-        table += [f"user     | {', '.join(sorted(usernames))}"]
-    if errors:
-        table += [f"error    | {', '.join(map(str, sorted(errors)))}"]
-    if addresses:
-        table += [f"ipv4     | {', '.join(sorted(addresses))}"]
-    if endpoints:
-        table += [f"endpoint | {', '.join(sorted(endpoints))}"]
-
-    return '\n'.join(table)
+    return format_table(formatted_times, usernames, errors, addresses, endpoints)
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
