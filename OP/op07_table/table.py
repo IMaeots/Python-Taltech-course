@@ -49,8 +49,17 @@ def create_table_string(text: str) -> str:
     addresses = get_addresses(text)
     endpoints = get_endpoints(text)
 
+    def custom_sort(item):
+        hours, minutes, offsets = item
+        h = (hours - offsets) % 24
+        if h < 0:
+            h = 24 + h
+
+        return h * 60 + minutes
+
+    sorted_times = sorted(times, key=custom_sort)
     formatted_times = []
-    for hour, minute, offset in times:
+    for hour, minute, offset in sorted_times:
         real_hour = (hour - offset) % 24
         adjusted_hour = (24 + real_hour) % 12 if real_hour < 0 else real_hour % 12
         period = 'AM' if real_hour < 12 else 'PM'
@@ -94,15 +103,7 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
         else:
             times.append((hour, minute, offset))
 
-    def custom_sort(item):
-        hours, minutes, offsets = item
-        h = (hours - offsets) % 24
-        if h < 0:
-            h = 24 + h
-
-        return h * 60 + minutes
-
-    return sorted(times, key=custom_sort)
+    return times
 
 
 def get_usernames(text: str) -> list[str]:
