@@ -94,7 +94,15 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
         else:
             times.append((hour, minute, offset))
 
-    return times
+    def custom_sort(item):
+        hours, minutes, offsets = item
+        h = (hours - offsets) % 24
+        if h < 0:
+            h = 24 + h
+
+        return h * 60 + minutes
+
+    return sorted(times, key=custom_sort)
 
 
 def get_usernames(text: str) -> list[str]:
