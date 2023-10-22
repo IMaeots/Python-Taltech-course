@@ -24,7 +24,7 @@ def format_table(formatted_times, usernames, errors, addresses, endpoints):
     table = []
     for col in data_dict:
         if data_dict[col]:
-            table.append(f"{col:<{width}}| {', '.join(map(str, data_dict[col]))}")
+            table.append(f"{col:<{width}}| {', '.join(map(str, sorted(data_dict[col])))}")
 
     return '\n'.join(table)
 
