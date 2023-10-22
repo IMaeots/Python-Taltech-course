@@ -55,10 +55,11 @@ def create_table_string(text: str) -> str:
         adjusted_hour = (24 + real_hour) % 12 if real_hour < 0 else real_hour % 12
         period = 'AM' if real_hour < 12 else 'PM'
         formatted_time = f"{adjusted_hour if adjusted_hour != 0 else 12}:{minute:02} {period}"
-        formatted_times.append(formatted_time)
+        if formatted_time not in formatted_times:
+            formatted_times.append(formatted_time)
 
     # Create the table string
-    table = [f"time     | {', '.join(sorted(formatted_times))}", f"user     | {', '.join(sorted(usernames))}",
+    table = [f"time     | {', '.join(formatted_times)}", f"user     | {', '.join(sorted(usernames))}",
              f"error    | {', '.join(map(str, sorted(errors)))}", f"ipv4     | {', '.join(sorted(addresses))}",
              f"endpoint | {', '.join(sorted(endpoints))}"]
 
