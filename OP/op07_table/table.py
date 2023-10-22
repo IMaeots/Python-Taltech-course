@@ -137,7 +137,7 @@ def get_usernames(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return matches
+    return sorted(list(set(matches)))
 
 
 def get_errors(text: str) -> list[int]:
@@ -145,7 +145,7 @@ def get_errors(text: str) -> list[int]:
     pattern = r'error (\d{1,3}(?!\d))'
     matches = re.findall(pattern, text, re.IGNORECASE)
 
-    return [int(match) for match in matches]
+    return [int(match) for match in sorted(list(set(matches)))]
 
 
 def get_addresses(text: str) -> list[str]:
@@ -156,7 +156,7 @@ def get_addresses(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return matches
+    return sorted(list(set(matches)))
 
 
 def get_endpoints(text: str) -> list[str]:
@@ -167,7 +167,7 @@ def get_endpoints(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return matches
+    return sorted(list(set(matches)))
 
 
 if __name__ == '__main__':
@@ -218,6 +218,9 @@ if __name__ == '__main__':
     [0:60 UTC+0] bad
     [0?0 UTC+0] ok
     [0.0 UTC+0] also ok
+    [0.0 UTC+0] eRROR 452
+    [0.0 UTC+0] eRROR 452
+    [0.0 UTC+0] eRROR 452
     """
     print(create_table_string(logs4))
     # time     | 12:00 AM, 12:05 AM, 1:54 AM, 3:46 AM, 8:53 AM, 11:07 AM, 5:57 PM, 9:53 PM
