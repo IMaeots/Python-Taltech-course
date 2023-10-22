@@ -93,7 +93,7 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
         else:
             times.append((hour, minute, offset))
 
-    return times
+    return sorted(times)
 
 
 def get_usernames(text: str) -> list[str]:
@@ -104,7 +104,7 @@ def get_usernames(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return matches
+    return sorted(matches)
 
 
 def get_errors(text: str) -> list[int]:
@@ -115,7 +115,7 @@ def get_errors(text: str) -> list[int]:
     if matches is None:
         return []
 
-    return [int(match) for match in matches]
+    return [int(match) for match in sorted(matches)]
 
 
 def get_addresses(text: str) -> list[str]:
@@ -126,7 +126,7 @@ def get_addresses(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return matches
+    return sorted(matches)
 
 
 def get_endpoints(text: str) -> list[str]:
@@ -137,7 +137,7 @@ def get_endpoints(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return matches
+    return sorted(matches)
 
 
 if __name__ == '__main__':
