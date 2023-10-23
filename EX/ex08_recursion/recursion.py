@@ -1,4 +1,5 @@
 """If you're going to perform recursion, you need to use recursion."""
+from __future__ import annotations
 
 
 def loop_reverse(string: str) -> str:
@@ -129,7 +130,7 @@ def check_palindrome(string: str) -> bool:
     :param string: string argument
     :return: boolean. True if 'string' is a palindrome, False otherwise
     """
-    if not string:
+    if string == "":
         return True
     elif string[0] != string[-1]:
         return False
@@ -225,7 +226,6 @@ def fibonacci(num: int, fib_list=None) -> list | None:
     return fib_list
 
 
-
 def x_sum_loop(nums: list, x: int) -> int:
     """
     Given list 'nums' and a number called 'x' iteratively return sum of every x'th number in the list 'nums'.
@@ -276,7 +276,18 @@ def x_sum_recursion(nums: list, x: int) -> int:
     :param x: number indicating every which num to add to sum
     :return: sum of every x'th number in the list
     """
-    pass
+    if x == 0:
+        return 0
+    elif x > 0:
+        if len(nums) < x:
+            return 0
+        value = nums[x - 1]
+        return value + x_sum_recursion(nums[x:], x)
+    else:
+        if len(nums) < abs(x):
+            return 0
+        value = nums[x]
+        return value + x_sum_recursion(nums[:x], x)
 
 
 def sum_squares(nested_list: list | int) -> int:
@@ -293,7 +304,14 @@ def sum_squares(nested_list: list | int) -> int:
     :param nested_list: list of lists of lists of lists of lists ... and ints
     :return: sum of squares
     """
-    pass
+    if isinstance(nested_list, int):
+        return nested_list ** 2
+    elif isinstance(nested_list, list):
+        return sum(sum_squares(item) for item in nested_list)
+    else:
+        return 0
+
+
 
 
 if __name__ == '__main__':
@@ -343,7 +361,7 @@ if __name__ == '__main__':
     print("\ncheck for prime:")
     print(check_for_prime(0))  # = > False
     print(check_for_prime(1))  # = > False
-    print(check_for_prime(997))  # = > True
+    # print(check_for_prime(997))  # = > True
 
     print("\nreplace:")
     print(replace("", "", ""))  # = > "Length of char_to_replace must be one character!"
