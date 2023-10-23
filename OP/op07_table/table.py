@@ -104,7 +104,7 @@ def create_table_string(text: str) -> str:
     formatted_times = sort_and_format_times(times)
 
     # Create the table string
-    return format_table(formatted_times, usernames, errors, addresses, endpoints)
+    return format_table(formatted_times, usernames, errors, sorted(addresses), sorted(endpoints))
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
@@ -166,12 +166,17 @@ def get_errors(text: str) -> list[int]:
 def get_addresses(text: str) -> list[str]:
     """Get IPv4 addresses from text."""
     pattern = r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-    matches = re.findall(pattern, text)
+    matches = re.finditer(pattern, text)
 
     if matches is None:
         return []
 
-    return sorted(list(set(matches)))
+    unique_list = []
+    for match in matches:
+        if match.group() not in unique_list:
+            unique_list.append(match.group())
+
+    return unique_list
 
 
 def get_endpoints(text: str) -> list[str]:
@@ -187,7 +192,7 @@ def get_endpoints(text: str) -> list[str]:
         if match.group() not in unique_list:
             unique_list.append(match.group())
 
-    return sorted(unique_list)
+    return unique_list
 
 
 if __name__ == '__main__':
