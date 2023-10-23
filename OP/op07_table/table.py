@@ -171,7 +171,7 @@ def get_addresses(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return list(set(matches))
+    return sorted(list(set(matches)), key=lambda x: x[::-1])
 
 
 def get_endpoints(text: str) -> list[str]:
