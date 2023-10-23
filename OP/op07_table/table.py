@@ -104,7 +104,7 @@ def create_table_string(text: str) -> str:
     formatted_times = sort_and_format_times(times)
 
     # Create the table string
-    return format_table(formatted_times, usernames, sorted(errors), sorted(addresses), sorted(endpoints))
+    return format_table(formatted_times, usernames, sorted(errors), addresses, sorted(endpoints))
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
@@ -171,7 +171,7 @@ def get_addresses(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return sorted(list(set(matches)))
+    return list(set(matches))
 
 
 def get_endpoints(text: str) -> list[str]:
@@ -252,3 +252,5 @@ if __name__ == '__main__':
     print(create_table_string("[0.0 UTC+0]"))
     print()
     print(create_table_string(" usr:B3HIyLm usr:uJV5sf82_ "))
+    print()
+    print(create_table_string(" 634.865.217.415 959.675.203.100 "))
