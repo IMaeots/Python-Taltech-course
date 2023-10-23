@@ -95,7 +95,7 @@ def create_table_string(text: str) -> str:
             formatted_times.append(formatted_time)
 
     # Create the table string
-    return format_table(formatted_times, sorted(usernames), sorted(errors), sorted(addresses), sorted(endpoints))
+    return format_table(formatted_times, usernames, sorted(errors), sorted(addresses), sorted(endpoints))
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
@@ -137,15 +137,21 @@ def get_usernames(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return sorted(list(set(matches)))
+    usernames = []
+    for username in matches:
+        if username not in usernames:
+            usernames.append(username)
+
+    return sorted(usernames)
 
 
 def get_errors(text: str) -> list[int]:
     """Get errors from text."""
     pattern = r'error (\d{1,3}(?!\d))'
     matches = re.findall(pattern, text, re.IGNORECASE)
+    errors = [int(match) for match in list(set(matches))]
 
-    return [int(match) for match in list(set(matches))]
+    return sorted(errors)
 
 
 def get_addresses(text: str) -> list[str]:
@@ -236,4 +242,4 @@ if __name__ == '__main__':
     print()
     print(create_table_string("[0.0 UTC+0]"))
     print()
-    print(create_table_string(" usr:B3HIyLm usr:uJV5sf82_"))
+    print(create_table_string(" usr:B3HIyLm usr:uJV5sf82_ "))
