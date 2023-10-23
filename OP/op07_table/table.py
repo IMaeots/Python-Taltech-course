@@ -180,7 +180,7 @@ def get_addresses(text: str) -> list[str]:
 
 def get_endpoints(text: str) -> list[str]:
     """Get endpoints from text."""
-    pattern = r'(/[\w&/=?-_%]+)'
+    pattern = r'(/[\w&/=?\-_%]+)'
     matches = re.finditer(pattern, text)
 
     unique_list = []
@@ -257,3 +257,5 @@ if __name__ == '__main__':
     print(create_table_string(" 634.865.217.415 959.675.203.100 "))
     print()
     print(create_table_string("/aA?Y4pK //aA?Y4pK"))
+    print()
+    print(create_table_string("/zYZ_n-NMj"))
