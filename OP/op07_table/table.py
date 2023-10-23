@@ -24,7 +24,7 @@ def format_table(formatted_times, usernames, errors, addresses, endpoints):
     table = []
     for col in data_dict:
         if data_dict[col]:
-            table.append(f"{col:<{width}}| {', '.join(map(str, sorted(data_dict[col])))}")
+            table.append(f"{col:<{width}}| {', '.join(map(str, data_dict[col]))}")
 
     return '\n'.join(table)
 
@@ -95,7 +95,7 @@ def create_table_string(text: str) -> str:
             formatted_times.append(formatted_time)
 
     # Create the table string
-    return format_table(formatted_times, usernames, errors, addresses, endpoints)
+    return format_table(formatted_times, sorted(usernames), sorted(errors), sorted(addresses), sorted(endpoints))
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
@@ -145,7 +145,7 @@ def get_errors(text: str) -> list[int]:
     pattern = r'error (\d{1,3}(?!\d))'
     matches = re.findall(pattern, text, re.IGNORECASE)
 
-    return [int(match) for match in sorted(list(set(matches)))]
+    return [int(match) for match in list(set(matches))]
 
 
 def get_addresses(text: str) -> list[str]:
