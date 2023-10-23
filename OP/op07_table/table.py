@@ -101,10 +101,10 @@ def create_table_string(text: str) -> str:
     addresses = get_addresses(text)
     endpoints = get_endpoints(text)
 
-    formatted_times = sort_and_format_times(times)
+    sorted_and_formatted_times = sort_and_format_times(times)
 
     # Create the table string
-    return format_table(formatted_times, sorted(usernames), sorted(errors), sorted(addresses), sorted(endpoints))
+    return format_table(sorted_and_formatted_times, sorted(usernames), sorted(errors), sorted(addresses), sorted(endpoints))
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
@@ -151,7 +151,6 @@ def get_usernames(text: str) -> list[str]:
         if username not in usernames:
             usernames.append(username)
 
-    #  return sorted(usernames, key=lambda x: x[::-1])
     return usernames
 
 
