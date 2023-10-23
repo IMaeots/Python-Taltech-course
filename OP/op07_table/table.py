@@ -157,10 +157,14 @@ def get_usernames(text: str) -> list[str]:
 def get_errors(text: str) -> list[int]:
     """Get errors from text."""
     pattern = r'error (\d{1,3}(?!\d))'
-    matches = re.findall(pattern, text, re.IGNORECASE)
-    errors = [int(match) for match in list(set(matches))]
+    matches = re.finditer(pattern, text, re.IGNORECASE)
 
-    return sorted(errors)
+    unique_list = []
+    for match in matches:
+        if int(match.group(1)) not in unique_list:
+            unique_list.append(int(match.group(1)))
+
+    return unique_list
 
 
 def get_addresses(text: str) -> list[str]:
