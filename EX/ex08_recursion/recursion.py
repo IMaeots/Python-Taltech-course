@@ -135,7 +135,7 @@ def check_palindrome(string: str) -> bool:
     elif string[0] != string[-1]:
         return False
     else:
-        check_palindrome(string[:-1])
+        return check_palindrome(string[:-1])
 
 
 def check_for_prime(num: int, i=None) -> bool:
@@ -157,7 +157,7 @@ def check_for_prime(num: int, i=None) -> bool:
     if i is None:
         i = 2
 
-    if i * i > num:
+    if i * i > abs(num):
         return True
 
     if num % i == 0:
@@ -319,10 +319,8 @@ def sum_squares(nested_list: list | int) -> int:
     """
     if isinstance(nested_list, int):
         return nested_list ** 2
-    elif isinstance(nested_list, list):
-        return sum(sum_squares(item) for item in nested_list)
-    else:
-        return 0
+
+    return sum(sum_squares(item) for item in nested_list if isinstance(item, (int, list)))
 
 
 if __name__ == '__main__':
