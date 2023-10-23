@@ -137,7 +137,7 @@ def get_usernames(text: str) -> list[str]:
     if matches is None:
         return []
 
-    return list(set(matches))
+    return sorted(list(set(matches)))
 
 
 def get_errors(text: str) -> list[int]:
@@ -235,3 +235,5 @@ if __name__ == '__main__':
     # endpoint | /NBYFaC0, /1slr8I, /NBYFaC0, /aA?Y4pK
     print()
     print(create_table_string("[0.0 UTC+0]"))
+    print()
+    print(create_table_string(" usr:B3HIyLm usr:uJV5sf82_"))
