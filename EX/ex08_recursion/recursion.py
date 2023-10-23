@@ -150,7 +150,19 @@ def check_for_prime(num: int, i=None) -> bool:
     :param i: used to check if 'num' is a multiple of some integer.
     :return: boolean. True if 'num' is prime, False otherwise
     """
-    pass
+    if num in (0, 1):
+        return False
+
+    if i is None:
+        i = 2
+
+    if i == num:
+        return True
+
+    if num % i == 0:
+        return False
+
+    return check_for_prime(num, i + 1)
 
 
 def replace(input_string: str, char_to_replace: str, new_string: str) -> str:
@@ -196,7 +208,22 @@ def fibonacci(num: int, fib_list=None) -> list | None:
     :param fib_list: used to pass the currently computed list on numbers
     :return: list of the first 'num' Fibonacci numbers
     """
-    pass
+    if num < 0:
+        return None
+
+    if num < 2:
+        return [0, 1]
+
+    if fib_list is None:
+        fib_list = [0, 1]
+
+    if len(fib_list) < num:
+        next_fib = fib_list[-1] + fib_list[-2]
+        fib_list.append(next_fib)
+        return fibonacci(num, fib_list)
+
+    return fib_list
+
 
 
 def x_sum_loop(nums: list, x: int) -> int:
@@ -219,7 +246,14 @@ def x_sum_loop(nums: list, x: int) -> int:
     :param x: number indicating every which num to add to sum
     :return: sum of every x'th number in the list
     """
-    pass
+    if x == 0:
+        return 0
+
+    summa = 0
+    for i in range(0, len(nums) + 1, x):
+        summa += i
+
+    return summa
 
 
 def x_sum_recursion(nums: list, x: int) -> int:
