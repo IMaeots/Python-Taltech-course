@@ -143,9 +143,6 @@ def get_usernames(text: str) -> list[str]:
     pattern = r'usr:(\w+)'
     matches = re.findall(pattern, text)
 
-    if matches is None:
-        return []
-
     usernames = []
     for username in matches:
         if username not in usernames:
@@ -172,9 +169,6 @@ def get_addresses(text: str) -> list[str]:
     pattern = r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
     matches = re.finditer(pattern, text)
 
-    if matches is None:
-        return []
-
     unique_list = []
     for match in matches:
         if match.group() not in unique_list:
@@ -187,9 +181,6 @@ def get_endpoints(text: str) -> list[str]:
     """Get endpoints from text."""
     pattern = r'(/[\w&/=?-_%]+)'
     matches = re.finditer(pattern, text)
-
-    if matches is None:
-        return []
 
     unique_list = []
     for match in matches:
