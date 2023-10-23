@@ -157,7 +157,7 @@ def check_for_prime(num: int, i=None) -> bool:
     if i is None:
         i = 2
 
-    if i == num:
+    if i * i > num:
         return True
 
     if num % i == 0:
