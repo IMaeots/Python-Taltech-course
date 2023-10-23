@@ -104,7 +104,7 @@ def create_table_string(text: str) -> str:
     formatted_times = sort_and_format_times(times)
 
     # Create the table string
-    return format_table(formatted_times, usernames, errors, addresses, endpoints)
+    return format_table(formatted_times, usernames, sorted(errors), addresses, endpoints)
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
