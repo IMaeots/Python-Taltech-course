@@ -130,12 +130,13 @@ def check_palindrome(string: str) -> bool:
     :param string: string argument
     :return: boolean. True if 'string' is a palindrome, False otherwise
     """
-    if string == "":
+    if len(string) <= 1:
         return True
-    elif string[0] != string[-1]:
+
+    if string[0] != string[-1]:
         return False
-    else:
-        return check_palindrome(string[:-1])
+
+    return check_palindrome(string[1:-1])
 
 
 def check_for_prime(num: int, i=None) -> bool:
@@ -151,13 +152,16 @@ def check_for_prime(num: int, i=None) -> bool:
     :param i: used to check if 'num' is a multiple of some integer.
     :return: boolean. True if 'num' is prime, False otherwise
     """
+    if num < 2:
+        return False
+
     if num in (0, 1):
         return False
 
     if i is None:
         i = 2
 
-    if i * i > abs(num):
+    if i * i > num:
         return True
 
     if num % i == 0:
