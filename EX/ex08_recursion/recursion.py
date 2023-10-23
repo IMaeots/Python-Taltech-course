@@ -321,16 +321,15 @@ def sum_squares(nested_list: list | int) -> int:
     if isinstance(nested_list, int):
         return nested_list ** 2
 
-    value = 0
-    sub_list = []
-    if isinstance(nested_list, (int, list)):
-        for item in nested_list:
-            if isinstance(item, int):
-                value += item ** 2
-            else:
-                sub_list = item
-
-    return value + sum_squares(sub_list)
+    head, *tail = nested_list
+    if isinstance(head, int):
+        return head ** 2 + sum_squares(tail)
+    elif isinstance(head, list):
+        return sum_squares(head) + sum_squares(tail)
+    elif isinstance(tail, list):
+        return sum_squares(tail)
+    else:
+        return 0
 
 
 if __name__ == '__main__':
