@@ -259,8 +259,12 @@ def x_sum_loop(nums: list, x: int) -> int:
         return 0
 
     summa = 0
-    for i in range(0, len(nums) + 1, x):
-        summa += i
+    if x > 0:
+        for i in range(x - 1, len(nums), x):
+            summa += nums[i]
+    else:
+        for i in range(len(nums) + x, -1, x):
+            summa += nums[i]
 
     return summa
 
