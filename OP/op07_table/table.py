@@ -104,7 +104,8 @@ def create_table_string(text: str) -> str:
     sorted_and_formatted_times = sort_and_format_times(times)
 
     # Create the table string
-    return format_table(sorted_and_formatted_times, sorted(usernames), sorted(errors), sorted(addresses), sorted(endpoints))
+    return format_table(sorted_and_formatted_times, sorted(usernames),
+                        sorted(errors), sorted(addresses), sorted(endpoints))
 
 
 def get_times(text: str) -> list[tuple[int, int, int]]:
@@ -141,12 +142,12 @@ def get_times(text: str) -> list[tuple[int, int, int]]:
 def get_usernames(text: str) -> list[str]:
     """Get usernames from text."""
     pattern = r'usr:(\w+)'
-    matches = re.findall(pattern, text)
+    matches = re.finditer(pattern, text)
 
     usernames = []
-    for username in matches:
-        if username not in usernames:
-            usernames.append(username)
+    for match in matches:
+        if match.group(1) not in usernames:
+            usernames.append(match.group(1))
 
     return usernames
 
