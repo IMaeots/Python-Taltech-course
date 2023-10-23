@@ -29,6 +29,31 @@ def format_table(formatted_times, usernames, errors, addresses, endpoints):
     return '\n'.join(table)
 
 
+def sort_and_format_times(times: list[tuple[int, int, int]]) -> list:
+    """Sort and format times to correct format."""
+
+    def custom_sort(item):
+        """Define custom sort method."""
+        hours, minutes, offsets = item
+        h = (hours - offsets) % 24
+        if h < 0:
+            h = 24 + h
+
+        return h * 60 + minutes
+
+    sorted_times = sorted(times, key=custom_sort)
+    formatted_times = []
+    for hour, minute, offset in sorted_times:
+        real_hour = (hour - offset) % 24
+        adjusted_hour = (24 + real_hour) % 12 if real_hour < 0 else real_hour % 12
+        period = 'AM' if real_hour < 12 else 'PM'
+        formatted_time = f"{adjusted_hour if adjusted_hour != 0 else 12}:{minute:02} {period}"
+        if formatted_time not in formatted_times:
+            formatted_times.append(formatted_time)
+
+    return formatted_times
+
+
 def create_table_string(text: str) -> str:
     """
     Create table string from the given logs.
@@ -76,23 +101,7 @@ def create_table_string(text: str) -> str:
     addresses = get_addresses(text)
     endpoints = get_endpoints(text)
 
-    def custom_sort(item):
-        hours, minutes, offsets = item
-        h = (hours - offsets) % 24
-        if h < 0:
-            h = 24 + h
-
-        return h * 60 + minutes
-
-    sorted_times = sorted(times, key=custom_sort)
-    formatted_times = []
-    for hour, minute, offset in sorted_times:
-        real_hour = (hour - offset) % 24
-        adjusted_hour = (24 + real_hour) % 12 if real_hour < 0 else real_hour % 12
-        period = 'AM' if real_hour < 12 else 'PM'
-        formatted_time = f"{adjusted_hour if adjusted_hour != 0 else 12}:{minute:02} {period}"
-        if formatted_time not in formatted_times:
-            formatted_times.append(formatted_time)
+    formatted_times = sort_and_format_times(times)
 
     # Create the table string
     return format_table(formatted_times, usernames, sorted(errors), sorted(addresses), sorted(endpoints))
@@ -142,7 +151,7 @@ def get_usernames(text: str) -> list[str]:
         if username not in usernames:
             usernames.append(username)
 
-    return sorted(usernames)
+    return sorted(usernames, key=lambda x: x[::-1])
 
 
 def get_errors(text: str) -> list[int]:
