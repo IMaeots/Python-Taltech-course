@@ -152,20 +152,14 @@ def check_for_prime(num: int, i=None) -> bool:
     :param i: used to check if 'num' is a multiple of some integer.
     :return: boolean. True if 'num' is prime, False otherwise
     """
-    if num < 2:
-        return False
-
-    if num in (0, 1):
-        return False
-
     if i is None:
         i = 2
 
+    if num < 2 or num in (0, 1) or (num % i) == 0:
+        return False
+
     if i * i > num:
         return True
-
-    if num % i == 0:
-        return False
 
     return check_for_prime(num, i + 1)
 
@@ -321,10 +315,22 @@ def sum_squares(nested_list: list | int) -> int:
     :param nested_list: list of lists of lists of lists of lists ... and ints
     :return: sum of squares
     """
+    if not nested_list:
+        return 0
+
     if isinstance(nested_list, int):
         return nested_list ** 2
 
-    return sum(sum_squares(item) for item in nested_list if isinstance(item, (int, list)))
+    value = 0
+    sub_list = []
+    if isinstance(nested_list, (int, list)):
+        for item in nested_list:
+            if isinstance(item, int):
+                value += item ** 2
+            else:
+                sub_list = item
+
+    return value + sum_squares(sub_list)
 
 
 if __name__ == '__main__':
