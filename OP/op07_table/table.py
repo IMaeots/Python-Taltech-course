@@ -255,3 +255,5 @@ if __name__ == '__main__':
     print(create_table_string(" usr:B3HIyLm usr:uJV5sf82_ "))
     print()
     print(create_table_string(" 634.865.217.415 959.675.203.100 "))
+    print()
+    print(create_table_string("/aA?Y4pK //aA?Y4pK"))
