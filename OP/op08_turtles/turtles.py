@@ -76,7 +76,7 @@ def curve(string: str, depth: int) -> None | str:
     :param depth: how many times the rules are applied
     :return: instructionset for drawing the dragon at iteration 'depth'
     """
-    pass
+    return apply_dragon_rules(string) * depth
 
 
 def format_curve(string: str) -> str:
@@ -89,7 +89,8 @@ def format_curve(string: str) -> str:
     :param string: instruction string
     :return: clean instructions with only "F", "R", and "L" characters
     """
-    pass
+    return string[0] + format_curve(string[1:]) if string[0] not in ["a", "b"] and len(string) > 1 \
+        else "" + format_curve(string[1:]) if len(string) > 1 else ""
 
 
 def draw_dragon(string: str, length: float) -> None:
@@ -103,7 +104,19 @@ def draw_dragon(string: str, length: float) -> None:
     :param string: instructions left to process
     :param length: how many pixels to move forward, left or right
     """
-    pass
+    if string[0] == "R":
+        t.right(90)
+        t.forward(length)
+
+    if string[0] == "L":
+        t.left(90)
+        t.forward(length)
+
+    if string[0] == "F":
+        t.forward(length)
+
+    if len(string) > 1:
+        draw_dragon(string[1:], length)
 
 
 def get_line_length(dragon_width: int, depth: int) -> float:
