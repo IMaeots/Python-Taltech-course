@@ -20,13 +20,16 @@ def tree(length: int, origin=(0, 0)) -> None:
     :param length: height of the trunk or leaf
     :param origin: starting point.
     """
-
     if length < 5:
-        pass
+        return
 
-    if length == 200:
-        t.setpos(200, 0)
-        t.forward(200)
+    t.forward(length)  # Draw.
+    t.left(60)
+    tree(int(length * 0.6))  # Left side.
+    t.right(120)
+    tree(int(length * 0.6))  # Right side.
+    t.left(60)
+    t.backward(length)
 
 
 def apply_dragon_rules(string: str) -> str:
