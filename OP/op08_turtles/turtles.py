@@ -91,7 +91,7 @@ def format_curve(string: str) -> str:
     :return: clean instructions with only "F", "R", and "L" characters
     """
     return string[0] + format_curve(string[1:]) if string[0] not in ["a", "b"] and len(string) > 1 \
-        else "" + format_curve(string[1:]) if len(string) > 1 else ""
+        else "" + format_curve(string[1:]) if len(string) > 1 else "" if string not in ["a", "b"] else ""
 
 
 def draw_dragon(string: str, length: float) -> None:
