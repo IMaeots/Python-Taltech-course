@@ -46,22 +46,21 @@ def apply_dragon_rules(string: str) -> str:
     :param string: sentence with "a" and "b" characters that need to be replaced
     :return: new sentence with "a" and "b" characters replaced
     """
-    for char in string:
-        if char == "a":
-            if len(string) > 1:
-                return "aRbFR" + apply_dragon_rules(string[1:])
-            else:
-                return "aRbFR"
-        elif char == "b":
-            if len(string) > 1:
-                return "LFaLb" + apply_dragon_rules(string[1:])
-            else:
-                return "LFaLb"
+    if string[0] == "a":
+        if len(string) > 1:
+            return "aRbFR" + apply_dragon_rules(string[1:])
         else:
-            if len(string) > 1:
-                return char + apply_dragon_rules(string[1:])
-            else:
-                return char
+            return "aRbFR"
+    elif string[0] == "b":
+        if len(string) > 1:
+            return "LFaLb" + apply_dragon_rules(string[1:])
+        else:
+            return "LFaLb"
+    else:
+        if len(string) > 1:
+            return string[0] + apply_dragon_rules(string[1:])
+        else:
+            return string[0]
 
 
 def curve(string: str, depth: int) -> None | str:
