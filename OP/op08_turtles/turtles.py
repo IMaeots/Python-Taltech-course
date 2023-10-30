@@ -64,7 +64,6 @@ def apply_dragon_rules(string: str) -> str:
                 return char
 
 
-
 def curve(string: str, depth: int) -> None | str:
     """
     Recursively generate the next depth of rules.
@@ -76,7 +75,10 @@ def curve(string: str, depth: int) -> None | str:
     :param depth: how many times the rules are applied
     :return: instructionset for drawing the dragon at iteration 'depth'
     """
-    return apply_dragon_rules(string) * depth
+    if depth == 0:
+        return string
+    else:
+        return curve(apply_dragon_rules(string), depth - 1)
 
 
 def format_curve(string: str) -> str:
@@ -131,7 +133,6 @@ def save(turtle: Turtle) -> None:
 
 
 if __name__ == '__main__':
-
     t = Turtle()
     t.getscreen().bgcolor("#FFFFFF")
     t.color("#96004f")
