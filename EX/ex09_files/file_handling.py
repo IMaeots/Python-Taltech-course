@@ -173,12 +173,31 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: The name of the CSV file to write to names, towns, and dates.
     :return: None
     """
+
+    class Person:
+        def __init__(self, name, date, town):
+            self.name = name
+            self.date = date
+            self.town = town
+
     dates = read_csv_file(dates_filename, delimiter=':')
     towns = read_csv_file(towns_filename, delimiter=':')
+    my_dict = {}
 
-    data = [[""]]
+    for date in dates:
+        my_dict[date[0]] = Person(date[0], date[1], "-")
 
-    write_csv_file(csv_output_filename, data)
+    for town in towns:
+        if town[0] in my_dict:
+            my_dict[town[0]].town = town[1]
+        else:
+            my_dict[town[0]] = Person(town[0], "-", town[1])
+
+    output_list = []
+    for key, value in my_dict.items():
+        output_list.append([value.name, value.town, value.date])
+
+    write_csv_file(csv_output_filename, output_list)
 
 
 def read_csv_file_into_list_of_dicts(filename: str) -> list[dict[str, str]]:
@@ -234,3 +253,6 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list[dict]) -> None:
     :return: None
     """
     pass
+
+
+merge_dates_and_towns_into_csv(dates_filename="date.txt", towns_filename="town.txt", csv_output_filename="output.txt")
