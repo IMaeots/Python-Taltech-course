@@ -253,6 +253,3 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list[dict]) -> None:
     :return: None
     """
     pass
-
-
-merge_dates_and_towns_into_csv(dates_filename="date.txt", towns_filename="town.txt", csv_output_filename="output.txt")
