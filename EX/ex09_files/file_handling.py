@@ -193,7 +193,7 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
         else:
             my_dict[town[0]] = Person(town[0], "-", town[1])
 
-    output_list = ["name", "town", "date\n"]
+    output_list = [["name", "town", "date\n"]]
     for key, value in my_dict.items():
         output_list.append([value.name, value.town, value.date])
 
