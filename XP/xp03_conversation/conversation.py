@@ -276,6 +276,7 @@ def find_fibonacci_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Fibonacci_number
     :return: list of fibonacci numbers
     """
+    #  TODO: ERROR
     fibonacci_numbers = []
 
     a, b = 0, 1
@@ -293,7 +294,7 @@ def find_catalan_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Catalan_number
     :return: list of catalan numbers
     """
-
+    #  TODO: ERROR
     def catalan_number(n):
         if n <= 1:
             return 1
