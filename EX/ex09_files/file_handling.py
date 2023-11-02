@@ -248,10 +248,6 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list[dict[str, str]]:
         return my_list
 
 
-
-
-
-
 def write_list_of_dicts_to_csv_file(filename: str, data: list[dict]) -> None:
     """
     Write a list of dictionaries to a CSV file.
@@ -276,4 +272,29 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list[dict]) -> None:
     :param data: List of dictionaries to write to the file.
     :return: None
     """
-    pass
+    keys = []
+    values = []
+
+    # Get the keys.
+    for item in data:
+        for key in item:
+            if key not in keys:
+                keys.append(key)
+
+    # Get values according to keys.
+    for item in data:
+        item_values = []
+
+        for key in keys:
+            if key in item:
+                item_values.append(item[key])
+            else:
+                item_values.append("")
+
+        values.append(item_values)
+
+    with open(filename, 'w') as f:
+        csv_writer = csv.writer(f, delimiter=',')
+
+        csv_writer.writerow(keys)
+        csv_writer.writerows(values)
