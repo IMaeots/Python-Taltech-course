@@ -228,20 +228,14 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list[dict[str, str]]:
     with open(filename, "r") as f:
         csv_reader = csv.reader(f, delimiter=',')
 
-        header = []
-        data = []
-        for line in csv_reader:
-            if not header:
-                header = line
-            else:
-                data.append(line)
+        header = next(csv_reader)
 
         my_list = []
-        for items in data:
+        for line in csv_reader:
+
             my_dict = {}
-            for key in header:
-                for item in items:
-                    my_dict[key] = item
+            for i, value in enumerate(line):
+                my_dict[header[i]] = value
 
             my_list.append(my_dict)
 
