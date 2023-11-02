@@ -228,18 +228,21 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list[dict[str, str]]:
     with open(filename, "r") as f:
         csv_reader = csv.reader(f, delimiter=',')
 
-        header = next(csv_reader)
+        try:
+            header = next(csv_reader)
 
-        my_list = []
-        for line in csv_reader:
+            my_list = []
+            for line in csv_reader:
 
-            my_dict = {}
-            for i, value in enumerate(line):
-                my_dict[header[i]] = value
+                my_dict = {}
+                for i, value in enumerate(line):
+                    my_dict[header[i]] = value
 
-            my_list.append(my_dict)
+                my_list.append(my_dict)
 
-        return my_list
+            return my_list
+        except Exception:
+            return []
 
 
 def write_list_of_dicts_to_csv_file(filename: str, data: list[dict]) -> None:
