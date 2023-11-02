@@ -1,3 +1,4 @@
+"""File handling."""
 import csv
 
 
@@ -97,9 +98,12 @@ def write_lines_to_file(filename: str, lines: list[str]) -> None:
     :return: None
     """
     with open(filename, "w") as f:
-        f.write(lines[0])
-        for line in lines[1:]:
-            f.write("\n" + line)
+        if not lines:
+            f.write("")
+        else:
+            f.write(lines[0])
+            for line in lines[1:]:
+                f.write("\n" + line)
 
 
 def write_csv_file(filename: str, data: list[list[str]]) -> None:
