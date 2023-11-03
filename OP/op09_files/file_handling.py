@@ -89,7 +89,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
             try:
                 return datetime.strptime(value, "%d.%m.%Y").date()
             except ValueError:
-                return value
+                return str(value)
 
     with open(filename, 'r') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
@@ -197,3 +197,10 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: The name of the file to write to.
     :return: None
     """
+
+
+result = read_csv_file_into_list_of_dicts_using_datatypes("test.csv")
+
+# Print the result for verification
+for row in result:
+    print(row)
