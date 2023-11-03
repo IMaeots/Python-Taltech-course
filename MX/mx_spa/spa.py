@@ -90,7 +90,7 @@ def generate_employee_schedules(employees: list, working_hours: list) -> list:
     :param working_hours: list of working hours for each day
     :return: list of employee schedules
     """
-    return []
+    return [[employee] + [random.choice(working_hours) for _ in range(5)] for employee in employees]
 
 
 # Exercise 6: Spa Product Inventory
@@ -107,7 +107,7 @@ def generate_product_inventory(products: list, initial_quantity: int) -> list:
     :param initial_quantity: initial quantity in stock
     :return: list of product names and quantities
     """
-    return []
+    return [[name] + [calculate_product_quantity(initial_quantity, name)] for name in products]
 
 
 def calculate_product_quantity(initial_quantity: int, product: str) -> int:
@@ -148,7 +148,7 @@ def generate_product_scents(product_types: list, scents: list) -> list:
     :param scents: list of scents (e.g., "Lavender", "Eucalyptus")
     :return: list of paired product and scent combinations
     """
-    return []
+    return [[p_type] + [scent for scent in scents] for p_type in product_types]
 
 
 # Exercise 8: Identify VIP Customers
@@ -165,7 +165,7 @@ def identify_vip_customers(customer_names: list) -> list:
     :param customer_names: list of customer names
     :return: list of customer names with VIPs marked as "vip"
     """
-    return []
+    return ["vip" if customer[0].isupper() else customer for customer in customer_names]
 
 
 # Exercise 9: Spa Service Availability Checker
@@ -195,7 +195,7 @@ def check_service_availability(service_schedules: dict, date: str) -> list:
     :param date: date for which availability is checked
     :return: list of available spa services
     """
-    return []
+    return [service for service, times in service_schedules.items() if date in times]
 
 
 if __name__ == '__main__':
