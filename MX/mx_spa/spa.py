@@ -14,7 +14,7 @@ def generate_menu_prices(services: list) -> list:
     :param services: list of spa service names
     :return: list of service prices
     """
-    return [[service, "{:.2f}".format(random.uniform(30, 150))] for service in services]
+    return [[service, "{:.2f}".format(random.uniform(31, 149))] for service in services]
 
 
 # Exercise 2: Create Spa Appointment Slots
@@ -34,7 +34,7 @@ def create_appointment_slots(hours: list, duration: int, date: str) -> list:
     :param date: appointment date
     :return: list of available slots
     """
-    return [f"{date} {hour} - {hour + duration}" for hour in hours]
+    return [f"{date} {hour}:00 - {hour + duration}:00" for hour in hours]
 
 
 # Exercise 3: Discounted Spa Packages
@@ -148,7 +148,7 @@ def generate_product_scents(product_types: list, scents: list) -> list:
     :param scents: list of scents (e.g., "Lavender", "Eucalyptus")
     :return: list of paired product and scent combinations
     """
-    return [[p_type] + [scent for scent in scents] for p_type in product_types]
+    return [[p_type] + [scent] for p_type in product_types for scent in scents ]
 
 
 # Exercise 8: Identify VIP Customers
