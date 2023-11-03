@@ -95,8 +95,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
             processed_row = {}
-            for key, value in row.items():
-                processed_row[key] = cast_value(value)
+            for key, the_value in row.items():
+                processed_row[key] = cast_value(the_value)
             result.append(processed_row)
 
     return result
@@ -197,4 +197,3 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: The name of the file to write to.
     :return: None
     """
-    pass
