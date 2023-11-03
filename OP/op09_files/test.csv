@@ -1,4 +1,5 @@
-name,date,value
-john,01.01.2022,42
-mary,-,late 2023
-ago,unknown,56
+id,firstname,blind date
+1,ago,01.02.2023
+2,mary,05.06.2022
+3,max,-
+4,-,-

@@ -5,6 +5,19 @@ import os
 from datetime import datetime
 
 
+def cast_value(value):
+    """Cast correct value data type."""
+    if value == "-":
+        return None
+    try:
+        return int(value)
+    except ValueError:
+        try:
+            return datetime.strptime(value, "%d.%m.%Y").date()
+        except ValueError:
+            return str(value)
+
+
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
     """
     Read data from a CSV file and cast values into different data types based on their content.
@@ -80,22 +93,11 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     """
     result = []
 
-    def cast_value(value):
-        if value == "-":
-            return None
-        try:
-            return int(value)
-        except ValueError:
-            try:
-                return datetime.strptime(value, "%d.%m.%Y").date()
-            except ValueError:
-                return str(value)
-
-    with open(filename, 'r') as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=',')
-        for row in csv_reader:
+    with open(filename, 'r') as f:
+        csv_reader = csv.DictReader(f)
+        for line in csv_reader:
             processed_row = {}
-            for key, the_value in row.items():
+            for key, the_value in line.items():
                 processed_row[key] = cast_value(the_value)
             result.append(processed_row)
 
@@ -139,7 +141,7 @@ def read_people_data(directory: str) -> dict[int, dict]:
     :param directory: The directory containing CSV files.
     :return: A dictionary with "id" as keys and data dictionaries as values.
     """
-    result = {}
+    outcome = {}
 
     csv_files = [file for file in os.listdir(directory) if file.endswith(".csv")]
 
@@ -149,21 +151,15 @@ def read_people_data(directory: str) -> dict[int, dict]:
         with open(file_path, 'r') as file:
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
-                person_id = int(row["id"])
+                person_id = int(row['id'])
 
-                if person_id not in result:
-                    result[person_id] = {"id": person_id}
+                if person_id not in outcome:
+                    outcome[person_id] = {"id": person_id}
 
-                for key, value in row.items():
-                    if key != "id":
-                        if value == "-":
-                            value = None
-                        elif key == "birth":
-                            value = datetime.strptime(value, "%d.%m.%Y").date()
+                for key, the_value in row.items():
+                    outcome[person_id][key] = cast_value(the_value)
 
-                        result[person_id][key] = value
-
-    return result
+    return outcome
 
 
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
