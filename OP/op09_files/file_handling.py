@@ -15,7 +15,7 @@ def cast_value(value):
         try:
             return datetime.strptime(value, "%d.%m.%Y").date()
         except ValueError:
-            return str(value)
+            return value
 
 
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
@@ -98,7 +98,11 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
         for line in csv_reader:
             processed_row = {}
             for key, the_value in line.items():
-                processed_row[key] = cast_value(the_value)
+                if not isinstance(the_value, str):
+                    processed_row[key] = cast_value(the_value)
+                else:
+                    processed_row[key] = the_value
+
             result.append(processed_row)
 
     return result
@@ -200,3 +204,5 @@ result = read_csv_file_into_list_of_dicts_using_datatypes("test.csv")
 # Print the result for verification
 for row in result:
     print(row)
+
+print(read_people_data("data"))
