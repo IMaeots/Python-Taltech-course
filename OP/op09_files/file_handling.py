@@ -1,6 +1,7 @@
 """File handling."""
 
 import csv
+import os
 from datetime import datetime
 
 
@@ -100,6 +101,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
 
     return result
 
+
 def read_people_data(directory: str) -> dict[int, dict]:
     """
     Read people data from CSV files and merge information.
@@ -137,7 +139,31 @@ def read_people_data(directory: str) -> dict[int, dict]:
     :param directory: The directory containing CSV files.
     :return: A dictionary with "id" as keys and data dictionaries as values.
     """
-    pass
+    result = {}
+
+    csv_files = [file for file in os.listdir(directory) if file.endswith(".csv")]
+
+    for csv_file in csv_files:
+        file_path = os.path.join(directory, csv_file)
+
+        with open(file_path, 'r') as file:
+            csv_reader = csv.DictReader(file)
+            for row in csv_reader:
+                person_id = int(row["id"])
+
+                if person_id not in result:
+                    result[person_id] = {"id": person_id}
+
+                for key, value in row.items():
+                    if key != "id":
+                        if value == "-":
+                            value = None
+                        elif key == "birth":
+                            value = datetime.strptime(value, "%d.%m.%Y").date()
+
+                        result[person_id][key] = value
+
+    return result
 
 
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
