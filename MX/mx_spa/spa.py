@@ -14,7 +14,7 @@ def generate_menu_prices(services: list) -> list:
     :param services: list of spa service names
     :return: list of service prices
     """
-    return [[service, str("{:.2f}".format(random.uniform(30, 150)))] for service in services]
+    return [[service, float("{:.2f}".format(random.uniform(30, 150)))] for service in services]
 
 
 # Exercise 2: Create Spa Appointment Slots
