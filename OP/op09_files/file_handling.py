@@ -1,3 +1,5 @@
+"""File handling."""
+
 import csv
 from datetime import datetime
 
@@ -75,28 +77,28 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     :param filename: The name of the CSV file to read.
     :return: A list of dictionaries containing processed field values.
     """
-    with open(filename, 'r') as f:
-        csv_reader = csv.reader(f, delimiter=',')
+    result = []
 
-        header = next(csv_reader)
+    def cast_value(value):
+        if value == "-":
+            return None
+        try:
+            return int(value)
+        except ValueError:
+            try:
+                return datetime.strptime(value, "%d.%m.%Y").date()
+            except ValueError:
+                return value
 
-        data = []
-        for line in csv_reader:
-            temp_dict = {}
-            for num, word in enumerate(line):
-                if word.isdigit():
-                    num = int(num)
+    with open(filename, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file, delimiter=',')
+        for row in csv_reader:
+            processed_row = {}
+            for key, value in row.items():
+                processed_row[key] = cast_value(value)
+            result.append(processed_row)
 
-                if datetime.strptime(word, "dd.mm.yyyy"):
-                    word = str(word)
-
-                temp_dict[header[num]] = word
-
-            if temp_dict:
-                data.append(temp_dict)
-
-    return data
-
+    return result
 
 def read_people_data(directory: str) -> dict[int, dict]:
     """
@@ -140,7 +142,7 @@ def read_people_data(directory: str) -> dict[int, dict]:
 
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
     """
-   Generate a report about people data from CSV files.
+    Generate a report about people data from CSV files.
 
     Note: Use the read_people_data() function to read the data from CSV files.
 
