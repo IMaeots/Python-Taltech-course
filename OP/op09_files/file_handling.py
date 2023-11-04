@@ -87,7 +87,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
             processed_row = {}
 
             for key, value in line.items():
-                if not data_types[key]:
+                if key not in data_types:
                     if value == "-":
                         processed_row[key] = None
                     else:
