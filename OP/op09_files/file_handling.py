@@ -5,17 +5,19 @@ import os
 from datetime import datetime
 
 
-def cast_value(value):
-    """Cast correct value data type."""
+def cast_value(value, data_type):
+    """Cast value to the appropriate data type based on the column's data_type."""
     if value == "-":
         return None
-    try:
+    if data_type == int:
         return int(value)
-    except ValueError:
-        try:
+    try:
+        if data_type == datetime:
             return datetime.strptime(value, "%d.%m.%Y").date()
-        except ValueError:
-            return value
+        else:
+            return str(value)
+    except ValueError:
+        return value
 
 
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
@@ -91,21 +93,23 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     :param filename: The name of the CSV file to read.
     :return: A list of dictionaries containing processed field values.
     """
-    result = []
+    processed_fields = []
+    data_types = {}
 
     with open(filename, 'r') as f:
         csv_reader = csv.DictReader(f)
         for line in csv_reader:
             processed_row = {}
             for key, the_value in line.items():
-                if not isinstance(the_value, str):
-                    processed_row[key] = cast_value(the_value)
-                else:
-                    processed_row[key] = the_value
+                if key not in data_types:
+                    data_types[key] = int  # Default to int.
+                if not the_value.isdigit():
+                    data_types[key] = str  # Switch to str if so.
+                processed_row[key] = cast_value(the_value, data_types[key])
 
-            result.append(processed_row)
+            processed_fields.append(processed_row)
 
-    return result
+    return processed_fields
 
 
 def read_people_data(directory: str) -> dict[int, dict]:
@@ -161,7 +165,7 @@ def read_people_data(directory: str) -> dict[int, dict]:
                     outcome[person_id] = {"id": person_id}
 
                 for key, the_value in row.items():
-                    outcome[person_id][key] = cast_value(the_value)
+                    outcome[person_id][key] = the_value
 
     return outcome
 
