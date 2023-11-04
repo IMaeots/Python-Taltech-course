@@ -11,9 +11,9 @@ def cast_value(value, data_type):
         return None
     if data_type == int:
         return int(value)
-    try:
+    if data_type == datetime:
         return datetime.strptime(value, "%d.%m.%Y").date()
-    except ValueError:
+    else:
         return value
 
 
@@ -99,8 +99,24 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
             for key, the_value in line.items():
                 if key not in data_types:
                     data_types[key] = int if the_value.isdigit() else str
+                    if data_types[key] == str:
+                        try:
+                            date_format = "%d.%m.%Y"
+                            datetime.strptime(the_value, date_format)
+                            data_types[key] = datetime
+                        except ValueError:
+                            data_types[key] = str
+                else:
+                    if data_types[key] != the_value == str:
+                        try:
+                            date_format = "%d.%m.%Y"
+                            datetime.strptime(the_value, date_format)
+                            data_types[key] = datetime
+                        except ValueError:
+                            data_types[key] = str
 
-            processed_row = {key: data_types[key](the_value) for key, the_value in line.items()}
+
+            processed_row = {key: cast_value(the_value, data_types[key]) for key, the_value in line.items()}
             processed_fields.append(processed_row)
 
     return processed_fields
