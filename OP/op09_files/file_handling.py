@@ -89,7 +89,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     :param filename: The name of the CSV file to read.
     :return: A list of dictionaries containing processed field values.
     """
-    with open(filename, 'r') as f:
+    with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
         data_types = {}
 
