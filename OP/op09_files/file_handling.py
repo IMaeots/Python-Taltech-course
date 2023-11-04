@@ -97,7 +97,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
         for line in csv_reader:
             for key, value in line.items():
                 if key not in data_types:
-                    if key == id:
+                    if key == 'id':
                         data_types[key] = int
                     if value.isdigit():
                         data_types[key] = int
