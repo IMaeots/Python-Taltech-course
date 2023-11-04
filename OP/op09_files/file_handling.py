@@ -89,25 +89,29 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     :param filename: The name of the CSV file to read.
     :return: A list of dictionaries containing processed field values.
     """
-    processed_fields = []
-    data_types = {}
-
     with open(filename, 'r') as f:
         csv_reader = csv.DictReader(f)
+        data_types = {}
 
+        # Determine data types for each column based on all values in the file.
         for line in csv_reader:
-            for key, the_value in line.items():
+            for key, value in line.items():
                 if key not in data_types:
-                    if the_value.isdigit():
+                    if value.isdigit():
                         data_types[key] = int
                     else:
                         try:
-                            datetime.strptime(the_value, "%d.%m.%Y")
+                            datetime.strptime(value, "%d.%m.%Y")
                             data_types[key] = datetime
                         except ValueError:
                             data_types[key] = str
 
-            processed_row = {key: cast_value(the_value, data_types[key]) for key, the_value in line.items()}
+        f.seek(0)
+        csv_reader = csv.DictReader(f)
+
+        processed_fields = []
+        for line in csv_reader:
+            processed_row = {key: cast_value(value, data_types[key]) for key, value in line.items()}
             processed_fields.append(processed_row)
 
     return processed_fields
