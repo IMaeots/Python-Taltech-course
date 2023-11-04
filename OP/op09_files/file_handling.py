@@ -97,43 +97,32 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     """
     with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
-        data_types = {}
-
-        # Determine data types for each column based on all values in the file.
-        for line in csv_reader:
-            for key, value in line.items():
-                if key not in data_types:
-                    if key == 'id':
-                        data_types[key] = int
-                    elif value.isdigit():
-                        data_types[key] = int
-                    else:
-                        try:
-                            datetime.strptime(value, "%d.%m.%Y")
-                            data_types[key] = datetime
-                        except ValueError:
-                            data_types[key] = str
-                else:
-                    if data_types[key] != str:
-                        try:
-                            datetime.strptime(value, "%d.%m.%Y")
-                            data_types[key] = datetime
-                        except ValueError:
-                            if value != "-":
-                                if value.isdigit():
-                                    data_types[key] = int
-                                else:
-                                    data_types[key] = str
-
-        f.seek(0)
-        csv_reader = csv.DictReader(f)
-
         processed_fields = []
+
         for line in csv_reader:
-            processed_row = {key: cast_value(value, data_types[key]) for key, value in line.items()}
+            data_types = {}
+            processed_row = {}
+
+            for key, value in line.items():
+                if value == "-":
+                    processed_row[key] = None
+                else:
+                    try:
+                        int_value = int(value)
+                        processed_row[key] = int_value
+                        data_types[key] = int
+                    except ValueError:
+                        try:
+                            date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                            processed_row[key] = date_value
+                            data_types[key] = datetime
+                        except ValueError:
+                            processed_row[key] = value
+                            data_types[key] = str
+
             processed_fields.append(processed_row)
 
-    return processed_fields
+        return processed_fields
 
 
 def read_people_data(directory: str) -> dict[int, dict]:
