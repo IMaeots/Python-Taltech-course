@@ -9,11 +9,16 @@ def cast_value(value, data_type):
     """Cast value to the appropriate data type based on the column's data_type."""
     if value == "-":
         return None
-    if data_type == int:
-        return int(value)
-    if data_type == datetime:
-        return datetime.strptime(value, "%d.%m.%Y").date()
-    return str(value)
+
+    try:
+        if data_type == int:
+            return int(value)
+        elif data_type == datetime:
+            return datetime.strptime(value, "%d.%m.%Y").date()
+        else:
+            return str(value)
+    except (ValueError, TypeError):
+        return str(value)
 
 
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
