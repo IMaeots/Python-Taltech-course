@@ -12,7 +12,10 @@ def cast_value(value, data_type):
     if data_type == int:
         return int(value)
     if data_type == datetime:
-        return datetime.strptime(value, "%d.%m.%Y").date()
+        try:
+            return datetime.strptime(value, "%d.%m.%Y").date()
+        except ValueError:
+            return str(value)
     return str(value)
 
 
@@ -113,7 +116,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             datetime.strptime(value, "%d.%m.%Y")
                             data_types[key] = datetime
                         except ValueError:
-                            if value is not "-":
+                            if value != "-":
                                 if value.isdigit():
                                     data_types[key] = int
                                 else:
