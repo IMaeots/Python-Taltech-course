@@ -99,7 +99,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                 if key not in data_types:
                     if key == 'id':
                         data_types[key] = int
-                    if value.isdigit():
+                    elif value.isdigit():
                         data_types[key] = int
                     else:
                         try:
@@ -113,7 +113,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             datetime.strptime(value, "%d.%m.%Y")
                             data_types[key] = datetime
                         except ValueError:
-                            if value is not None:
+                            if value is not "-":
                                 if value.isdigit():
                                     data_types[key] = int
                                 else:
