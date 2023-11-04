@@ -78,20 +78,6 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     :param filename: The name of the CSV file to read.
     :return: A list of dictionaries containing processed field values.
     """
-    def helper(the_value: any):
-        try:
-            int_value = int(the_value)
-            processed_row[key] = int_value
-            data_types[key] = int
-        except ValueError:
-            try:
-                date_value = datetime.strptime(the_value, "%d.%m.%Y").date()
-                processed_row[key] = date_value
-                data_types[key] = datetime
-            except ValueError:
-                processed_row[key] = the_value
-                data_types[key] = str
-
     with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
         processed_fields = []
@@ -105,12 +91,33 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                     if value == "-":
                         processed_row[key] = None
                     else:
-                        helper(value)
+                        try:
+                            int_value = int(value)
+                            processed_row[key] = int_value
+                            data_types[key] = int
+                        except ValueError:
+                            try:
+                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                                processed_row[key] = date_value
+                                data_types[key] = datetime
+                            except ValueError:
+                                processed_row[key] = value
+                                data_types[key] = str
                 else:
                     if data_types[key] == str:
-                        processed_row[key] = str(value)
-                    else:
-                        helper(value)
+                        processed_row[key] = value
+                    elif data_types[key] == int:
+                        try:
+                            int_value = int(value)
+                            processed_row[key] = int_value
+                        except ValueError:
+                            processed_row[key] = value
+                    elif data_types[key] == datetime:
+                        try:
+                            date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                            processed_row[key] = date_value
+                        except ValueError:
+                            processed_row[key] = value
 
             processed_fields.append(processed_row)
 
