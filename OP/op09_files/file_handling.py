@@ -110,6 +110,16 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             data_types[key] = datetime
                         except ValueError:
                             data_types[key] = str
+                else:
+                    if data_types[key] != str:
+                        try:
+                            datetime.strptime(value, "%d.%m.%Y")
+                            data_types[key] = datetime
+                        except ValueError:
+                            if value.isdigit():
+                                data_types[key] = int
+                            else:
+                                data_types[key] = str
 
         f.seek(0)
         csv_reader = csv.DictReader(f)
