@@ -117,6 +117,11 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             else:
                                 data_types[key] = str
 
+        # Reset reader.
+        f.seek(0)
+        next(csv_reader)
+
+        for line in csv_reader:
             processed_row = {key: cast_value(the_value, data_types[key]) for key, the_value in line.items()}
             processed_fields.append(processed_row)
 
