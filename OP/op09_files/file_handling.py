@@ -12,8 +12,8 @@ def cast_value(value, data_type):
     if data_type == int:
         try:
             return int(value)
-        except:
-            data_type = datetime
+        except ValueError:
+            return str(value)
     if data_type == datetime:
         try:
             return datetime.strptime(value, "%d.%m.%Y").date()
