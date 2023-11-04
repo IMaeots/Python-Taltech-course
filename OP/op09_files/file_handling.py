@@ -5,23 +5,6 @@ import os
 from datetime import datetime
 
 
-def cast_value(value, data_type):
-    """Cast value to the appropriate data type based on the column's data_type."""
-    if value == "-":
-        return None
-    if data_type == int:
-        try:
-            return int(value)
-        except ValueError:
-            return str(value)
-    if data_type == datetime:
-        try:
-            return datetime.strptime(value, "%d.%m.%Y").date()
-        except ValueError:
-            return str(value)
-    return str(value)
-
-
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
     """
     Read data from a CSV file and cast values into different data types based on their content.
@@ -98,27 +81,44 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
         processed_fields = []
+        data_types = {}
 
         for line in csv_reader:
-            data_types = {}
             processed_row = {}
 
             for key, value in line.items():
-                if value == "-":
-                    processed_row[key] = None
-                else:
-                    try:
-                        int_value = int(value)
-                        processed_row[key] = int_value
-                        data_types[key] = int
-                    except ValueError:
+                if not data_types[key]:
+                    if value == "-":
+                        processed_row[key] = None
+                    else:
                         try:
-                            date_value = datetime.strptime(value, "%d.%m.%Y").date()
-                            processed_row[key] = date_value
-                            data_types[key] = datetime
+                            int_value = int(value)
+                            processed_row[key] = int_value
+                            data_types[key] = int
                         except ValueError:
-                            processed_row[key] = value
-                            data_types[key] = str
+                            try:
+                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                                processed_row[key] = date_value
+                                data_types[key] = datetime
+                            except ValueError:
+                                processed_row[key] = value
+                                data_types[key] = str
+                else:
+                    if data_types[key] == str:
+                        processed_row[key] = str(value)
+                    else:
+                        try:
+                            int_value = int(value)
+                            processed_row[key] = int_value
+                            data_types[key] = int
+                        except ValueError:
+                            try:
+                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                                processed_row[key] = date_value
+                                data_types[key] = datetime
+                            except ValueError:
+                                processed_row[key] = value
+                                data_types[key] = str
 
             processed_fields.append(processed_row)
 
