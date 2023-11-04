@@ -13,8 +13,7 @@ def cast_value(value, data_type):
         return int(value)
     if data_type == datetime:
         return datetime.strptime(value, "%d.%m.%Y").date()
-    else:
-        return value
+    return str(value)
 
 
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
@@ -95,7 +94,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
 
     with open(filename, 'r') as f:
         csv_reader = csv.DictReader(f)
-        for line in csv_reader:  # Make the datatypes clear.
+
+        for line in csv_reader:
             for key, the_value in line.items():
                 if key not in data_types:
                     if the_value.isdigit():
@@ -106,22 +106,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             data_types[key] = datetime
                         except ValueError:
                             data_types[key] = str
-                else:
-                    if data_types[key] != str:
-                        try:
-                            datetime.strptime(the_value, "%d.%m.%Y")
-                            data_types[key] = datetime
-                        except ValueError:
-                            if the_value.isdigit():
-                                data_types[key] = int
-                            else:
-                                data_types[key] = str
 
-        # Reset reader.
-        f.seek(0)
-        next(csv_reader)
-
-        for line in csv_reader:
             processed_row = {key: cast_value(the_value, data_types[key]) for key, the_value in line.items()}
             processed_fields.append(processed_row)
 
