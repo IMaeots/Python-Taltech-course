@@ -98,8 +98,9 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
         for line in csv_reader:  # Make the datatypes clear.
             for key, the_value in line.items():
                 if key not in data_types:
-                    data_types[key] = int if the_value.isdigit() else str
-                    if data_types[key] == str:
+                    if the_value.isdigit():
+                        data_types[key] = int
+                    else:
                         try:
                             datetime.strptime(the_value, "%d.%m.%Y")
                             data_types[key] = datetime
@@ -111,7 +112,10 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             datetime.strptime(the_value, "%d.%m.%Y")
                             data_types[key] = datetime
                         except ValueError:
-                            data_types[key] = str
+                            if the_value.isdigit():
+                                data_types[key] = int
+                            else:
+                                data_types[key] = str
 
             processed_row = {key: cast_value(the_value, data_types[key]) for key, the_value in line.items()}
             processed_fields.append(processed_row)
