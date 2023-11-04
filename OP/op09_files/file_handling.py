@@ -81,13 +81,13 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
         processed_fields = []
+        data_types = {}
 
         for line in csv_reader:
-            data_types = {}
             processed_row = {}
 
             for key, value in line.items():
-                if key not in data_types:
+                if not data_types[key]:
                     if value == "-":
                         processed_row[key] = None
                     else:
@@ -105,19 +105,20 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                                 data_types[key] = str
                 else:
                     if data_types[key] == str:
-                        processed_row[key] = value
-                    elif data_types[key] == int:
+                        processed_row[key] = str(value)
+                    else:
                         try:
                             int_value = int(value)
                             processed_row[key] = int_value
+                            data_types[key] = int
                         except ValueError:
-                            processed_row[key] = value
-                    elif data_types[key] == datetime:
-                        try:
-                            date_value = datetime.strptime(value, "%d.%m.%Y").date()
-                            processed_row[key] = date_value
-                        except ValueError:
-                            processed_row[key] = value
+                            try:
+                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                                processed_row[key] = date_value
+                                data_types[key] = datetime
+                            except ValueError:
+                                processed_row[key] = value
+                                data_types[key] = str
 
             processed_fields.append(processed_row)
 
