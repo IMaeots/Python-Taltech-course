@@ -10,7 +10,10 @@ def cast_value(value, data_type):
     if value == "-":
         return None
     if data_type == int:
-        return int(value)
+        try:
+            return int(value)
+        except:
+            data_type = datetime
     if data_type == datetime:
         try:
             return datetime.strptime(value, "%d.%m.%Y").date()
