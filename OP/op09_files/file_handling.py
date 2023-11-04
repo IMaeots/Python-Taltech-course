@@ -95,26 +95,23 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
 
     with open(filename, 'r') as f:
         csv_reader = csv.DictReader(f)
-        for line in csv_reader: # Make the datatypes clear.
+        for line in csv_reader:  # Make the datatypes clear.
             for key, the_value in line.items():
                 if key not in data_types:
                     data_types[key] = int if the_value.isdigit() else str
                     if data_types[key] == str:
                         try:
-                            date_format = "%d.%m.%Y"
-                            datetime.strptime(the_value, date_format)
+                            datetime.strptime(the_value, "%d.%m.%Y")
                             data_types[key] = datetime
                         except ValueError:
                             data_types[key] = str
                 else:
-                    if data_types[key] != the_value == str:
+                    if data_types[key] != str:
                         try:
-                            date_format = "%d.%m.%Y"
-                            datetime.strptime(the_value, date_format)
+                            datetime.strptime(the_value, "%d.%m.%Y")
                             data_types[key] = datetime
                         except ValueError:
                             data_types[key] = str
-
 
             processed_row = {key: cast_value(the_value, data_types[key]) for key, the_value in line.items()}
             processed_fields.append(processed_row)
