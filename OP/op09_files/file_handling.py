@@ -81,9 +81,9 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
         processed_fields = []
-        data_types = {}
 
         for line in csv_reader:
+            data_types = {}
             processed_row = {}
 
             for key, value in line.items():
