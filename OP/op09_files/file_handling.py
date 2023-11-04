@@ -97,12 +97,13 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
         csv_reader = csv.DictReader(f)
         for line in csv_reader:
             processed_row = {}
-            for key, the_value in line.items():
+            for key, the_value in line.items():  # Make the datatype clear.
                 if key not in data_types:
                     data_types[key] = int  # Default to int.
                 if not the_value.isdigit():
                     data_types[key] = str  # Switch to str if so.
 
+            for key, the_value in line.items():  # Assign the correct value and input it.
                 processed_row[key] = cast_value(the_value, data_types[key])
 
             processed_fields.append(processed_row)
