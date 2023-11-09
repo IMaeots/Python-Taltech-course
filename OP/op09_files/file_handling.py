@@ -195,10 +195,18 @@ def read_people_data(directory: str) -> dict[int, dict]:
                 person_id = int(line['id'])
 
                 if person_id not in outcome:
-                    outcome[person_id] = {"id": person_id}
+                    outcome[person_id] = {"id": int(person_id)}
 
                 for key, the_value in line.items():
-                    outcome[person_id][key] = the_value
+                    try:
+                        value = datetime.strptime(the_value, "%d.%m.%Y").date()
+                    except ValueError:
+                        try:
+                            value = int(the_value)
+                        except ValueError:
+                            value = str(the_value)
+
+                    outcome[person_id][key] = value
 
     return outcome
 
