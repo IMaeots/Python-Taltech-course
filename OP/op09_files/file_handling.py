@@ -11,6 +11,19 @@ def assign_data_types(lines, data_types):
         for key, value in line.items():
             if key not in data_types:
                 data_types[key] = infer_data_type(value)
+            else:
+                if data_types[key] != str:
+                    if value == "-":
+                        break
+                    try:
+                        datetime.strptime(value, "%d.%m.%Y").date()
+                        data_types[key] = datetime
+                    except ValueError:
+                        try:
+                            int(value)
+                            data_types[key] = int
+                        except ValueError:
+                            data_types[key] = str
 
     return data_types
 
@@ -19,15 +32,16 @@ def infer_data_type(value):
     """Infer data type based on value."""
     if value == "-":
         return None
-    try:
-        int(value)
-        return int
-    except ValueError:
+    else:
         try:
-            datetime.strptime(value, "%d.%m.%Y").date()
-            return datetime
+            value = int(value)
+            return int
         except ValueError:
-            return str
+            try:
+                datetime.strptime(value, "%d.%m.%Y").date()
+                return datetime
+            except ValueError:
+                return str
 
 
 def assign_values(lines, data_types, processed_fields):
@@ -62,41 +76,6 @@ def convert_value(value, data_type):
             return str(value)
     else:
         return str(value)
-
-
-# Helper functions for read_csv_file_into_list_of_dicts_using_datatypes.
-def assign_data_types2(lines, data_types):
-    """Assign correct data types."""
-    for line in lines:
-        for key, value in line.items():
-            if key not in data_types:
-                if value == "-":
-                    data_types[key] = None
-                else:
-                    try:
-                        value = int(value)
-                        data_types[key] = int
-                    except ValueError:
-                        try:
-                            datetime.strptime(value, "%d.%m.%Y").date()
-                            data_types[key] = datetime
-                        except ValueError:
-                            data_types[key] = str
-            else:
-                if data_types[key] != str:
-                    if value == "-":
-                        break
-                    try:
-                        datetime.strptime(value, "%d.%m.%Y").date()
-                        data_types[key] = datetime
-                    except ValueError:
-                        try:
-                            int(value)
-                            data_types[key] = int
-                        except ValueError:
-                            data_types[key] = str
-
-    return data_types
 
 
 def assign_values2(lines, data_types, processed_fields):
