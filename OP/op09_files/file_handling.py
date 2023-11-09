@@ -171,8 +171,8 @@ def read_people_data(directory: str) -> dict[int, dict]:
 
         with open(file_path, 'r') as file:
             csv_reader = csv.DictReader(file)
-            for row in csv_reader:
-                person_id = int(row['id'])
+            for line in csv_reader:
+                person_id = int(line['id'])
 
                 if person_id not in outcome:
                     outcome[person_id] = {"id": person_id}
