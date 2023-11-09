@@ -266,8 +266,11 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     processed_data = []
     for person in data.values():
         # Calculate age based on birth and death dates
-        birthdate = person['birth']
-        deathdate = person['death']
+        try:
+            birthdate = person['birth']
+            deathdate = person['death']
+        except KeyError:
+            return
 
         birthdate_datetime = datetime.combine(birthdate, datetime.min.time())
         if deathdate is not None:
