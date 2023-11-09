@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Helper functions for read_csv_file_into_list_of_dicts_using_datatypes.
 def assign_data_types(lines, data_types):
-    # Assign data_types.
+    """Assign correct data types."""
     for line in lines:
         for key, value in line.items():
             if key not in data_types:
@@ -41,7 +41,7 @@ def assign_data_types(lines, data_types):
 
 
 def assign_values(lines, data_types, processed_fields):
-    # Assign values to the processed field list by using data_types dict.
+    """Assign values to the processed field list by using data_types dict."""
     for line in lines:
         processed_row = {}
 
