@@ -256,6 +256,39 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: The name of the file to write to.
     :return: None
     """
+    # Read data from CSV files
+    data = read_people_data(person_data_directory)
+
+    # Calculate age, add "status" and "age" fields, and sort the data
+    processed_data = []
+    for person in data.values():
+        # Calculate age based on birth and death dates
+        birthdate = person['birth']
+        deathdate = person['death']
+
+
+        birhdate_datetime = datetime.combine(birthdate, datetime.min.time())
+        if deathdate is not None:
+            deathdate_datetime = datetime.combine(deathdate, datetime.min.time())
+            age = (deathdate_datetime - birhdate_datetime).days // 365
+        else:
+            age = (datetime.now() - birhdate_datetime).days // 365
+
+        # Add "status" and "age" fields
+        person["status"] = "alive" if deathdate is None else "dead"
+        person["age"] = age
+
+        processed_data.append(person)
+
+    # Sort the data based on specified criteria
+    processed_data.sort(key=lambda x: (x["age"], x["birth"], x.get("name", ""), x["id"]))
+
+    # Step 5: Write the sorted data to a new CSV file
+    with open(report_filename, 'w', newline='') as report_file:
+        fieldnames = list(data[0].keys()) + ["status", "age"]
+        csv_writer = csv.DictWriter(report_file, fieldnames=fieldnames)
+        csv_writer.writeheader()
+        csv_writer.writerows(processed_data)
 
 
 result = read_csv_file_into_list_of_dicts_using_datatypes("test.csv")
