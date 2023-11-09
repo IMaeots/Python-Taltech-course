@@ -259,6 +259,9 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     # Read data from CSV files
     data = read_people_data(person_data_directory)
 
+    if not data:
+        return
+
     # Calculate age, add "status" and "age" fields, and sort the data
     processed_data = []
     for person in data.values():
@@ -266,13 +269,12 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         birthdate = person['birth']
         deathdate = person['death']
 
-
-        birhdate_datetime = datetime.combine(birthdate, datetime.min.time())
+        birthdate_datetime = datetime.combine(birthdate, datetime.min.time())
         if deathdate is not None:
             deathdate_datetime = datetime.combine(deathdate, datetime.min.time())
-            age = (deathdate_datetime - birhdate_datetime).days // 365
+            age = (deathdate_datetime - birthdate_datetime).days // 365
         else:
-            age = (datetime.now() - birhdate_datetime).days // 365
+            age = (datetime.now() - birthdate_datetime).days // 365
 
         # Add "status" and "age" fields
         person["status"] = "alive" if deathdate is None else "dead"
@@ -283,7 +285,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     # Sort the data based on specified criteria
     processed_data.sort(key=lambda x: (x["age"], x["birth"], x.get("name", ""), x["id"]))
 
-    # Step 5: Write the sorted data to a new CSV file
+    # Write the sorted data to a new CSV file
     with open(report_filename, 'w', newline='') as report_file:
         fieldnames = list(data[0].keys()) + ["status", "age"]
         csv_writer = csv.DictWriter(report_file, fieldnames=fieldnames)
