@@ -271,13 +271,15 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             deathdate = person['death']
         except KeyError:
             return
-
-        birthdate_datetime = datetime.combine(birthdate, datetime.min.time())
-        if deathdate is not None:
-            deathdate_datetime = datetime.combine(deathdate, datetime.min.time())
-            age = (deathdate_datetime - birthdate_datetime).days // 365
+        if birthdate is None:
+            age = -1
         else:
-            age = (datetime.now() - birthdate_datetime).days // 365
+            birthdate_datetime = datetime.combine(birthdate, datetime.min.time())
+            if deathdate is not None:
+                deathdate_datetime = datetime.combine(deathdate, datetime.min.time())
+                age = (deathdate_datetime - birthdate_datetime).days // 365
+            else:
+                age = (datetime.now() - birthdate_datetime).days // 365
 
         # Add "status" and "age" fields
         person["status"] = "alive" if deathdate is None else "dead"
