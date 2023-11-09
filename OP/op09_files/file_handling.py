@@ -119,7 +119,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
             processed_row = {}
 
             for key, value in line.items():
-                if value == '-':
+                if value == '-' or value is None:
                     processed_row[key] = None
                 else:
                     if data_types[key] == str:
@@ -128,7 +128,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                         try:
                             processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
                         except ValueError:
-                            processed_row[key] = value
+                            processed_row[key] = int(value)
+                            data_types[key] = int
                     elif data_types[key] == int:
                         try:
                             processed_row[key] = int(value)
@@ -136,7 +137,6 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
                     else:
                         processed_row[key] = str(value)
-
 
             processed_fields.append(processed_row)
 
