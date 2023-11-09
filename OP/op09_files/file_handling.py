@@ -5,8 +5,67 @@ import os
 from datetime import datetime
 
 
-# Helper functions for read_csv_file_into_list_of_dicts_using_datatypes.
 def assign_data_types(lines, data_types):
+    """Assign correct data types."""
+    for line in lines:
+        for key, value in line.items():
+            if key not in data_types:
+                data_types[key] = infer_data_type(value)
+
+    return data_types
+
+
+def infer_data_type(value):
+    """Infer data type based on value."""
+    if value == "-":
+        return None
+    try:
+        int(value)
+        return int
+    except ValueError:
+        try:
+            datetime.strptime(value, "%d.%m.%Y").date()
+            return datetime
+        except ValueError:
+            return str
+
+
+def assign_values(lines, data_types, processed_fields):
+    """Assign values to the processed field list by using data_types dict."""
+    for line in lines:
+        processed_row = {}
+
+        for key, value in line.items():
+            processed_row[key] = convert_value(value, data_types.get(key, str))
+
+        processed_fields.append(processed_row)
+
+    return processed_fields
+
+
+def convert_value(value, data_type):
+    """Convert value to the specified data type."""
+    if value == '-' or value is None:
+        return None
+
+    if data_type == str:
+        return str(value)
+    elif data_type == int:
+        try:
+            return int(value)
+        except ValueError:
+            return str(value)
+    elif data_type == datetime:
+        try:
+            return datetime.strptime(value, "%d.%m.%Y").date()
+        except ValueError:
+            return str(value)
+    else:
+        return str(value)
+
+
+# Helper functions for read_csv_file_into_list_of_dicts_using_datatypes.
+def assign_data_types2(lines, data_types):
     """Assign correct data types."""
     for line in lines:
         for key, value in line.items():
@@ -40,7 +99,7 @@ def assign_data_types(lines, data_types):
     return data_types
 
 
-def assign_values(lines, data_types, processed_fields):
+def assign_values2(lines, data_types, processed_fields):
     """Assign values to the processed field list by using data_types dict."""
     for line in lines:
         processed_row = {}
@@ -256,6 +315,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: The name of the file to write to.
     :return: None
     """
+    """
     # Read data from CSV files
     data = read_people_data(person_data_directory)
 
@@ -296,6 +356,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         csv_writer = csv.DictWriter(report_file, fieldnames=fieldnames)
         csv_writer.writeheader()
         csv_writer.writerows(processed_data)
+    """
 
 
 result = read_csv_file_into_list_of_dicts_using_datatypes("test.csv")
