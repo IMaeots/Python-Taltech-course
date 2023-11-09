@@ -122,6 +122,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                 if value == '-' or value is None:
                     processed_row[key] = None
                 else:
+                    if key not in data_types:
+                        break
                     if data_types[key] == str:
                         processed_row[key] = str(value)
                     elif data_types[key] == int:
