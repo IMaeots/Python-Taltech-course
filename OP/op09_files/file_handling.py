@@ -122,7 +122,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
 
             # Map list to string if more than 1 data type.
             if len(set(type(item) for item in processed_row)) > 1:
-                processed_row = list(map(str, processed_row))
+                for i in range(len(processed_row)):
+                    processed_row[i] = str(processed_row[i])
 
             processed_fields.append(processed_row)
 
