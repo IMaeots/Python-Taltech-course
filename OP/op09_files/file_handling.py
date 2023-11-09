@@ -117,8 +117,12 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                                 processed_row[key] = date_value
                                 data_types[key] = datetime
                             except ValueError:
-                                processed_row[key] = value
+                                processed_row[key] = str(value)
                                 data_types[key] = str
+
+            # Map list to string if more than 1 data type.
+            if len(set(type(item) for item in processed_row)) > 1:
+                processed_row = list(map(str, processed_row))
 
             processed_fields.append(processed_row)
 
