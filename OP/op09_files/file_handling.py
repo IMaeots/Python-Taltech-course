@@ -90,16 +90,17 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
             for key, value in line.items():
                 if key not in data_types:
                     if value == "-":
-                        break
-                    try:
-                        value = int(value)
-                        data_types[key] = int
-                    except ValueError:
+                        data_types[key] = None
+                    else:
                         try:
-                            datetime.strptime(value, "%d.%m.%Y").date()
-                            data_types[key] = datetime
+                            value = int(value)
+                            data_types[key] = int
                         except ValueError:
-                            data_types[key] = str
+                            try:
+                                datetime.strptime(value, "%d.%m.%Y").date()
+                                data_types[key] = datetime
+                            except ValueError:
+                                data_types[key] = str
                 else:
                     if data_types[key] != str:
                         if value == "-":
@@ -122,8 +123,6 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                 if value == '-' or value is None:
                     processed_row[key] = None
                 else:
-                    if key not in data_types:
-                        break
                     if data_types[key] == str:
                         processed_row[key] = str(value)
                     elif data_types[key] == int:
