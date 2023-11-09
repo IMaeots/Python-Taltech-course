@@ -50,63 +50,34 @@ def assign_values(lines, data_types, processed_fields):
         processed_row = {}
 
         for key, value in line.items():
-            processed_row[key] = convert_value(value, data_types.get(key, str))
+            processed_row[key] = convert_value(value, data_types, key)
 
         processed_fields.append(processed_row)
 
     return processed_fields
 
 
-def convert_value(value, data_type):
+def convert_value(value, data_types, key):
     """Convert value to the specified data type."""
     if value == '-' or value is None:
         return None
-
-    if data_type == str:
-        return str(value)
-    elif data_type == int:
-        try:
-            return int(value)
-        except ValueError:
-            return str(value)
-    elif data_type == datetime:
-        try:
-            return datetime.strptime(value, "%d.%m.%Y").date()
-        except ValueError:
-            return str(value)
     else:
-        return str(value)
-
-
-def assign_values2(lines, data_types, processed_fields):
-    """Assign values to the processed field list by using data_types dict."""
-    for line in lines:
-        processed_row = {}
-
-        for key, value in line.items():
-            if value == '-' or value is None:
-                processed_row[key] = None
-            else:
-                if data_types[key] == str:
-                    processed_row[key] = str(value)
-                elif data_types[key] == int:
-                    try:
-                        processed_row[key] = int(value)
-                    except ValueError:
-                        data_types[key] = str
-                        processed_row[key] = str(value)
-                elif data_types[key] == datetime:
-                    try:
-                        processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
-                    except ValueError:
-                        data_types[key] = str
-                        processed_row[key] = str(value)
-                else:
-                    processed_row[key] = str(value)
-
-        processed_fields.append(processed_row)
-
-    return processed_fields
+        if data_types[key] == str:
+            return str(value)
+        elif data_types[key] == int:
+            try:
+                return int(value)
+            except ValueError:
+                data_types[key] = str
+                return str(value)
+        elif data_types[key] == datetime:
+            try:
+                return datetime.strptime(value, "%d.%m.%Y").date()
+            except ValueError:
+                data_types[key] = str
+                return str(value)
+        else:
+            return str(value)
 
 
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
