@@ -5,6 +5,72 @@ import os
 from datetime import datetime
 
 
+# Helper functions for read_csv_file_into_list_of_dicts_using_datatypes.
+def assign_data_types(lines, data_types):
+    # Assign data_types.
+    for line in lines:
+        for key, value in line.items():
+            if key not in data_types:
+                if value == "-":
+                    data_types[key] = None
+                else:
+                    try:
+                        value = int(value)
+                        data_types[key] = int
+                    except ValueError:
+                        try:
+                            datetime.strptime(value, "%d.%m.%Y").date()
+                            data_types[key] = datetime
+                        except ValueError:
+                            data_types[key] = str
+            else:
+                if data_types[key] != str:
+                    if value == "-":
+                        break
+                    try:
+                        datetime.strptime(value, "%d.%m.%Y").date()
+                        data_types[key] = datetime
+                    except ValueError:
+                        try:
+                            int(value)
+                            data_types[key] = int
+                        except ValueError:
+                            data_types[key] = str
+
+    return data_types
+
+
+def assign_values(lines, data_types, processed_fields):
+    # Assign values to the processed field list by using data_types dict.
+    for line in lines:
+        processed_row = {}
+
+        for key, value in line.items():
+            if value == '-' or value is None:
+                processed_row[key] = None
+            else:
+                if data_types[key] == str:
+                    processed_row[key] = str(value)
+                elif data_types[key] == int:
+                    try:
+                        processed_row[key] = int(value)
+                    except ValueError:
+                        data_types[key] = str
+                        processed_row[key] = str(value)
+                elif data_types[key] == datetime:
+                    try:
+                        processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
+                    except ValueError:
+                        data_types[key] = str
+                        processed_row[key] = str(value)
+                else:
+                    processed_row[key] = str(value)
+
+        processed_fields.append(processed_row)
+
+    return processed_fields
+
+
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict]:
     """
     Read data from a CSV file and cast values into different data types based on their content.
@@ -85,64 +151,9 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
         processed_fields = []
         data_types = {}
 
-        # Assign data_types.
-        for line in lines:
-            for key, value in line.items():
-                if key not in data_types:
-                    if value == "-":
-                        data_types[key] = None
-                    else:
-                        try:
-                            value = int(value)
-                            data_types[key] = int
-                        except ValueError:
-                            try:
-                                datetime.strptime(value, "%d.%m.%Y").date()
-                                data_types[key] = datetime
-                            except ValueError:
-                                data_types[key] = str
-                else:
-                    if data_types[key] != str:
-                        if value == "-":
-                            break
-                        try:
-                            datetime.strptime(value, "%d.%m.%Y").date()
-                            data_types[key] = datetime
-                        except ValueError:
-                            try:
-                                int(value)
-                                data_types[key] = int
-                            except ValueError:
-                                data_types[key] = str
+        data_types = assign_data_types(lines, data_types)  # Assign data types.
 
-        # Assign values.
-        for line in lines:
-            processed_row = {}
-
-            for key, value in line.items():
-                if value == '-' or value is None:
-                    processed_row[key] = None
-                else:
-                    if data_types[key] == str:
-                        processed_row[key] = str(value)
-                    elif data_types[key] == int:
-                        try:
-                            processed_row[key] = int(value)
-                        except ValueError:
-                            data_types[key] = str
-                            processed_row[key] = str(value)
-                    elif data_types[key] == datetime:
-                        try:
-                            processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
-                        except ValueError:
-                            data_types[key] = str
-                            processed_row[key] = str(value)
-                    else:
-                        processed_row[key] = str(value)
-
-            processed_fields.append(processed_row)
-
-        return processed_fields
+        return assign_values(lines, data_types, processed_fields)  # Assign value and return processed fields.
 
 
 def read_people_data(directory: str) -> dict[int, dict]:
@@ -198,13 +209,16 @@ def read_people_data(directory: str) -> dict[int, dict]:
                     outcome[person_id] = {"id": int(person_id)}
 
                 for key, the_value in line.items():
-                    try:
-                        value = datetime.strptime(the_value, "%d.%m.%Y").date()
-                    except ValueError:
+                    if the_value == '-':
+                        value = None
+                    else:
                         try:
-                            value = int(the_value)
+                            value = datetime.strptime(the_value, "%d.%m.%Y").date()
                         except ValueError:
-                            value = str(the_value)
+                            try:
+                                value = int(the_value)
+                            except ValueError:
+                                value = str(the_value)
 
                     outcome[person_id][key] = value
 
