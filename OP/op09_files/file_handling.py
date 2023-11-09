@@ -105,12 +105,12 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                         if value == "-":
                             break
                         try:
-                            value = int(value)
-                            data_types[key] = int
+                            datetime.strptime(value, "%d.%m.%Y").date()
+                            data_types[key] = datetime
                         except ValueError:
                             try:
-                                datetime.strptime(value, "%d.%m.%Y").date()
-                                data_types[key] = datetime
+                                int(value)
+                                data_types[key] = int
                             except ValueError:
                                 data_types[key] = str
 
@@ -129,7 +129,6 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                             processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
                         except ValueError:
                             processed_row[key] = int(value)
-                            data_types[key] = int
                     elif data_types[key] == int:
                         try:
                             processed_row[key] = int(value)
