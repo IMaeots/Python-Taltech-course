@@ -80,50 +80,54 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
     """
     with open(filename, 'r', newline='') as f:
         csv_reader = csv.DictReader(f)
+        lines = list(csv_reader)
+
         processed_fields = []
         data_types = {}
 
-        for line in csv_reader:
+        # Assign data_types.
+        for line in lines:
+            for key, value in line.items():
+                if key not in data_types:
+                    if value == "-":
+                        break
+                    try:
+                        value = int(value)
+                        data_types[key] = int
+                    except ValueError:
+                        try:
+                            date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                            data_types[key] = datetime
+                        except ValueError:
+                            data_types[key] = str
+                else:
+                    if data_types[key] != str:
+                        if value == "-":
+                            break
+                        try:
+                            value = int(value)
+                            data_types[key] = int
+                        except ValueError:
+                            try:
+                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
+                                data_types[key] = datetime
+                            except ValueError:
+                                data_types[key] = str
+
+        # Assign values.
+        for line in lines:
             processed_row = {}
 
             for key, value in line.items():
                 if key not in data_types:
-                    if value == "-":
-                        processed_row[key] = None
-                    else:
-                        try:
-                            int_value = int(value)
-                            processed_row[key] = int_value
-                            data_types[key] = int
-                        except ValueError:
-                            try:
-                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
-                                processed_row[key] = date_value
-                                data_types[key] = datetime
-                            except ValueError:
-                                processed_row[key] = value
-                                data_types[key] = str
+                    processed_row[key] = None
                 else:
                     if data_types[key] == str:
                         processed_row[key] = str(value)
+                    elif data_types[key] == int:
+                        processed_row[key] = int(value)
                     else:
-                        try:
-                            int_value = int(value)
-                            processed_row[key] = int_value
-                            data_types[key] = int
-                        except ValueError:
-                            try:
-                                date_value = datetime.strptime(value, "%d.%m.%Y").date()
-                                processed_row[key] = date_value
-                                data_types[key] = datetime
-                            except ValueError:
-                                processed_row[key] = str(value)
-                                data_types[key] = str
-
-            # Map list to string if more than 1 data type.
-            if len(set(type(item) for item in processed_row)) > 1:
-                for i in range(len(processed_row)):
-                    processed_row[i] = str(processed_row[i])
+                        processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
 
             processed_fields.append(processed_row)
 
@@ -182,7 +186,7 @@ def read_people_data(directory: str) -> dict[int, dict]:
                 if person_id not in outcome:
                     outcome[person_id] = {"id": person_id}
 
-                for key, the_value in row.items():
+                for key, the_value in line.items():
                     outcome[person_id][key] = the_value
 
     return outcome
