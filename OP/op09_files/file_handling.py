@@ -124,10 +124,16 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list[dict
                 else:
                     if data_types[key] == str:
                         processed_row[key] = str(value)
-                    elif data_types[key] == datetime:
-                        processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
                     elif data_types[key] == int:
-                        processed_row[key] = int(value)
+                        try:
+                            processed_row[key] = int(value)
+                        except ValueError:
+                            processed_row[key] = str(value)
+                    elif data_types[key] == datetime:
+                        try:
+                            processed_row[key] = datetime.strptime(value, "%d.%m.%Y").date()
+                        except ValueError:
+                            processed_row[key] = str(value)
                     else:
                         processed_row[key] = str(value)
 
