@@ -17,11 +17,10 @@ def function_b(x):
 
 def function_c(x):
     """Do what you got to do."""
-    ans = 0
     for _ in range(x):
-        ans = x * 2
+        x = x * 2
 
-    return ans
+    return x
 
 
 def function_d(x):
