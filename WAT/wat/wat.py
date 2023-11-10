@@ -17,7 +17,11 @@ def function_b(x):
 
 def function_c(x):
     """Do what you got to do."""
-    return 50322387234563344539058176
+    ans = 0
+    for _ in range(x):
+        ans = x * 2
+
+    return ans
 
 
 def function_d(x):
