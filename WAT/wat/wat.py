@@ -17,7 +17,7 @@ def function_b(x):
 
 def function_c(x):
     """Do what you got to do."""
-    for _ in range(x):
+    for _ in range(43):
         x = x * 2
 
     return x
