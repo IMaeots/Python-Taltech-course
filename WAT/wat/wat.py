@@ -2,13 +2,17 @@
 
 
 def function_a(x):
-    """Do what you got to do."""
+    """Return 1."""
     return x
 
 
 def function_b(x):
-    """Do what you got to do."""
-    return x
+    """Return x + sum of each number."""
+    summa = 0
+    for char in str(x):
+        summa += int(char)
+
+    return x + summa
 
 
 def function_c(x):
@@ -32,8 +36,8 @@ def function_f(x):
 
 
 def function_g(x):
-    """Do what you got to do."""
-    return x
+    """Return x but negative."""
+    return -x
 
 
 def function_h(x):
@@ -42,10 +46,10 @@ def function_h(x):
 
 
 def function_i(x):
-    """Do what you got to do."""
-    return x
+    """Return 0."""
+    return 0
 
 
 def function_j(x):
-    """Do what you got to do."""
+    """Return the input."""
     return x
