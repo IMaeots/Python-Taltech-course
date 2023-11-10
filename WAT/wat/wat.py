@@ -12,15 +12,12 @@ def function_b(x):
     for char in str(x):
         summa += int(char)
 
-    return x + summa
+    return x + (summa / 2)
 
 
 def function_c(x):
     """Do what you got to do."""
-    for _ in range(43):
-        x = x * 2
-
-    return x
+    return x ** 2 ** 2 ** 2
 
 
 def function_d(x):
