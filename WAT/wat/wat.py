@@ -17,7 +17,7 @@ def function_b(x):
 
 def function_c(x):
     """Do what you got to do."""
-    return x ** 2 ** 2 ** 2
+    return x ** 2 ** 2
 
 
 def function_d(x):
