@@ -12,7 +12,7 @@ def function_b(x):
     for char in str(x):
         summa += int(char)
 
-    return x + (summa / 2)
+    return x + round(summa / 2)
 
 
 def function_c(x):
