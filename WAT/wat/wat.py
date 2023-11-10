@@ -3,7 +3,7 @@
 
 def function_a(x):
     """Return 1."""
-    return x
+    return 1
 
 
 def function_b(x):
@@ -17,7 +17,7 @@ def function_b(x):
 
 def function_c(x):
     """Do what you got to do."""
-    return x
+    return 50322387234563344539058176
 
 
 def function_d(x):
