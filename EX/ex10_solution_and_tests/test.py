@@ -17,9 +17,20 @@ def test_lottery_jackpot():
     """
     Winning jackpot in the lottery.
 
+    All numbers must be 5.
     Expected result: 10.
     """
     assert lottery(5, 5, 5) == 10
+
+
+def test_lottery_all_same_numbers():
+    """
+    Same numbers.
+
+    Expected result: 5.
+    """
+    for num in range(1,9):
+        assert lottery(num, num, num) == 5
 
 
 def test_correct_fruit_order():
