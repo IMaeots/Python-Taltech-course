@@ -19,7 +19,7 @@ def test_lottery_jackpot():
 
     Expected result: 10.
     """
-    assert lottery(5, 5, 5) is 10
+    assert lottery(5, 5, 5) == 10
 
 
 def test_correct_fruit_order():
