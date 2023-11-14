@@ -1,5 +1,5 @@
 """Password validation tests."""
-from EX.ex04_validation import password
+import password
 
 
 def test_is_correct_length__empty():
