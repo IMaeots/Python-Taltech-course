@@ -121,7 +121,7 @@ def test_fruit_order__only_big_exact_match():
 def test_fruit_order__only_big_not_enough_but_multiple_of_5():
     """Fruit order function test."""
     for num1 in range(1, 10):
-        for num2 in range(5, 50, 5):
+        for num2 in range(5, 51, 5):
             if num1 > num2:
                 assert fruit_order(0, num1, num2) == -1
 
