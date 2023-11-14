@@ -43,57 +43,31 @@ def test_student_study__evening_coffee_false():
         assert students_study(num, False) is True
 
 
-def test_student_study__evening_edge_case_coffee_true():
-    """Student study test."""
-    pass
-
-
-def test_student_study__evening_edge_case_coffee_false():
-    """Student study test."""
-    pass
-
-
-def test_student_study__night_edge_case_coffee_true():
-    """Student study test."""
-    pass
-
-
-def test_student_study__night_edge_case_coffee_false():
-    """Student study test."""
-    pass
-
-
-def test_student_study__day_edge_case_coffee_true():
-    """Student study test."""
-    pass
-
-
-def test_student_study__day_edge_case_coffee_false():
-    """Student study test."""
-    pass
-
-
 """Lottery function tests."""
 
 
 def test_lottery__all_fives():
     """Lottery function test."""
-    pass
+    assert lottery(5, 5, 5) == 10
 
 
 def test_lottery__all_same_positive():
     """Lottery function test."""
-    pass
+    for num in range(10):
+        if num != 5:
+            assert lottery(num, num, num) == 5
 
 
 def test_lottery__all_same_negative():
     """Lottery function test."""
-    pass
+    for num in range(-10, 0):
+        if num != 5:
+            assert lottery(num, num, num) == 5
 
 
 def test_lottery__all_same_zero():
     """Lottery function test."""
-    pass
+    assert lottery(0, 0, 0) == 5
 
 
 def test_lottery__a_b_same_c_diff():
