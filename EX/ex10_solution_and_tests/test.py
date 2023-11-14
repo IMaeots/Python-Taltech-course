@@ -92,7 +92,9 @@ def test_lottery__all_diff():
 """Fruit order function tests."""
 
 
-
+def test_fruit_order__all_zero():
+    """Fruit order function test."""
+    assert fruit_order(0, 0, 0) == 0
 
 
 def test_fruit_order__only_big_not_enough_but_multiple_of_5():
