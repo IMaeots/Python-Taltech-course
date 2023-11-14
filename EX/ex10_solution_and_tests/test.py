@@ -70,24 +70,23 @@ def test_lottery__all_same_zero():
     assert lottery(0, 0, 0) == 5
 
 
-def test_lottery__a_b_same_c_diff():
+def test_lottery__a_has_one_same():
     """Lottery function test."""
-    pass
-
-
-def test_lottery__a_c_same_b_diff():
-    """Lottery function test."""
-    pass
-
-
-def test_lottery__b_c_same_a_diff():
-    """Lottery function test."""
-    pass
+    for num1 in range(10):
+        for num2 in range(10):
+            if num1 != num2:
+                assert lottery(num1, num1, num2) == 0
+                assert lottery(num1, num2, num1) == 0
+                assert lottery(num1, num2, num2) == 1
 
 
 def test_lottery__all_diff():
     """Lottery function test."""
-    pass
+    for num1 in range(10):
+        for num2 in range(10):
+            for num3 in range(10):
+                if num1 != num2 and num1 != num3 and num2 != num3:
+                    assert lottery(num1, num2, num3) == 1
 
 
 """Fruit order function tests."""
