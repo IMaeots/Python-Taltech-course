@@ -129,9 +129,9 @@ def test_fruit_order__only_big_not_enough_but_multiple_of_5():
 def test_fruit_order__only_big_not_enough():
     """Fruit order function test."""
     for num1 in range(1, 10):
-        for num2 in range(1, 10):
-            if num1 > num2:
-                assert fruit_order(0, num1, (num2 * 5)) == -1
+        for num2 in range(1, 50):
+            if (num1 * 5) > num2:
+                assert fruit_order(0, num1, num2) == -1
 
 
 def test_fruit_order__only_big_more_than_required_match():
