@@ -100,8 +100,8 @@ def test_fruit_order__all_zero():
 def test_fruit_order__one_input_non_zero():
     """Fruit order function test."""
     for num in range(1, 10):
-        assert fruit_order(num, 0, 0) == -1
-        assert fruit_order(0, num, 0) == -1
+        assert fruit_order(num, 0, 0) == 0
+        assert fruit_order(0, num, 0) == 0
         assert fruit_order(0, 0, num) == -1
 
 
@@ -109,7 +109,7 @@ def test_fruit_order__zero_amount_others_not_zero():
     """Fruit order function test."""
     for num1 in range(1, 10):
         for num2 in range(1, 10):
-            assert fruit_order(num1, num2, 0) == -1
+            assert fruit_order(num1, num2, 0) == 0
 
 
 def test_fruit_order__only_big_exact_match():
