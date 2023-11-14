@@ -180,7 +180,9 @@ def test_fruit_order__use_all_smalls_some_bigs():
 
 def test_fruit_order__use_some_smalls_all_bigs():
     """Fruit order function test."""
-    pass
+    for ordered_amount in range(5, 55, 5):
+        big_baskets = ordered_amount // 5
+        assert fruit_order(ordered_amount % 5, big_baskets, ordered_amount) == 0
 
 
 def test_fruit_order__use_some_smalls_some_bigs():
