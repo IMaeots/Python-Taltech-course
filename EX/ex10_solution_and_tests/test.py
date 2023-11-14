@@ -1,5 +1,7 @@
 """Test cases for solution."""
-from solution import *
+from solution import students_study
+from solution import lottery
+from solution import fruit_order
 
 
 def test_students_study_during_day():
@@ -19,5 +21,5 @@ def test_lottery_all_same_numbers():
 
 
 def test_correct_fruit_order():
-    """Correct fruit order"""
+    """Correct fruit order."""
     assert fruit_order(4, 1, 9) is True
