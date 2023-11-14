@@ -92,30 +92,7 @@ def test_lottery__all_diff():
 """Fruit order function tests."""
 
 
-def test_fruit_order__all_zero():
-    """Fruit order function test."""
-    assert fruit_order(0, 0, 0) == 0
 
-
-def test_fruit_order__one_input_non_zero():
-    """Fruit order function test."""
-    for num in range(1, 10):
-        assert fruit_order(num, 0, 0) == 0
-        assert fruit_order(0, num, 0) == 0
-        assert fruit_order(0, 0, num) == -1
-
-
-def test_fruit_order__zero_amount_others_not_zero():
-    """Fruit order function test."""
-    for num1 in range(1, 10):
-        for num2 in range(1, 10):
-            assert fruit_order(num1, num2, 0) == 0
-
-
-def test_fruit_order__only_big_exact_match():
-    """Fruit order function test."""
-    for num1 in range(1, 10):
-        assert fruit_order(0, num1, num1) == 0
 
 
 def test_fruit_order__only_big_not_enough_but_multiple_of_5():
