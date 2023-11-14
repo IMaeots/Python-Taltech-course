@@ -107,7 +107,7 @@ def test_fruit_order__one_input_non_zero():
 
 def test_fruit_order__zero_amount_others_not_zero():
     """Fruit order function test."""
-    for num1 in range(1,10):
+    for num1 in range(1, 10):
         for num2 in range(1, 10):
             assert fruit_order(num1, num2, 0) == -1
 
