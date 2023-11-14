@@ -112,6 +112,12 @@ def test_fruit_order__zero_amount_others_not_zero():
             assert fruit_order(num1, num2, 0) == 0
 
 
+def test_fruit_order__only_big_exact_match():
+    """Fruit order function test."""
+    for num1 in range(1, 10):
+        assert fruit_order(0, num1, num1) == 0
+
+
 def test_fruit_order__only_big_not_enough_but_multiple_of_5():
     """Fruit order function test."""
     pass
