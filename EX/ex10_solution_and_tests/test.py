@@ -118,24 +118,19 @@ def test_fruit_order__only_big_exact_match():
         assert fruit_order(0, num1, (num1 * 5)) == 0
 
 
-def test_fruit_order__only_big_not_enough_but_multiple_of_5():
+def test_fruit_order__only_big_not_enough():
     """Fruit order function test."""
     assert fruit_order(0, 5, 30) == -1
 
 
-def test_fruit_order__only_big_not_enough():
-    """Fruit order function test."""
-    pass
-
-
 def test_fruit_order__only_big_more_than_required_match():
     """Fruit order function test."""
-    pass
+    assert fruit_order(0, 6, 20) == 0
 
 
 def test_fruit_order__only_big_more_than_required_no_match():
     """Fruit order function test."""
-    pass
+    assert fruit_order(0, 5, 12) == -1
 
 
 def test_fruit_order__only_small_match_more_than_5_smalls():
