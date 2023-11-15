@@ -51,6 +51,7 @@ def test_includes_uppercase__only_all_uppercase():
     """Test uppercase."""
     assert password.includes_uppercase("ABCDEFGHIJKLMNOPQRSTUVWXYZ") is True
 
+
 def test_includes_lowercase__empty():
     """Test lowercase."""
     assert password.includes_lowercase("") is False
@@ -88,7 +89,7 @@ def test_includes_special__no_special():
 
 def test_includes_special__multiple_specials():
     """Test special."""
-    assert password.includes_special("a*!@#") is True
+    assert password.includes_special("a/!@#$%^&*()_+=-][{}~") is True
 
 
 def test_includes_number__empty():
@@ -98,7 +99,7 @@ def test_includes_number__empty():
 
 def test_includes_number__every_digit():
     """Test number."""
-    assert password.includes_number("123456789") is True
+    assert password.includes_number("0123456789") is True
 
 
 def test_includes_number__no_digits():
