@@ -135,22 +135,17 @@ def test_fruit_order__only_big_more_than_required_no_match():
 
 def test_fruit_order__only_small_match_more_than_5_smalls():
     """Fruit order function test."""
-    pass
-
-
-def test_fruit_order__only_small_not_enough_more_than_5_smalls():
-    """Fruit order function test."""
-    pass
-
-
-def test_fruit_order__only_small_exact_match():
-    """Fruit order function test."""
-    pass
+    assert fruit_order(20, 0, 10) == 10
 
 
 def test_fruit_order__only_small_not_enough():
     """Fruit order function test."""
-    pass
+    assert fruit_order(10, 0, 12) == -1
+
+
+def test_fruit_order__only_small_exact_match():
+    """Fruit order function test."""
+    assert fruit_order(20, 0, 20) == 20
 
 
 def test_fruit_order__only_small_more_than_required():
