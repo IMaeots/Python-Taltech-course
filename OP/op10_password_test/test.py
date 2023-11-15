@@ -69,3 +69,43 @@ def test_includes_lowercase__true_but_first_uppercase():
 def test_includes_lowercase__only_all_lowercase():
     """Test uppercase."""
     assert password.includes_lowercase("abcdefghijklmnopqrstuvwxyz") is True
+
+
+def test_includes_special__empty():
+    """Test special."""
+    assert password.includes_special("") is False
+
+
+def test_includes_special__whitespaces():
+    """Test special."""
+    assert password.includes_special("ab cd !") is True
+
+
+def test_includes_special__no_special():
+    """Test special."""
+    assert password.includes_special("abc") is False
+
+
+def test_includes_special__multiple_specials():
+    """Test special."""
+    assert password.includes_special("a*!@#") is True
+
+
+def test_includes_number__empty():
+    """Test number."""
+    assert password.includes_number("") is False
+
+
+def test_includes_number__every_digit():
+    """Test number."""
+    assert password.includes_number("123456789") is True
+
+
+def test_includes_number__no_digits():
+    """Test number."""
+    assert password.includes_number("abcabc") is False
+
+
+def test_includes_number__true_but_number_not_first():
+    """Test number."""
+    assert password.includes_number("abc123abc") is True
