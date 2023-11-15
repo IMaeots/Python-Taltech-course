@@ -134,4 +134,4 @@ def test_is_different__new_pass_even_length__barely_not_different():
 
 def test_is_different__new_pass_odd_length__barely_not_different():
     """Test difference function."""
-    assert password.is_different_from_old_password("abDEF1!", "abdEF1!") is False
+    assert password.is_different_from_old_password("abDEF1!", "abDEZ1!") is False
