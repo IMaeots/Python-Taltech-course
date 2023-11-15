@@ -153,6 +153,11 @@ def test_fruit_order__all_positive_exact_match():
     assert fruit_order(6, 1, 11) == 6
 
 
+def test_fruit_order__use_all_smalls_some_bigs():
+    """Fruit order test."""
+    assert fruit_order(4, 2, 9) == 4
+
+
 def test_fruit_order__use_some_smalls_all_bigs():
     """Fruit order function test."""
     assert fruit_order(6, 3, 20) == 5
@@ -160,7 +165,7 @@ def test_fruit_order__use_some_smalls_all_bigs():
 
 def test_fruit_order__use_some_smalls_some_bigs():
     """Fruit order function test."""
-    assert fruit_order(6, 2, 15) == 5
+    assert fruit_order(6, 2, 17) == -1
 
 
 def test_fruit_order__not_enough():
