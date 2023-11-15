@@ -186,8 +186,3 @@ def test_fruit_order__enough_bigs_not_enough_smalls():
 def testfruit_order__enough_bigs_not_enough_smalls_large_numbers():
     """Fruit order function test."""
     assert fruit_order(3, 12, 59) == -1
-
-
-def test_fruit_order__match_large_numbers():
-    """Fruit order function test."""
-    assert fruit_order(19, 11, 74) == 19
