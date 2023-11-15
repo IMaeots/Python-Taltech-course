@@ -119,4 +119,4 @@ def test_is_different_from_old_password():
 
 def test_is_different_from_new_password():
     """Test difference funtion."""
-    assert password.is_different_from_old_password("seeOnkyll2sugune!", "abDE12!") is False
+    assert password.is_different_from_old_password("seeOnkyll2sugune!", "abDE12!") is True
