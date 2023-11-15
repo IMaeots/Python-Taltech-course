@@ -51,5 +51,7 @@ def fruit_order(small_baskets: int, big_baskets: int, ordered_amount: int) -> in
         return ordered_amount
     elif big_baskets <= ordered_amount // 5:
         return ordered_amount - (5 * big_baskets)
-    else:
+    elif (ordered_amount % 5) <= small_baskets:
         return ordered_amount % 5
+    else:
+        return -1
