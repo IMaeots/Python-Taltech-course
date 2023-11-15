@@ -35,3 +35,8 @@ def test_is_correct_length__edge_cases():
 def test_includes_uppercase__empty():
     """Test uppercase."""
     assert password.includes_uppercase("") is False
+
+
+def test_includes_uppercase__includes_number():
+    """Test uppercase."""
+    assert password.includes_uppercase("ask212") is False
