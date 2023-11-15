@@ -49,4 +49,34 @@ def test_includes_uppercase__true_but_first_lowercase():
 
 def test_includes_uppercase__only_uppercase():
     """Test uppercase."""
-    assert password.includes_uppercase("ABCDEFGHIJKLMNOPQRSTUVZX") is True
+    assert password.includes_uppercase("ABCDEFGHIJKLMNOPQRSTUVWXYZ") is True
+
+
+def test_includes_uppercase__every_uppercase_letter():
+    """Test uppercase."""
+    pass
+
+
+def test_includes_lowercase__empty():
+    """Test lowercase."""
+    assert password.includes_lowercase("") is False
+
+
+def test_includes_lowercase__includes_number():
+    """Test lowercase."""
+    assert password.includes_lowercase("ask212") is False
+
+
+def test_includes_lowercase__true_but_first_uppercase():
+    """Test uppercase."""
+    assert password.includes_lowercase("AsK") is True
+
+
+def test_includes_lowercase__only_lowercase():
+    """Test uppercase."""
+    assert password.includes_lowercase("abcdefghijklmnopqrstuvwxyz") is True
+
+
+def test_includes_lowercase__every_lowercase_letter():
+    """Test uppercase."""
+    pass
