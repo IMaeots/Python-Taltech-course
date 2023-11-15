@@ -115,3 +115,13 @@ def test_includes_number__true_but_number_not_first():
 def test_is_different__not_case_sensitive():
     """Test difference funtion."""
     assert password.is_different_from_old_password("abDE12!", "abDE12!") is False
+
+
+def test_is_different__new_pass_odd_length__barely_different():
+    """Test difference function."""
+    assert password.is_different_from_old_password("abDE2!", "abFG2!") is True
+
+
+def test_is_different__new_pass_odd_length__not_different():
+    """Test difference function."""
+    assert password.is_different_from_old_password("abDE1!", "abDE12!") is False
