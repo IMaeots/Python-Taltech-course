@@ -120,7 +120,7 @@ def test_fruit_order__only_big_exact_match():
 
 def test_fruit_order__only_big_not_enough_but_multiple_of_5():
     """Fruit order function test."""
-    assert fruit_order(0, 2, 5) == -1
+    assert fruit_order(0, 5, 30) == -1
 
 
 def test_fruit_order__only_big_not_enough():
