@@ -148,56 +148,31 @@ def test_fruit_order__only_small_exact_match():
     assert fruit_order(20, 0, 20) == 20
 
 
-def test_fruit_order__only_small_more_than_required():
-    """Fruit order function test."""
-    pass
-
-
-def test_fruit_order__match_with_more_than_5_smalls():
-    """Fruit order function test."""
-    pass
-
-
 def test_fruit_order__all_positive_exact_match():
     """Fruit order function test."""
-    pass
-
-
-def test_fruit_order__use_all_smalls_some_bigs():
-    """Fruit order function test."""
-    pass
+    assert fruit_order(6, 1, 11) == 6
 
 
 def test_fruit_order__use_some_smalls_all_bigs():
     """Fruit order function test."""
-    pass
+    assert fruit_order(6, 3, 20) == 5
 
 
 def test_fruit_order__use_some_smalls_some_bigs():
     """Fruit order function test."""
-    pass
+    assert fruit_order(6, 2, 15) == 5
 
 
 def test_fruit_order__not_enough():
     """Fruit order function test."""
-    pass
-
-
-def test_fruit_order__enough_bigs_not_enough_smalls():
-    """Fruit order function test."""
-    pass
+    assert fruit_order(12, 5, 38) == -1
 
 
 def test_fruit_order__not_enough_with_more_than_5_smalls():
     """Fruit order function test."""
-    pass
-
-
-def test_fruit_order__enough_bigs_not_enough_smalls_large_numbers():
-    """Fruit order function test."""
-    pass
+    assert fruit_order(6, 1, 12) == -1
 
 
 def test_fruit_order__match_large_numbers():
     """Fruit order function test."""
-    pass
+    assert fruit_order(20, 10, 70) == 20
