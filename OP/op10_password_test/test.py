@@ -64,7 +64,7 @@ def test_includes_lowercase__empty():
 
 def test_includes_lowercase__includes_number():
     """Test lowercase."""
-    assert password.includes_lowercase("ask212") is False
+    assert password.includes_lowercase("ASK212") is False
 
 
 def test_includes_lowercase__true_but_first_uppercase():
