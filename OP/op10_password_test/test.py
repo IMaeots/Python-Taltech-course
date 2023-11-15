@@ -114,4 +114,4 @@ def test_includes_number__true_but_number_not_first():
 
 def test_is_different__not_case_sensitive():
     """Test difference funtion."""
-    assert password.is_different_from_old_password("abDE12!", "abDE12!") is True
+    assert password.is_different_from_old_password("abDE12!", "abDE12!") is False
