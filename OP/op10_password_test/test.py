@@ -40,3 +40,8 @@ def test_includes_uppercase__empty():
 def test_includes_uppercase__includes_number():
     """Test uppercase."""
     assert password.includes_uppercase("ask212") is False
+
+
+def test_includes_uppercase__but_first_lowercase():
+    """Test uppercase."""
+    assert password.includes_uppercase("aSk") is False
