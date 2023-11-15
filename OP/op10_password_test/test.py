@@ -20,16 +20,24 @@ def test_is_correct_length__too_short():
     assert password.is_correct_length("passwor") is False
 
 
-def test_is_correct_length__too_long():
+def test_is_correct_length__too_long_1():
     """Test whether password of length > 64 is incorrect."""
     assert password.is_correct_length("password" * 8 + 'a') is False
+
+
+def test_is_correct_length__too_long_2():
+    """Test whether password of length > 64 is incorrect."""
     assert password.is_correct_length("pass" * 18) is False
 
 
-def test_is_correct_length__edge_cases():
+def test_is_correct_length__edge_cases_1():
+    """Test edge cases."""
+    assert password.is_correct_length("password") is True
+
+
+def test_is_correct_length__edge_cases_2():
     """Test edge cases."""
     assert password.is_correct_length("password" * 8) is True
-    assert password.is_correct_length("password") is True
 
 
 def test_includes_uppercase__empty():
