@@ -9,14 +9,38 @@ def test_is_correct_length__empty():
     assert password.is_correct_length("") is False
 
 
-def test_is_correct_length__too_short():
+def test_is_correct_length__too_short_1():
     """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("p") is False
+
+
+def test_is_correct_length__too_short_2():
+    """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("pa") is False
+
+
+def test_is_correct_length__too_short_3():
+    """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("pas") is False
+
+
+def test_is_correct_length__too_short_4():
+    """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("pass") is False
+
+
+def test_is_correct_length__too_short_5():
+    """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("passw") is False
+
+
+def test_is_correct_length__too_short_6():
+    """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("passwo") is False
+
+
+def test_is_correct_length__too_short_7():
+    """Test whether password of length up to 7 is not correct."""
     assert password.is_correct_length("passwor") is False
 
 
