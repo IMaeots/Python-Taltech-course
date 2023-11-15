@@ -139,17 +139,17 @@ def test_is_different__new_pass_even_length__barely_different_reverse():
 
 def test_is_different__new_pass_even_length__barely_not_different():
     """Test difference function."""
-    assert password.is_different_from_old_password("abDE1!", "abD21!") is False
+    assert password.is_different_from_old_password("hxm21!", "abD21!") is False
 
 
 def test_is_different__new_pass_odd_length__barely_not_different():
     """Test difference function."""
-    assert password.is_different_from_old_password("abDEF1!", "abDEZ1!") is False
+    assert password.is_different_from_old_password("abDEF1!", "lmzEF1!") is False
 
 
 def test_is_different__new_pass_even_length__barely_not_different_reverse():
     """Test difference function."""
-    assert password.is_different_from_old_password("abDE1!", "!1EDcd") is False
+    assert password.is_different_from_old_password("abDE1!", "!1Efcd") is False
 
 
 def test_is_different__new_pass_odd_length__barely_not_different_reverse():
