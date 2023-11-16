@@ -122,7 +122,7 @@ def most_popular_feature(cars: list[Car]) -> str:
             else:
                 features_popularity[feature] += 1
 
-    return max(features_popularity)
+    return max(features_popularity, key=features_popularity.get)
 
 
 def write_cars_to_file(cars: list[Car], file_name: str):
