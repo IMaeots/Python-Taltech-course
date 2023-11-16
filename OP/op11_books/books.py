@@ -1,5 +1,4 @@
 """Books."""
-from collections import defaultdict
 
 
 class Book:
@@ -146,12 +145,22 @@ def most_popular_author_per_century(library: list[Book]) -> dict[int, str]:
     :return: A dictionary, where the keys are the centuries and the values are the authors with the most sales in that
     century.
     """
-    century_sales = defaultdict(lambda: defaultdict(int))
+    centuries = []
+    authors = []
+    for book in library:
+        century = (book.year - 1) // 100 + 1
+        if century not in centuries:
+            centuries.append(century)
+
+        if book.author not in authors:
+            authors.append(book.author)
+
+    century_sales = {century: {author: 0 for author in authors} for century in centuries}
     for book in library:
         century = (book.year - 1) // 100 + 1
         century_sales[century][book.author] += book.sales
 
-    popular_authors = {}
+    popular_authors = {century: authors[0] for century in centuries}
     for century, sales in century_sales.items():
         popular_authors[century] = max(sales, key=sales.get)
 
