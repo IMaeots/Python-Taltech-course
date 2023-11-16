@@ -136,7 +136,17 @@ def write_cars_to_file(cars: list[Car], file_name: str):
     :param cars: The list of cars to write to the file.
     :param file_name: The name of the file to write the cars to.
     """
-    pass
+    output = []
+    for car in cars:
+        output.append(
+            {"Make": car.make,
+             "Model": car.model,
+             "Fuel consumption": car.fuel_consumption,
+             "features": car.features}
+        )
+
+    with open(file_name, 'w') as file:
+        json.dump(output, file, indent=2)
 
 
 def read_cars_from_file(file_name: str) -> list[Car]:
