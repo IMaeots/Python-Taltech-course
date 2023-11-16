@@ -160,7 +160,21 @@ def read_cars_from_file(file_name: str) -> list[Car]:
     :param file_name: The name of the file to read the cars from.
     :return: The list of cars read from the file.
     """
-    pass
+    cars = []
+
+    with open(file_name, 'r') as file:
+        car_data = json.load(file)
+        for car_info in car_data:
+            make = car_info.get('make')
+            model = car_info.get('model')
+            year = car_info.get('year')
+            if all((make, model, year)):
+                car = Car(make, model, year)
+                cars.append(car)
+            else:
+                print("Incomplete information in json. Skipping.")
+
+    return cars
 
 
 if __name__ == '__main__':
