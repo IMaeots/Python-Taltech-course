@@ -139,9 +139,9 @@ def write_cars_to_file(cars: list[Car], file_name: str):
     output = []
     for car in cars:
         output.append(
-            {"Make": car.make,
-             "Model": car.model,
-             "Fuel consumption": car.fuel_consumption,
+            {"make": car.make,
+             "model": car.model,
+             "fuel_consumption": car.fuel_consumption,
              "features": car.features}
         )
 
@@ -165,9 +165,9 @@ def read_cars_from_file(file_name: str) -> list[Car]:
     with open(file_name, 'r') as file:
         car_data = json.load(file)
         for car_info in car_data:
-            make = car_info.get('Make')
-            model = car_info.get('Model')
-            fuel_consumption = car_info.get('Fuel consumption')
+            make = car_info.get('make')
+            model = car_info.get('model')
+            fuel_consumption = car_info.get('fuel_consumption')
             features = car_info.get('features')
             car = Car(make, model, fuel_consumption, features)
             cars.append(car)
