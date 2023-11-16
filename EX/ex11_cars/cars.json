@@ -1,0 +1,56 @@
+[
+  {
+    "Make": "BMW",
+    "Model": "X5",
+    "Fuel consumption": 12.3,
+    "features": [
+      "leather",
+      "heated seats",
+      "GPS"
+    ]
+  },
+  {
+    "Make": "BMW",
+    "Model": "X6",
+    "Fuel consumption": 7.2,
+    "features": [
+      "leather",
+      "heated seats",
+      "panorama",
+      "GPS"
+    ]
+  },
+  {
+    "Make": "Audi",
+    "Model": "A6",
+    "Fuel consumption": 9.93,
+    "features": [
+      "leather",
+      "heated seats",
+      "panorama",
+      "GPS"
+    ]
+  },
+  {
+    "Make": "Audi",
+    "Model": "A7",
+    "Fuel consumption": 15.21,
+    "features": [
+      "leather",
+      "heated seats",
+      "panorama",
+      "sport package"
+    ]
+  },
+  {
+    "Make": "Mercedes",
+    "Model": "S500",
+    "Fuel consumption": 10.6,
+    "features": [
+      "leather",
+      "panorama",
+      "sport package",
+      "premium sound system"
+    ]
+  }
+]
