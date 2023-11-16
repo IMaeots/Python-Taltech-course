@@ -165,14 +165,12 @@ def read_cars_from_file(file_name: str) -> list[Car]:
     with open(file_name, 'r') as file:
         car_data = json.load(file)
         for car_info in car_data:
-            make = car_info.get('make')
-            model = car_info.get('model')
-            year = car_info.get('year')
-            if all((make, model, year)):
-                car = Car(make, model, year)
-                cars.append(car)
-            else:
-                print("Incomplete information in json. Skipping.")
+            make = car_info.get('Make')
+            model = car_info.get('Model')
+            fuel_consumption = car_info.get('Fuel consumption')
+            features = car_info.get('features')
+            car = Car(make, model, fuel_consumption, features)
+            cars.append(car)
 
     return cars
 
