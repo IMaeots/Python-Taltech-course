@@ -160,6 +160,22 @@ def most_popular_author_per_century(library: list[Book]) -> dict[int, str]:
     return popular_authors_of_centuries
 
 
+def all_letters_same_except_1(str1, str2):
+    # Check if the difference in length is one
+    if abs(len(str1) - len(str2)) != 1:
+        return False
+
+    # Find the longer and shorter strings
+    longer = str1 if len(str1) > len(str2) else str2
+    shorter = str2 if len(str1) > len(str2) else str1
+
+    # Compare the characters in the shorter string with the longer string
+    similar_chars = sum(1 for char in shorter if char in longer)
+
+    # Check if most letters are the same
+    return similar_chars == len(shorter)
+
+
 def correct_titles_and_count_books(library: list[Book]) -> dict[Book, int]:
     """
     Due to an unknown error, some of the titles in the given list of books have a letter missing.
@@ -181,25 +197,41 @@ def correct_titles_and_count_books(library: list[Book]) -> dict[Book, int]:
     :param library: The list of books.
     :return: The amount of books in the list.
     """
-    output = {}
-    for new_book in library:
-        if not output:
-            output[new_book] = 1
-        else:
-            for old_book in output:
-                if old_book.__hash__() == new_book.__hash__():
-                    output[old_book] += 1
-                elif old_book.year == new_book.year and old_book.author == new_book.author \
-                        and old_book.pages == new_book.pages and old_book.sales == new_book.sales \
-                        and old_book.genres == new_book.genres and old_book.title != new_book.title:
-                    # Mistake in title found.
-                    correct_title = old_book.title if len(old_book.title) > len(new_book.title) else new_book.title
-                    prev_value = output[old_book]
-                    output[correct_title] = prev_value + 1
-                else:
-                    output[old_book] = 1
+    books_n_amounts = {}
 
-    return output
+    for i1 in range(len(library)):
+        current_book = library[i1]
+        correct_book_found = False
+        for i2 in range(len(library)):
+            comparing_book = library[i2]
+            if i1 != i2:
+                # Perform checks.
+                if abs(len(current_book.title) - len(comparing_book.title)) == 1:
+                    # Title may be wrong.
+                    if current_book.year == comparing_book.year \
+                            and current_book.author == comparing_book.author \
+                            and current_book.sales == comparing_book.sales \
+                            and current_book.pages == comparing_book.pages \
+                            and current_book.genres == comparing_book.genres:
+                        # Books are the same but one has mistake.
+                        correct_book_found = True
+                        correct_book = (
+                            current_book
+                            if len(current_book.title) > len(comparing_book.title)
+                            else comparing_book
+                        )
+                        if correct_book in books_n_amounts:
+                            books_n_amounts[correct_book] += 1
+                        else:
+                            books_n_amounts[correct_book] = 1
+
+        if not correct_book_found:
+            if current_book in books_n_amounts:
+                books_n_amounts[current_book] += 1
+            else:
+                books_n_amounts[current_book] = 1
+
+    return books_n_amounts
 
 
 if __name__ == '__main__':
