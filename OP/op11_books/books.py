@@ -160,22 +160,6 @@ def most_popular_author_per_century(library: list[Book]) -> dict[int, str]:
     return popular_authors_of_centuries
 
 
-def all_letters_same_except_1(str1, str2):
-    # Check if the difference in length is one
-    if abs(len(str1) - len(str2)) != 1:
-        return False
-
-    # Find the longer and shorter strings
-    longer = str1 if len(str1) > len(str2) else str2
-    shorter = str2 if len(str1) > len(str2) else str1
-
-    # Compare the characters in the shorter string with the longer string
-    similar_chars = sum(1 for char in shorter if char in longer)
-
-    # Check if most letters are the same
-    return similar_chars == len(shorter)
-
-
 def correct_titles_and_count_books(library: list[Book]) -> dict[Book, int]:
     """
     Due to an unknown error, some of the titles in the given list of books have a letter missing.
