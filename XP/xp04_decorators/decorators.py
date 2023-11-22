@@ -77,7 +77,12 @@ def read_data(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    pass
+    def wrapper():
+        with open('data.txt', 'r') as file:
+            return func(file.readlines())
+
+    return wrapper
+
 
 
 def catch(*error_classes):
