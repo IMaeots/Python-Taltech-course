@@ -37,7 +37,8 @@ def stopwatch(func):
 
         elapsed_time = end_time - start_time
 
-        return f"It took {elapsed_time} seconds for {func.__name__} to run"
+        print(f"It took {elapsed_time:.5f} seconds for {func.__name__} to run")
+        return result
 
     return wrapper
 
