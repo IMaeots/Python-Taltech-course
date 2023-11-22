@@ -10,6 +10,7 @@ def double(func):
     :param func: The decorated function.
     :return: Inner function.
     """
+
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
         return result * 2
@@ -28,14 +29,20 @@ def stopwatch(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    def wrapper(*args, **kwargs):
-        start_time = time.clock()
-        func(*args, **kwargs)
-        end_time = time.clock()
 
-        return f"It took {end_time - start_time} seconds for {func} to run"
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+
+        elapsed_time = end_time - start_time
+
+        return f"It took {elapsed_time} seconds for {func.__name__} to run"
 
     return wrapper
+
+
+cache = {}
 
 
 def memoize(func):
@@ -50,7 +57,16 @@ def memoize(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    pass
+
+    def wrapper(arg):
+        if arg in cache:
+            return cache[arg]
+        else:
+            value = func(arg)
+            cache[arg] = value
+            return value
+
+    return wrapper
 
 
 def read_data(func):
@@ -140,6 +156,7 @@ def fibonacci(n: int):
 def error_func(iterable):
     """Test function for @catch."""
     return iterable[2]
+
 
 @read_data
 def process_file_contents(data: list, prefix: str = ""):
