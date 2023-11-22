@@ -105,12 +105,12 @@ def catch(*error_classes):
         def wrapper(*args, **kwargs):
             try:
                 result = func(*args, **kwargs)
-                return 0, result  # Return a tuple indicating success (0) and the result
+                return 0, result  # Return a tuple indicating success (0) and the result.
             except Exception as e:
                 if not error_classes or any(isinstance(e, error_class) for error_class in error_classes):
-                    return 1, type(e)  # Return a tuple indicating failure (1) and the exception class
+                    return 1, type(e)  # Return a tuple indicating failure (1) and the exception class.
                 else:
-                    raise  # Re-raise the exception if it doesn't match the specified error classes
+                    raise  # Re-raise the exception if it doesn't match the specified error classes.
 
         return wrapper
 
@@ -141,7 +141,31 @@ def enforce_types(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    pass
+
+    def wrapper(*args, **kwargs):
+        # Get function annotations.
+        func_annotations = func.__annotations__
+
+        # Validate arguments based on their annotations.
+        for arg_name, arg_value in zip(func_annotations, args):
+            if arg_name in func_annotations:
+                expected_type = func_annotations[arg_name]
+                if not isinstance(arg_value, expected_type):
+                    raise TypeError(f"Argument '{arg_name}' must be of type {expected_type.__name__}, "
+                                    f"but was {arg_value!r} of type {type(arg_value).__name__}")
+
+        # Execute function.
+        result = func(*args, **kwargs)
+
+        # Validate the return value based on the return annotation.
+        return_annotation = func_annotations.get('return')
+        if return_annotation and not isinstance(result, return_annotation):
+            raise TypeError(f"Returned value must be of type {return_annotation.__name__}, "
+                            f"but was {result!r} of type {type(result).__name__}")
+
+        return result
+
+    return wrapper
 
 
 #  Everything below is just for testing purposes, tester does not care what you do with them.
