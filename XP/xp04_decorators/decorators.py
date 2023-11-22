@@ -77,9 +77,10 @@ def read_data(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    def wrapper():
+    def wrapper(*args, **kwargs):
         with open('data.txt', 'r') as file:
-            return func([line.rstrip('\n') for line in file.readlines()])
+            data = [line.rstrip('\n') for line in file.readlines()]
+            return func(data, *args, **kwargs)
 
     return wrapper
 
