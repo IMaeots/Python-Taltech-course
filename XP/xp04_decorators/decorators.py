@@ -145,24 +145,32 @@ def enforce_types(func):
     parameters = signature.parameters
     return_annotation = signature.return_annotation
 
+    def validate_type(value, expected_type):
+        if isinstance(expected_type, type) and not isinstance(value, expected_type):
+            raise TypeError(f"Returned value must be of type {expected_type}, but was {value} of type {type(value)}")
+        elif hasattr(expected_type, '__args__'):
+            if any(isinstance(value, t) for t in expected_type.__args__):
+                return True
+            else:
+                raise (TypeError(f"Argument '{value.__name__}' must be of type \
+                {', '.join(t.__name__ for t in expected_type.__args__)}, but was {value} of type {expected_type(value)}"))
+        return True
+
     def wrapper(*args, **kwargs):
-        # Validate arguments based on their annotations in parameters
         bound_arguments = signature.bind(*args, **kwargs)
         bound_arguments.apply_defaults()
 
         for param_name, param_value in bound_arguments.arguments.items():
             param_annotation = parameters[param_name].annotation
-            if param_annotation != inspect.Parameter.empty and not isinstance(param_value, param_annotation):
-                raise TypeError(f"Argument '{param_name}' must be of type {param_annotation.__name__}, "
-                                f"but was {param_value!r} of type {type(param_value).__name__}")
+            if param_annotation != inspect.Parameter.empty:
+                if not validate_type(param_value, param_annotation):
+                    raise TypeError(f"Argument '{param_name}' failed type check.")
 
-        # Execute the function
         result = func(*args, **kwargs)
 
-        # Validate the return value based on the return_annotation
-        if return_annotation != inspect.Signature.empty and not isinstance(result, return_annotation):
-            raise TypeError(f"Returned value must be of type {return_annotation.__name__}, "
-                            f"but was {result!r} of type {type(result).__name__}")
+        if return_annotation != inspect.Signature.empty:
+            if not validate_type(result, return_annotation):
+                raise TypeError("Return value failed type check.")
 
         return result
 
@@ -238,9 +246,9 @@ if __name__ == '__main__':
 
     print()
 
-    print(process_file_contents("hi"))  # This assumes you have a file "data.txt". It should print out the file
+    #print(process_file_contents("hi"))  # This assumes you have a file "data.txt". It should print out the file
     # contents in a list with "hi" in front of each line like ["hiLine 1", "hiLine 2", ...].
-    print(process_file_contents())  # This should just print out the file contents in a list.
+    #print(process_file_contents())  # This should just print out the file contents in a list.
     print()
 
     print(no_more_duck_typing(5, None))  # 5
