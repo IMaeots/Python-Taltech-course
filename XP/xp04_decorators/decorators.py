@@ -141,7 +141,7 @@ def enforce_types(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    signature = inspect.signature(func)
+    signature = inspect.signature(func)  # Use inspect module.
     parameters = signature.parameters
     return_annotation = signature.return_annotation
 
