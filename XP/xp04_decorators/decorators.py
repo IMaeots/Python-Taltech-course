@@ -113,10 +113,10 @@ def catch(*error_classes):
         return wrapper
 
     if len(error_classes) == 1 and callable(error_classes[0]):
-        # Handle the case when decorator is used without parenthesis, e.g. @catch
+        # Handle the case when decorator is used without parenthesis like @catch
         return decorator(error_classes[0])
 
-        # Handle the cases when decorator is used with specified exception(s)
+        # Handle the cases when decorator is used with specified exceptions
     return decorator
 
 
