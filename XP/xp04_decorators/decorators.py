@@ -101,26 +101,22 @@ def catch(*error_classes):
     :param error_classes: The exceptions to catch.
     :return: Inner function.
     """
-
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
                 result = func(*args, **kwargs)
-                return 0, result
-            except Exception as ex:
-                if not error_classes or isinstance(ex, error_classes):
-                    return 1, type(ex)
-                else:
-                    raise
+                return 0, result  # Return a tuple indicating success (0) and the result
+            except error_classes as e:
+                return 1, type(e)  # Return a tuple indicating failure (1) and the exception class
 
         return wrapper
 
-    if len(error_classes) == 1 and callable(error_classes[0]):
-        # Handle the case when decorator is used without parenthesis like @catch
-        return decorator(error_classes[0])
-
-        # Handle the cases when decorator is used with specified exceptions
-    return decorator
+    if not error_classes:
+        # Decorator used without parentheses, e.g., @catch
+        return decorator
+    else:
+        # Decorator used with arguments, e.g., @catch(ValueError) or @catch(KeyError, TypeError)
+        return decorator(error_classes)
 
 
 def enforce_types(func):
@@ -176,7 +172,7 @@ def fibonacci(n: int):
     return fibonacci(n - 2) + fibonacci(n - 1)
 
 
-# @catch(KeyError, ZeroDivisionError)
+@catch(KeyError, ZeroDivisionError)
 def error_func(iterable):
     """Test function for @catch."""
     return iterable[2]
