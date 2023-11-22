@@ -43,9 +43,6 @@ def stopwatch(func):
     return wrapper
 
 
-cache = {}
-
-
 def memoize(func):
     """
     Cache the return value of a function.
@@ -58,6 +55,7 @@ def memoize(func):
     :param func: The decorated function.
     :return: Inner function.
     """
+    cache = {}
 
     def wrapper(arg):
         if arg in cache:
