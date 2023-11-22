@@ -136,11 +136,10 @@ def fibonacci(n: int):
     return fibonacci(n - 2) + fibonacci(n - 1)
 
 
-@catch(KeyError, ZeroDivisionError)
+# @catch(KeyError, ZeroDivisionError)
 def error_func(iterable):
     """Test function for @catch."""
     return iterable[2]
-
 
 @read_data
 def process_file_contents(data: list, prefix: str = ""):
