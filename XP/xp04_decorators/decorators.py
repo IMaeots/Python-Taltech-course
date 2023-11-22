@@ -101,17 +101,19 @@ def catch(*error_classes):
     :param error_classes: The exceptions to catch.
     :return: Inner function.
     """
-
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
                 result = func(*args, **kwargs)
                 return 0, result  # Return a tuple indicating success (0) and the result
             except Exception as e:
-                if isinstance(e, error_classes):
-                    return 1, type(e)  # Return a tuple indicating failure (1) and the exception class
+                if not error_classes:
+                    raise e
                 else:
-                    raise e  # Re-raise the exception if it doesn't match the specified error classes
+                    for error_class in error_classes:
+                        if isinstance(e, error_class):
+                            return 1, type(e)  # Return a tuple indicating failure (1) and the exception class
+                    raise e
 
         return wrapper
 
