@@ -107,13 +107,10 @@ def catch(*error_classes):
                 result = func(*args, **kwargs)
                 return 0, result  # Return a tuple indicating success (0) and the result
             except Exception as e:
-                if not error_classes:
-                    raise e
+                if not error_classes or any(isinstance(e, error_class) for error_class in error_classes):
+                    return 1, type(e)  # Return a tuple indicating failure (1) and the exception class
                 else:
-                    for error_class in error_classes:
-                        if isinstance(e, error_class):
-                            return 1, type(e)  # Return a tuple indicating failure (1) and the exception class
-                    raise e
+                    raise  # Re-raise the exception if it doesn't match the specified error classes
 
         return wrapper
 
