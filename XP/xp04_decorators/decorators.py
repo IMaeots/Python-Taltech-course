@@ -77,6 +77,7 @@ def read_data(func):
     :param func: The decorated function.
     :return: Inner function.
     """
+
     def wrapper(*args, **kwargs):
         with open('data.txt', 'r') as file:
             data = [line.rstrip('\n') for line in file.readlines()]
@@ -100,7 +101,23 @@ def catch(*error_classes):
     :param error_classes: The exceptions to catch.
     :return: Inner function.
     """
-    pass
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            try:
+                result = func(*args, **kwargs)
+                return 0, result
+            except error_classes or Exception as e:
+                return 1, type(e)
+
+        return wrapper
+
+    if len(error_classes) == 1 and callable(error_classes[0]):
+        # Handle the case when decorator is used without parenthesis, e.g. @catch
+        return decorator(error_classes[0])
+
+        # Handle the cases when decorator is used with specified exception(s)
+    return decorator
 
 
 def enforce_types(func):
