@@ -107,8 +107,11 @@ def catch(*error_classes):
             try:
                 result = func(*args, **kwargs)
                 return 0, result
-            except error_classes or Exception as e:
-                return 1, type(e)
+            except Exception as ex:
+                if not error_classes or isinstance(ex, error_classes):
+                    return 1, type(ex)
+                else:
+                    raise
 
         return wrapper
 
