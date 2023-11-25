@@ -149,6 +149,7 @@ class NoteCollection:
         for note in sorted(self.note_collection, key=lambda tone: tone.note_name):
             if first:
                 content += f"  * {note.note_name}{note.sharpness}"
+                first = False
             else:
                 content += f"\n  * {note.note_name}{note.sharpness}"
 
