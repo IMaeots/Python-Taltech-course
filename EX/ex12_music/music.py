@@ -79,7 +79,8 @@ class NoteCollection:
         :param note: Input object to add to the collection
         """
         if isinstance(note, Note):
-            self.note_collection.append(note)
+            if note not in self.note_collection:
+                self.note_collection.append(note)
         else:
             raise TypeError()
 
@@ -144,11 +145,15 @@ class NoteCollection:
         :return: Content as a string
         """
         content = "Notes:\n"
+        first = True
         for note in sorted(self.note_collection, key=lambda tone: tone.note_name):
-            content += f"\n * {note.note_name}{note.sharpness}"
+            if first:
+                content += f"  * {note.note_name}{note.sharpness}"
+            else:
+                content += f"\n  * {note.note_name}{note.sharpness}"
 
         if content == "Notes:\n":
-            return content + " Empty."
+            return content + "  Empty."
         else:
             return content
 
