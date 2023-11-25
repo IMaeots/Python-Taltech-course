@@ -2,12 +2,11 @@
 
 
 class Note:
-    """
-    Note class.
+    """Note class.
 
     Every note has a name and a sharpness or alteration (supported values: "", "#", "b").
     """
-    def __init__(self, note: str, sharpness=''):
+    def __init__(self, note: str):
         """Initialize the class.
 
         To make the logic a bit easier it is recommended to normalize the notes, that is, choose a sharpness
@@ -16,21 +15,10 @@ class Note:
         Note is a single alphabetical letter which is always uppercase.
         NB! Ab == Z#
         """
-        note_name = note.upper()
-        note_sharpness = sharpness
+        note = evaluate_note(note)
 
-        if note_sharpness == 'b':
-            # Change note backwards one and make it sharp
-            if note_name == 'A':
-                note_name = 'Z'
-            else:
-                prev_ascii = ord(note_name) - 1
-                note_name = chr(prev_ascii)
-
-            note_sharpness = '#'
-
-        self.note_name = note_name
-        self.sharpness = note_sharpness
+        self.note_name = note[0]
+        self.sharpness = note[1]
 
     def __repr__(self) -> str:
         """
@@ -52,6 +40,23 @@ class Note:
         return False
 
 
+def evaluate_note(note: str) -> str:
+    note_name = note[0].upper()
+    note_sharpness = note[1] if len(note) > 1 else ' '
+
+    if note_sharpness == 'b' or note_sharpness == 'B':
+        # Change note backwards one and make it sharp
+        if note_name == 'A':
+            note_name = 'Z'
+        else:
+            prev_ascii = ord(note_name) - 1
+            note_name = chr(prev_ascii)
+
+        note_sharpness = '#'
+
+    return note_name + note_sharpness
+
+
 class NoteCollection:
     """NoteCollection class."""
 
@@ -61,6 +66,7 @@ class NoteCollection:
 
         You will likely need to add something here, maybe a dict or a list?
         """
+        self.note_collection = []
 
     def add(self, note: Note) -> None:
         """
@@ -70,6 +76,10 @@ class NoteCollection:
 
         :param note: Input object to add to the collection
         """
+        if isinstance(note, Note):
+            self.note_collection.append(note)
+        else:
+            raise TypeError()
 
     def pop(self, note: str) -> Note | None:
         """
@@ -80,6 +90,14 @@ class NoteCollection:
         :param note: Note to remove
         :return: The removed Note object or None.
         """
+        index = 0
+        note = evaluate_note(note)
+        for __note in self.note_collection[::-1]:
+            index -= 1
+            if __note.note_name == note[0] and __note.sharpness == note[1]:
+                self.note_collection.remove(__note)
+                return __note
+
         return None
 
     def extract(self) -> list[Note]:
@@ -99,7 +117,9 @@ class NoteCollection:
 
         :return: A list of all the notes that were previously in the collection.
         """
-        return []
+        current_collection = self.note_collection.copy()
+        self.note_collection.clear()
+        return current_collection
 
     def get_content(self) -> str:
         """
@@ -121,7 +141,15 @@ class NoteCollection:
 
         :return: Content as a string
         """
-        return ''
+        content = "Notes:\n"
+        for note in sorted(self.note_collection, key=lambda tone: tone.note_name):
+            content += f" * {note.note_name}{note.sharpness}\n"
+
+        if content == "Notes:\n":
+            return content + f" Empty"
+        else:
+            return content
+
 
 if __name__ == '__main__':
     note_one = Note('a') # yes, lowercase
@@ -129,8 +157,9 @@ if __name__ == '__main__':
     note_three = Note('Eb')
     collection = NoteCollection()
 
-    print(note_one) # <Note: A>
-    print(note_three) # <Note: Eb>
+    print(note_one)  # <Note: A>
+    print(note_two)  # <Note: C>
+    print(note_three)  # <Note: Eb>
 
     collection.add(note_one)
     collection.add(note_two)
@@ -140,7 +169,7 @@ if __name__ == '__main__':
     #   * A
     #   * C
 
-    print(collection.extract()) # [<Note: A>,<Note: C>]
+    print(collection.extract())  # [<Note: A>,<Note: C>]
     print(collection.get_content())
     # Notes:
     #  Empty
