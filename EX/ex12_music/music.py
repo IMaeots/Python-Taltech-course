@@ -6,6 +6,7 @@ class Note:
 
     Every note has a name and a sharpness or alteration (supported values: "", "#", "b").
     """
+
     def __init__(self, note: str):
         """Initialize the class.
 
@@ -18,7 +19,7 @@ class Note:
         note = evaluate_note(note)
 
         self.note_name = note[0]
-        self.sharpness = note[1]
+        self.sharpness = note[1] if len(note) > 1 else ''
 
     def __repr__(self) -> str:
         """
@@ -41,8 +42,9 @@ class Note:
 
 
 def evaluate_note(note: str) -> str:
+    """Change the note into correct format."""
     note_name = note[0].upper()
-    note_sharpness = note[1] if len(note) > 1 else ' '
+    note_sharpness = note[1] if len(note) > 1 else ''
 
     if note_sharpness == 'b' or note_sharpness == 'B':
         # Change note backwards one and make it sharp
@@ -94,7 +96,7 @@ class NoteCollection:
         note = evaluate_note(note)
         for __note in self.note_collection[::-1]:
             index -= 1
-            if __note.note_name == note[0] and __note.sharpness == note[1]:
+            if __note.note_name == note[0] and __note.sharpness == (note[1] if len(note) > 1 else ''):
                 self.note_collection.remove(__note)
                 return __note
 
@@ -143,16 +145,16 @@ class NoteCollection:
         """
         content = "Notes:\n"
         for note in sorted(self.note_collection, key=lambda tone: tone.note_name):
-            content += f" * {note.note_name}{note.sharpness}\n"
+            content += f"\n * {note.note_name}{note.sharpness}"
 
         if content == "Notes:\n":
-            return content + f" Empty"
+            return content + " Empty."
         else:
             return content
 
 
 if __name__ == '__main__':
-    note_one = Note('a') # yes, lowercase
+    note_one = Note('a')  # yes, lowercase
     note_two = Note('C')
     note_three = Note('Eb')
     collection = NoteCollection()
