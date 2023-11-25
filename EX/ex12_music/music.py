@@ -1,5 +1,4 @@
 """Music."""
-import re
 
 
 class Note:
@@ -17,10 +16,21 @@ class Note:
         Note is a single alphabetical letter which is always uppercase.
         NB! Ab == Z#
         """
-        if sharpness == 'b':
-            sharpness = '#'
-        self.note_name = note
-        self.sharpness = sharpness
+        note_name = note.upper()
+        note_sharpness = sharpness
+
+        if note_sharpness == 'b':
+            # Change note backwards one and make it sharp
+            if note_name == 'A':
+                note_name = 'Z'
+            else:
+                prev_ascii = ord(note_name) - 1
+                note_name = chr(prev_ascii)
+
+            note_sharpness = '#'
+
+        self.note_name = note_name
+        self.sharpness = note_sharpness
 
     def __repr__(self) -> str:
         """
