@@ -1,6 +1,7 @@
 """Concert."""
-# from music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
-from EX.ex12_music.music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
+from music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
+# from EX.ex12_music.music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException,
+# ChordOverlapException
 
 
 class ChordNotInScaleException(Exception):
@@ -16,6 +17,8 @@ class Mixer(NoteCollection):
 
     def __init__(self, chords: Chords):
         """Initialize the Mixer class"""
+        super().__init__()
+        self.note_n_chord_collection = super().note_collection + chords
 
     def add(self, note: Note):
         """
@@ -34,6 +37,11 @@ class Mixer(NoteCollection):
 
         :param note: Input object to add to collection.
         """
+        if isinstance(note, Note):
+            if note not in self.note_n_chord_collection:
+                self.note_n_chord_collection.append(note)
+        else:
+            raise TypeError()
 
     def extract(self) -> list[Note | Chord]:
         """
@@ -41,7 +49,9 @@ class Mixer(NoteCollection):
 
         Similar as with NoteCollection but at the end insert the chords as well.
         """
-        return []
+        current_collection = self.note_n_chord_collection.copy()
+        self.note_n_chord_collection.clear()
+        return current_collection
 
     def get_content(self) -> str:
         """
@@ -49,7 +59,19 @@ class Mixer(NoteCollection):
 
         Similar as with NoteCollection but at the end insert the 'name' of the chords too.
         """
-        return ""
+        content = "Notes:\n"
+        first = True
+        for note in sorted(self.note_n_chord_collection, key=lambda x: x.note_name):
+            if first:
+                content += f"  * {note.note_name}{note.sharpness}"
+                first = False
+            else:
+                content += f"\n  * {note.note_name}{note.sharpness}"
+
+        if content == "Notes:\n":
+            return content + "  Empty."
+        else:
+            return content
 
 
 class Scale:
