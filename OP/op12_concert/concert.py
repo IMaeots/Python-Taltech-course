@@ -39,13 +39,16 @@ class Mixer(NoteCollection):
         if isinstance(note, Note):
             # Check if any chord can be formed.
             for notes, chord_name in self.possible_chords.items():
-                if notes in set(self.note_collection + [note]):
-                    if len(notes) == 2:
-                        self.chord_collection.append(Chord(notes[0], notes[1], chord_name))
-                        self.note_collection.remove(notes)
-                    else:
-                        self.chord_collection.append(Chord(notes[0], notes[1], chord_name, note_three=notes[2]))
-                        self.note_collection.remove(notes)
+                if all(n in (self.note_collection + [note]) for n in notes):
+                    self.chord_collection.append(chord_name)
+                    # if len(notes) == 2:
+                    #     self.chord_collection.append(Chord(notes[0], notes[1], chord_name))
+                    # else:
+                    #     self.chord_collection.append(Chord(notes[0], notes[1], chord_name, note_three=notes[2]))
+
+                    for n in notes:
+                        if n != note:
+                            self.note_collection.remove(n)
 
                     return None
 
