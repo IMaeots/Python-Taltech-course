@@ -163,7 +163,10 @@ class Scale:
         """
         chord_notes = chord.get_notes()
         if len(chord_notes) == 2:
-            return 'powerchord'
+            if ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) == 2:
+                return 'powerchord'
+            else:
+                raise ChordNotInScaleException
 
         major_scale_notes = self.get_scale("maj", chord_notes[0])
         minor_scale_notes = self.get_scale("min", chord_notes[0])
@@ -173,8 +176,10 @@ class Scale:
 
         if major_count < minor_count:
             return 'min'
-        else:
+        elif major_count > minor_count:
             return 'maj'
+        else:
+            return 'min'
 
     def get_scale(self, scale_mode=None, start_note=None) -> list[Note]:
         """
