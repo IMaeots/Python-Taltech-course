@@ -162,6 +162,9 @@ class Scale:
         :return: 'maj' if chord is major, 'min' if chord is minor, 'powerchord' if chord has same number of minor and major notes
         """
         chord_notes = chord.get_notes()
+        if len(chord_notes) == 2:
+            return 'powerchord'
+
         major_scale_notes = self.get_scale("maj", chord_notes[0])
         minor_scale_notes = self.get_scale("min", chord_notes[0])
 
@@ -170,10 +173,8 @@ class Scale:
 
         if major_count > minor_count:
             return 'maj'
-        elif minor_count > major_count:
-            return 'min'
         else:
-            return 'powerchord'
+            return 'min'
 
     def get_scale(self, scale_mode=None, start_note=None) -> list[Note]:
         """
