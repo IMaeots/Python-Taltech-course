@@ -16,9 +16,10 @@ class Mixer(NoteCollection):
     def __init__(self, chords: Chords):
         """Initialize the Mixer class."""
         super().__init__()
-        self.note_n_chord_collection = super().note_collection + chords
+        self.chord_collection = []
+        self.possible_chords = chords.chords
 
-    def add(self, note: Note):
+    def add(self, note: Note) -> None:
         """
         Add note to the collection and check if it can combine with anything already inside.
 
@@ -36,10 +37,22 @@ class Mixer(NoteCollection):
         :param note: Input object to add to collection.
         """
         if isinstance(note, Note):
-            if note not in self.note_n_chord_collection:
-                self.note_n_chord_collection.append(note)
+            # Check if any chord can be formed.
+            for notes, chord_name in self.possible_chords.items():
+                if notes in set(self.note_collection + [note]):
+                    if len(notes) == 2:
+                        self.chord_collection.append(Chord(notes[0], notes[1], chord_name))
+                        self.note_collection.remove(notes)
+                    else:
+                        self.chord_collection.append(Chord(notes[0], notes[1], chord_name, note_three=notes[2]))
+                        self.note_collection.remove(notes)
+
+                    return None
+
+            # Else return super method.
+            return super().add(note)
         else:
-            raise TypeError()
+            raise TypeError
 
     def extract(self) -> list[Note | Chord]:
         """
@@ -47,8 +60,9 @@ class Mixer(NoteCollection):
 
         Similar as with NoteCollection but at the end insert the chords as well.
         """
-        current_collection = self.note_n_chord_collection.copy()
-        self.note_n_chord_collection.clear()
+        current_collection = self.note_collection.copy() + self.chord_collection.copy()
+        self.note_collection.clear()
+        self.chord_collection.clear()
         return current_collection
 
     def get_content(self) -> str:
@@ -57,14 +71,12 @@ class Mixer(NoteCollection):
 
         Similar as with NoteCollection but at the end insert the 'name' of the chords too.
         """
-        content = "Notes:\n"
-        first = True
-        for note in sorted(self.note_n_chord_collection, key=lambda x: x.note_name):
-            if first:
-                content += f"  * {note.note_name}{note.sharpness}"
-                first = False
-            else:
-                content += f"\n  * {note.note_name}{note.sharpness}"
+        content = super().get_content()
+        if "  Empty." in content:
+            content = "Notes:\n"
+
+        for chord in sorted(self.chord_collection, key=lambda x: x.chord_name):
+            content += f"\n  * {chord.chord_name}"
 
         if content == "Notes:\n":
             return content + "  Empty."
