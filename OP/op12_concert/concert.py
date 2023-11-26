@@ -124,6 +124,13 @@ class Scale:
         :param starting_note: The first note of the scale
         :param scale_mode: The scale mode, either 'maj' or 'min'
         """
+        self.starting_note = starting_note
+        self.scale_mode = scale_mode
+        self.intervals = {
+            "maj": [2, 2, 1, 2, 2, 2, 1],
+            "min": [2, 1, 2, 2, 1, 2, 2]
+        }
+        self.scale_notes = self.get_scale(scale_mode)
 
     def is_chord_in_scale(self, chord: Chord) -> bool:
         """
@@ -133,7 +140,13 @@ class Scale:
         :param chord: The chord to check
         :return: The boolean showing that the chord is in scale or not
         """
-        return False
+        for note in chord.notes:
+            if note in self.scale_notes:
+                continue
+            else:
+                return False
+
+        return True
 
     def is_chord_major_or_minor(self, chord: Chord) -> str:
         """
@@ -148,14 +161,36 @@ class Scale:
         :param chord: The chord to check
         :return: 'maj' if chord is major, 'min' if chord is minor, 'powerchord' if chord has same number of minor and major notes
         """
+        major_scale_notes = self.get_scale("maj")
+        minor_scale_notes = self.get_scale("min")
 
-    def get_scale(self) -> list[Note]:
+        chord_notes = set(chord.get_notes())
+        major_count = len(chord_notes.intersection(major_scale_notes))
+        minor_count = len(chord_notes.intersection(minor_scale_notes))
+
+        if major_count > minor_count:
+            return 'maj'
+        elif minor_count > major_count:
+            return 'min'
+        else:
+            return 'powerchord'
+
+    def get_scale(self, scale_mode) -> list[Note]:
         """
         Get scale.
 
         Return the scale notes in order.
         :return: List of notes
         """
+        intervals = self.intervals[scale_mode]
+        scale = [self.starting_note]
+
+        current_note = self.starting_note
+        for interval in intervals:
+            current_note = current_note.transpose(interval)
+            scale.append(current_note)
+
+        return scale
 
 
 if __name__ == '__main__':

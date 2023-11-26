@@ -22,6 +22,21 @@ class Note:
         self.sharpness = note[1] if len(note) > 1 else ''
         self.note = self.note_name + self.sharpness
 
+    def transpose(self, interval):
+        # Logic to transpose the note by the given interval
+        notes_order = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+        current_index = notes_order.index(self.note_name)
+
+        if interval == 2:
+            new_index = (current_index + 1) % len(notes_order)
+            return Note(notes_order[new_index] + self.sharpness)
+        else:
+            if self.sharpness == '#':
+                new_index = (current_index + 1) % len(notes_order)
+                return Note(notes_order[new_index])
+            else:
+                return Note(self.note_name + '#')
+
     def __repr__(self) -> str:
         """
         Representation of the Note class.
@@ -198,6 +213,9 @@ class Chord:
         Return as: <Chord: [chord_name]> where [chord_name] is the name of the chord.
         """
         return f"<Chord: {self.chord_name}>"
+
+    def get_notes(self):
+        return self.notes
 
 
 class Chords:
