@@ -23,7 +23,7 @@ class Note:
         self.note = self.note_name + self.sharpness
 
     def transpose(self, interval):
-        # Logic to transpose the note by the given interval
+        """Logic to transpose the note by the given interval."""
         notes_order = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         current_index = notes_order.index(self.note_name)
 
@@ -215,6 +215,7 @@ class Chord:
         return f"<Chord: {self.chord_name}>"
 
     def get_notes(self):
+        """Get function to return notes of chord."""
         return self.notes
 
 

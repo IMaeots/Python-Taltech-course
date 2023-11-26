@@ -175,14 +175,14 @@ class Scale:
         else:
             return 'powerchord'
 
-    def get_scale(self, scale_mode) -> list[Note]:
+    def get_scale(self, scale_mode=None) -> list[Note]:
         """
         Get scale.
 
         Return the scale notes in order.
         :return: List of notes
         """
-        intervals = self.intervals[scale_mode]
+        intervals = self.intervals[scale_mode] if scale_mode else self.scale_mode
         scale = [self.starting_note]
 
         current_note = self.starting_note
