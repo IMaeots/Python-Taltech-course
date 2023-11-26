@@ -182,7 +182,10 @@ class Scale:
         Return the scale notes in order.
         :return: List of notes
         """
-        intervals = self.intervals[scale_mode] if scale_mode else self.scale_mode
+        if scale_mode:
+            intervals = self.intervals[scale_mode]
+        else:
+            intervals = self.intervals[self.scale_mode]
         notes_in_scale = [self.starting_note]
 
         current_note = self.starting_note
