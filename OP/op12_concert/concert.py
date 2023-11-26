@@ -127,8 +127,8 @@ class Scale:
         self.starting_note = starting_note
         self.scale_mode = scale_mode
         self.intervals = {
-            "maj": [2, 2, 1, 2, 2, 2, 1],
-            "min": [2, 1, 2, 2, 1, 2, 2]
+            "maj": [2, 2, 1, 2, 2, 2],
+            "min": [2, 1, 2, 2, 1, 2]
         }  # 2 represents whole step and 1 half step.
         self.scale_notes = self.get_scale(scale_mode)
 
