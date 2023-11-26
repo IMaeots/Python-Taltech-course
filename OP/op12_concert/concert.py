@@ -1,5 +1,5 @@
 """Concert."""
-from music_replica import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
+from music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
 
 
 class ChordNotInScaleException(Exception):
@@ -14,7 +14,7 @@ class Mixer(NoteCollection):
     """
 
     def __init__(self, chords: Chords):
-        """Initialize the Mixer class"""
+        """Initialize the Mixer class."""
         super().__init__()
         self.note_n_chord_collection = super().note_collection + chords
 
