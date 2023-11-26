@@ -1,7 +1,5 @@
 """Concert."""
-from music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
-# from EX.ex12_music.music import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException,
-# ChordOverlapException
+from music_replica import NoteCollection, Chords, Chord, Note, DuplicateNoteNamesException, ChordOverlapException
 
 
 class ChordNotInScaleException(Exception):
