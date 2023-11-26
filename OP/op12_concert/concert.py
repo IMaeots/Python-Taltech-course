@@ -161,12 +161,12 @@ class Scale:
         :param chord: The chord to check
         :return: 'maj' if chord is major, 'min' if chord is minor, 'powerchord' if chord has same number of minor and major notes
         """
-        major_scale_notes = self.get_scale("maj")
-        minor_scale_notes = self.get_scale("min")
+        chord_notes = chord.get_notes()
+        major_scale_notes = self.get_scale("maj", chord_notes[0])
+        minor_scale_notes = self.get_scale("min", chord_notes[0])
 
-        chord_notes = set(chord.get_notes())
-        major_count = len(chord_notes.intersection(major_scale_notes))
-        minor_count = len(chord_notes.intersection(minor_scale_notes))
+        major_count = len(set(chord_notes).intersection(major_scale_notes))
+        minor_count = len(set(chord_notes).intersection(minor_scale_notes))
 
         if major_count > minor_count:
             return 'maj'
@@ -175,7 +175,7 @@ class Scale:
         else:
             return 'powerchord'
 
-    def get_scale(self, scale_mode=None) -> list[Note]:
+    def get_scale(self, scale_mode=None, start_note=None) -> list[Note]:
         """
         Get scale.
 
@@ -186,9 +186,11 @@ class Scale:
             intervals = self.intervals[scale_mode]
         else:
             intervals = self.intervals[self.scale_mode]
-        notes_in_scale = [self.starting_note]
+        if start_note is None:
+            start_note = self.starting_note
+        notes_in_scale = [start_note]
 
-        current_note = self.starting_note
+        current_note = start_note
         for interval in intervals:
             current_note = current_note.transpose(interval)
             notes_in_scale.append(current_note)
