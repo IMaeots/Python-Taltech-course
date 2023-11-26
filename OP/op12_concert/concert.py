@@ -129,7 +129,7 @@ class Scale:
         self.intervals = {
             "maj": [2, 2, 1, 2, 2, 2, 1],
             "min": [2, 1, 2, 2, 1, 2, 2]
-        }
+        }  # 2 represents whole step and 1 half step.
         self.scale_notes = self.get_scale(scale_mode)
 
     def is_chord_in_scale(self, chord: Chord) -> bool:
@@ -183,14 +183,14 @@ class Scale:
         :return: List of notes
         """
         intervals = self.intervals[scale_mode] if scale_mode else self.scale_mode
-        scale = [self.starting_note]
+        notes_in_scale = [self.starting_note]
 
         current_note = self.starting_note
         for interval in intervals:
             current_note = current_note.transpose(interval)
-            scale.append(current_note)
+            notes_in_scale.append(current_note)
 
-        return scale
+        return notes_in_scale
 
 
 if __name__ == '__main__':

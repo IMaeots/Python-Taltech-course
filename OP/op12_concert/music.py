@@ -27,7 +27,7 @@ class Note:
         notes_order = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         current_index = notes_order.index(self.note_name)
 
-        if interval == 2:
+        if interval == 2:  # 2 represents whole step.
             new_index = (current_index + 1) % len(notes_order)
             return Note(notes_order[new_index] + self.sharpness)
         else:
