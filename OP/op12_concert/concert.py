@@ -163,7 +163,7 @@ class Scale:
         """
         chord_notes = chord.get_notes()
         if len(chord_notes) == 2:
-            if ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) == 2:
+            if ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) <= 3:
                 return 'powerchord'
             else:
                 raise ChordNotInScaleException
