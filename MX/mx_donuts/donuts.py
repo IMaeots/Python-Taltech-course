@@ -51,7 +51,7 @@ def find_donuts_with_ingredient(donut_list: list[Donut], ingredient: str) -> lis
     :param ingredient: Ingredient that_ donut must contain.
     :return: List of Donut names containing the specified ingredient.
     """
-    return list(map(lambda x: x.name,filter(lambda x: ingredient in x.ingredients, donut_list)))
+    return list(map(lambda x: x.name, filter(lambda x: ingredient in x.ingredients, donut_list)))
 
 
 def list_donut_names_and_prices(donut_list: list[Donut]) -> list[tuple]:
@@ -72,7 +72,7 @@ def list_donuts_starting_with(donut_list: list[Donut], letter: str) -> list[str]
     :param letter: The starting letter to filter donut names by.
     :return: List of Donut names sorted alphabetically.
     """
-    return sorted(filter(lambda x: x.name[0] == letter, donut_list))
+    return sorted(filter(lambda x: x.name[0] == letter, donut_list), key=lambda x: x.name)
 
 
 def find_flour_needed_for_baking(donut_list: list[Donut], quantity: int) -> int:
@@ -85,7 +85,7 @@ def find_flour_needed_for_baking(donut_list: list[Donut], quantity: int) -> int:
     :param quantity: The quantity of each donut to be baked.
     :return: Total amount of flour needed in grams rounded up.
     """
-    return round(sum([((donut.price * 75) * quantity) for donut in donut_list]))
+    return sum(map(lambda x: ((x.price * 75) * quantity), donut_list))
 
 
 def calculate_tip(donut_list: list[Donut], customers: int) -> int:
@@ -98,7 +98,7 @@ def calculate_tip(donut_list: list[Donut], customers: int) -> int:
     :param customers: Number of customers visiting bakery.
     :return: Tip amount.
     """
-    return round(sum([(donut.price * 0.2 * customers) for donut in donut_list]))
+    return sum(map(lambda x: (x.price * 0.2 * customers), donut_list))
 
 
 def sort_donuts_by_allergies(donut_list: list[Donut]) -> list[str]:
@@ -123,7 +123,7 @@ def calculate_profit_per_day(donut_list: list[Donut], quantity_per_day: int, cos
     :param cost_per_donut: The cost to make each donut.
     :return: Profit per day rounded down.
     """
-    return round(sum([((donut.price - cost_per_donut) * quantity_per_day) for donut in donut_list]))
+    return sum(map(lambda x: ((x.price - cost_per_donut) * quantity_per_day), donut_list))
 
 
 def find_most_popular_donut(donut_list: list[Donut]) -> str:
