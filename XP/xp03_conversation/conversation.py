@@ -287,13 +287,19 @@ def find_catalan_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Catalan_number
     :return: list of catalan numbers
     """
+    memo = {}  # Memoization dictionary to store calculated values
+
     def catalan_number(n):
         if n <= 1:
             return 1
-        res = 0
-        for i in range(n):
-            res += catalan_number(i) * catalan_number(n - 1 - i)
-        return res
+
+        if n not in memo:
+            res = 0
+            for i in range(n):
+                res += catalan_number(i) * catalan_number(n - 1 - i)
+            memo[n] = res
+
+        return memo[n]
 
     catalan_numbers = []
     for i in range(biggest_number + 1):
