@@ -51,7 +51,7 @@ def find_donuts_with_ingredient(donut_list: list[Donut], ingredient: str) -> lis
     :param ingredient: Ingredient that_ donut must contain.
     :return: List of Donut names containing the specified ingredient.
     """
-    return [donut.name for donut in filter(lambda x: ingredient in x.ingredients, donut_list)]
+    return list(map(lambda x: x.name,filter(lambda x: ingredient in x.ingredients, donut_list)))
 
 
 def list_donut_names_and_prices(donut_list: list[Donut]) -> list[tuple]:
@@ -61,7 +61,7 @@ def list_donut_names_and_prices(donut_list: list[Donut]) -> list[tuple]:
     :param donut_list: List of donut objects.
     :return: List of tuples containing donut names and prices.
     """
-    return [(donut.name, donut.price) for donut in donut_list]
+    return list(map(lambda x: (x.name, x.price), donut_list))
 
 
 def list_donuts_starting_with(donut_list: list[Donut], letter: str) -> list[str]:
@@ -72,7 +72,7 @@ def list_donuts_starting_with(donut_list: list[Donut], letter: str) -> list[str]
     :param letter: The starting letter to filter donut names by.
     :return: List of Donut names sorted alphabetically.
     """
-    return sorted([donut.name for donut in filter(lambda x: x.name[0] == letter, donut_list)])
+    return sorted(filter(lambda x: x.name[0] == letter, donut_list))
 
 
 def find_flour_needed_for_baking(donut_list: list[Donut], quantity: int) -> int:
@@ -85,10 +85,6 @@ def find_flour_needed_for_baking(donut_list: list[Donut], quantity: int) -> int:
     :param quantity: The quantity of each donut to be baked.
     :return: Total amount of flour needed in grams rounded up.
     """
-    total = 0
-    for donut in donut_list:
-        total += (donut.price * 75) * quantity
-
     return round(sum([((donut.price * 75) * quantity) for donut in donut_list]))
 
 
@@ -115,7 +111,7 @@ def sort_donuts_by_allergies(donut_list: list[Donut]) -> list[str]:
     :param donut_list: List of Donut objects.
     :return: List of Donut names sorted by allergies and then alphabetically.
     """
-    return [donut.name for donut in sorted(donut_list, key=lambda x: (-len(x.allergies), x.name))]
+    return list(map(lambda x: x.name, sorted(donut_list, key=lambda x: (-len(x.allergies), x.name))))
 
 
 def calculate_profit_per_day(donut_list: list[Donut], quantity_per_day: int, cost_per_donut: float) -> int:
@@ -127,10 +123,6 @@ def calculate_profit_per_day(donut_list: list[Donut], quantity_per_day: int, cos
     :param cost_per_donut: The cost to make each donut.
     :return: Profit per day rounded down.
     """
-    profit = 0
-    for donut in donut_list:
-        profit += (donut.price - cost_per_donut) * quantity_per_day
-
     return round(sum([((donut.price - cost_per_donut) * quantity_per_day) for donut in donut_list]))
 
 
@@ -153,7 +145,7 @@ def sort_donuts_alphabetically_by_name(donut_list: list[Donut]) -> list[str]:
     :param donut_list: List of Donut objects.
     :return: List of Donut names sorted alphabetically.
     """
-    return [donut.name for donut in sorted(donut_list, key=lambda x: x.name)]
+    return list(map(lambda x: x.name, sorted(donut_list, key=lambda x: x.name)))
 
 
 def find_donuts_costing_more_than(donut_list: list[Donut], price_threshold: float) -> list[str]:
@@ -164,12 +156,7 @@ def find_donuts_costing_more_than(donut_list: list[Donut], price_threshold: floa
     :param price_threshold: The minimum price threshold.
     :return: List of Donut names that cost more than the specified threshold.
     """
-    output = []
-    for donut in donut_list:
-        if donut.price > price_threshold:
-            output.append(donut.name)
-
-    return [donut.name for donut in filter(lambda x: x.price > price_threshold, donut_list)]
+    return list(map(lambda x: x.name, filter(lambda x: x.price > price_threshold, donut_list)))
 
 
 def find_donuts_with_no_allergy(donut_list: list[Donut], allergy: str) -> list[str]:
@@ -180,7 +167,7 @@ def find_donuts_with_no_allergy(donut_list: list[Donut], allergy: str) -> list[s
     :param allergy: The allergy to exclude.
     :return: List of Donut names with no occurrence of the specified allergy.
     """
-    return [donut.name for donut in filter(lambda x: allergy not in x.allergies, donut_list)]
+    return list(map(lambda x: x.name, filter(lambda x: allergy not in x.allergies, donut_list)))
 
 
 if __name__ == '__main__':
