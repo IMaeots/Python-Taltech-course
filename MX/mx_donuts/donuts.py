@@ -30,7 +30,7 @@ def sort_donuts_by_price(donut_list: list[Donut]) -> list[str]:
     :param donut_list: List of Donut objects.
     :return: List of Donut names sorted by price.
     """
-    return [donut.name for donut in sorted(donut_list, key=lambda x: x.price)]
+    return list(map(lambda x: x.name, sorted(donut_list, key=lambda x: x.price)))
 
 
 def find_most_expensive_donut(donut_list: list[Donut]) -> str:
