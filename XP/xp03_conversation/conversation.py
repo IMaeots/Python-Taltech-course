@@ -16,6 +16,7 @@ class Student:
         :param biggest_number: biggest possible number(inclusive) to guess
         NB: calculating using sets is much faster compared to lists
         """
+        self.biggest_number = biggest_number
         self.possible_answers = set([all_possible_answers for all_possible_answers in range(biggest_number + 1)])
 
     def decision_branch(self, sentence: str):
@@ -27,12 +28,10 @@ class Student:
         f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence)}." if there are multiple possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
-        """
-        if (completed):
-            return f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence}."
-        else: 
-            return f"The number I needed to guess was {final_answer}."
-        """
+        # if (sentence):
+        #     return f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence}."
+        # else:
+        #     return f"The number I needed to guess was {final_answer}."
 
     def intersect_possible_answers(self, update: list):
         """
@@ -90,8 +89,7 @@ class Student:
         Call find_primes_in_range to get all composite numbers in range.
         :param is_prime: boolean whether the number is prime or not
         """
-        biggest_num = max(self.possible_answers)
-        prime_numbers = set(find_primes_in_range(biggest_num))
+        prime_numbers = set(find_primes_in_range(self.biggest_number))
 
         self.possible_answers = self.possible_answers & prime_numbers if is_prime \
             else self.possible_answers - prime_numbers
@@ -117,14 +115,12 @@ class Student:
         """
         possible_answers = set()
         for num in self.possible_answers:
-            if len(str(num)) < 2:
-                continue
-            elif str(num)[1] != decimal_value:
+            if decimal_value not in str(num):
                 continue
             else:
                 possible_answers.add(num)
 
-        self.possible_answers = possible_answers  # I currently assume that the numbers are not with commas and weird.
+        self.possible_answers = possible_answers
 
     def deal_with_hex_value(self, hex_value: str):
         """
@@ -134,14 +130,12 @@ class Student:
         """
         possible_answers = set()
         for num in self.possible_answers:
-            if len(str(num)) < 2:
-                continue
-            elif str(num)[1] != hex_value:
+            if hex_value not in str(num):
                 continue
             else:
                 possible_answers.add(num)
 
-        self.possible_answers = possible_answers  # I currently assume that the numbers are not with commas and weird.
+        self.possible_answers = possible_answers
 
     def deal_with_quadratic_equation(self, equation: str, to_multiply: bool, multiplicative: float, is_bigger: bool):
         """
@@ -164,8 +158,7 @@ class Student:
         Call find_fibonacci_numbers to get all fibonacci numbers in range.
         :param is_in: boolean whether the number is in fibonacci sequence or not
         """
-        biggest_number = max(self.possible_answers)
-        fibonacci_numbers = set(find_fibonacci_numbers(biggest_number + 1))
+        fibonacci_numbers = set(find_fibonacci_numbers(self.biggest_number))
         self.possible_answers = self.possible_answers & fibonacci_numbers if is_in \
             else self.possible_answers - fibonacci_numbers
 
@@ -176,8 +169,7 @@ class Student:
         Call find_catalan_numbers to get all catalan numbers in range.
         :param is_in: boolean whether the number is in catalan sequence or not
         """
-        biggest_number = max(self.possible_answers)
-        catalan_numbers = set(find_catalan_numbers(biggest_number + 1))
+        catalan_numbers = set(find_catalan_numbers(self.biggest_number))
         self.possible_answers = self.possible_answers & catalan_numbers if is_in \
             else self.possible_answers - catalan_numbers
 
@@ -276,13 +268,14 @@ def find_fibonacci_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Fibonacci_number
     :return: list of fibonacci numbers
     """
-    #  TODO: ERROR
     fibonacci_numbers = []
 
     a, b = 0, 1
     while a <= biggest_number:
         fibonacci_numbers.append(a)
         a, b = b, a + b
+
+    return fibonacci_numbers
 
 
 def find_catalan_numbers(biggest_number: int) -> list:
@@ -294,7 +287,6 @@ def find_catalan_numbers(biggest_number: int) -> list:
     https://en.wikipedia.org/wiki/Catalan_number
     :return: list of catalan numbers
     """
-    #  TODO: ERROR
     def catalan_number(n):
         if n <= 1:
             return 1
