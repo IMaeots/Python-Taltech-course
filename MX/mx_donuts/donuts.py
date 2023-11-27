@@ -99,7 +99,7 @@ def calculate_tip(donut_list: list[Donut], customers: int) -> int:
     :param customers: Number of customers visiting bakery.
     :return: Tip amount.
     """
-    return math.ceil((sum(map(lambda x: ((x.price * 0.2) * customers), donut_list))))
+    return math.ceil((sum(map(lambda x: ((x.price * 0.2 if 'sugar' in x.ingredients else 0) * customers), donut_list))))
 
 
 def sort_donuts_by_allergies(donut_list: list[Donut]) -> list[str]:
