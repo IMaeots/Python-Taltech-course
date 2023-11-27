@@ -72,7 +72,7 @@ def list_donuts_starting_with(donut_list: list[Donut], letter: str) -> list[str]
     :param letter: The starting letter to filter donut names by.
     :return: List of Donut names sorted alphabetically.
     """
-    return sorted(filter(lambda x: x.name[0] == letter, donut_list), key=lambda x: x.name)
+    return list(map(lambda x: x.name, sorted(filter(lambda x: x.name[0] == letter, donut_list), key=lambda x: x.name)))
 
 
 def find_flour_needed_for_baking(donut_list: list[Donut], quantity: int) -> int:
@@ -85,7 +85,7 @@ def find_flour_needed_for_baking(donut_list: list[Donut], quantity: int) -> int:
     :param quantity: The quantity of each donut to be baked.
     :return: Total amount of flour needed in grams rounded up.
     """
-    return sum(map(lambda x: int(((x.price * 75) * quantity)), donut_list))
+    return int(sum(map(lambda x: ((x.price * 75) * quantity), donut_list)))
 
 
 def calculate_tip(donut_list: list[Donut], customers: int) -> int:
@@ -98,7 +98,7 @@ def calculate_tip(donut_list: list[Donut], customers: int) -> int:
     :param customers: Number of customers visiting bakery.
     :return: Tip amount.
     """
-    return sum(map(lambda x: int((x.price * 0.2 * customers)), donut_list))
+    return int(sum(map(lambda x: round((x.price * 0.2 * customers)), donut_list)))
 
 
 def sort_donuts_by_allergies(donut_list: list[Donut]) -> list[str]:
