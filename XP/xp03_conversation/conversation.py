@@ -114,10 +114,9 @@ class Student:
         :param decimal_value: decimal value within the number like 9 in 192
         """
         possible_answers = set()
-        decimal_pattern = re.compile(rf'\b{decimal_value}\b')
 
         for num in self.possible_answers:
-            if re.search(decimal_pattern, str(num)):
+            if decimal_value in num:
                 possible_answers.add(num)
 
         self.possible_answers = possible_answers
@@ -129,10 +128,9 @@ class Student:
         :param hex_value: hex value within the number like e in fe2
         """
         possible_answers = set()
-        decimal_pattern = re.compile(rf'\b{hex_value}\b')
 
         for num in self.possible_answers:
-            if re.search(decimal_pattern, str(num)):
+            if hex_value in num:
                 possible_answers.add(num)
 
         self.possible_answers = possible_answers
