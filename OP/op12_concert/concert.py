@@ -174,12 +174,14 @@ class Scale:
         major_count = len(set(chord_notes).intersection(major_scale_notes))
         minor_count = len(set(chord_notes).intersection(minor_scale_notes))
 
-        if major_count < minor_count:
-            return 'min'
-        elif major_count > minor_count:
+        if ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) == 3 \
+            or ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) == 4 \
+                and ord(chord_notes[2].note_name) - ord(chord_notes[0].note_name) == 3 \
+                or ord(chord_notes[2].note_name) - ord(chord_notes[0].note_name) == 4:
             return 'maj'
         else:
             return 'min'
+
 
     def get_scale(self, scale_mode=None, start_note=None) -> list[Note]:
         """
