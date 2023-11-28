@@ -63,7 +63,8 @@ class Mixer(NoteCollection):
 
         Similar as with NoteCollection but at the end insert the chords as well.
         """
-        current_collection = self.note_collection.copy() + self.chord_collection.copy()
+        current_collection = self.note_collection.copy()
+        current_collection += self.chord_collection.copy()
         self.note_collection.clear()
         self.chord_collection.clear()
         return current_collection
@@ -168,12 +169,6 @@ class Scale:
             else:
                 raise ChordNotInScaleException
 
-        major_scale_notes = self.get_scale("maj", chord_notes[0])
-        minor_scale_notes = self.get_scale("min", chord_notes[0])
-
-        major_count = len(set(chord_notes).intersection(major_scale_notes))
-        minor_count = len(set(chord_notes).intersection(minor_scale_notes))
-
         if ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) == 3 \
             or ord(chord_notes[1].note_name) - ord(chord_notes[0].note_name) == 4 \
                 and ord(chord_notes[2].note_name) - ord(chord_notes[0].note_name) == 3 \
@@ -181,7 +176,6 @@ class Scale:
             return 'maj'
         else:
             return 'min'
-
 
     def get_scale(self, scale_mode=None, start_note=None) -> list[Note]:
         """
