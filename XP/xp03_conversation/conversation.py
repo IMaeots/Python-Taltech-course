@@ -215,7 +215,61 @@ def normalize_quadratic_equation(equation: str) -> str:
     https://en.wikipedia.org/wiki/Quadratic_formula
     :return: normalized equation
     """
-    pass
+    equation = equation.replace(" ", "")
+
+    # Pattern to match coefficients and terms
+    pattern = r'([-+]?\d*)x(\d*)'
+
+    # Find all matches for the pattern
+    matches = re.findall(pattern, equation)
+
+    # Initialize coefficients for x^2, x, and constant term
+    a = 0
+    b = 0
+    c = 0
+
+    for match in matches:
+        coef, power = match
+        coef = int(coef) if coef else 1
+        power = int(power) if power else 1
+
+        if power == 2:
+            a += coef
+        elif power == 1:
+            b += coef
+        else:
+            c += coef
+
+    # Construct the normalized equation
+    normalized_eq = f"{a}x^2" if a != 0 else ""
+    normalized_eq += f" + {b}x" if b != 0 else ""
+    normalized_eq += f" + {c}" if c != 0 else ""
+    normalized_eq += " = 0" if normalized_eq else "0 = 0"
+
+    return normalized_eq
+
+
+def extract_coefficients(normalized_eq: str) -> tuple:
+    """
+    Extract coefficients a, b, and c from the normalized quadratic equation.
+
+    :param normalized_eq: normalized quadratic equation
+    :return: coefficients a, b, c as integers
+    """
+    parts = re.split(r'\s*[+-]\s*', normalized_eq.split('=')[0])
+    a = 0
+    b = 0
+    c = 0
+
+    for part in parts:
+        if "x^2" in part:
+            a += int(part.replace("x^2", ""))
+        elif "x" in part:
+            b += int(part.replace("x", ""))
+        else:
+            c += int(part)
+
+    return a, b, c
 
 
 def quadratic_equation_solver(equation: str) -> Union[None, float, tuple]:
@@ -230,7 +284,18 @@ def quadratic_equation_solver(equation: str) -> Union[None, float, tuple]:
     if there are 2 solutions, return them in a tuple, where smaller is first
     all numbers are returned as floats.
     """
-    pass
+    a, b, c = extract_coefficients(normalize_quadratic_equation(equation))
+    delta = b**2 - 4*a*c
+    if delta < 0:
+        return None
+    elif delta == 0:
+        solution = -b / (2*a)
+        return solution
+    else:
+        solution1 = (-b + math.sqrt(delta)) / (2 * a)
+        solution2 = (-b - math.sqrt(delta)) / (2*a)
+
+    return min(solution1, solution2), max(solution1, solution2)
 
 
 def find_primes_in_range(biggest_number: int) -> list:
