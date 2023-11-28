@@ -184,33 +184,20 @@ class Student:
         :param increasing: boolean whether to check is in increasing or decreasing order
         :param to_be: boolean whether the number is indeed in that order
         """
-        filtered_nums = []
-
-        def is_iterable(obj):
-            try:
-                iter(obj)
-                return True
-            except TypeError:
-                return False
-
         if increasing:
-            for num in self.possible_answers:
-                if to_be:
-                    if all(x < y for x, y in zip(num, num[1:]) if is_iterable(num)):
-                        filtered_nums.append(num)
-                else:
-                    if any(x >= y for x, y in zip(num, num[1:]) if is_iterable(num)):
-                        filtered_nums.append(num)
+            if to_be:
+                self.possible_answers = [num for num in self.possible_answers if
+                                         all(x < y for x, y in zip(num, num[1:]))]
+            else:
+                self.possible_answers = [num for num in self.possible_answers if
+                                         any(x >= y for x, y in zip(num, num[1:]))]
         else:
-            for num in self.possible_answers:
-                if to_be:
-                    if all(x > y for x, y in zip(num, num[1:]) if is_iterable(num)):
-                        filtered_nums.append(num)
-                else:
-                    if any(x <= y for x, y in zip(num, num[1:]) if is_iterable(num)):
-                        filtered_nums.append(num)
-
-        self.possible_answers = filtered_nums
+            if to_be:
+                self.possible_answers = [num for num in self.possible_answers if
+                                         all(x > y for x, y in zip(num, num[1:]))]
+            else:
+                self.possible_answers = [num for num in self.possible_answers if
+                                         any(x <= y for x, y in zip(num, num[1:]))]
 
 
 def normalize_quadratic_equation(equation: str) -> str:
