@@ -116,7 +116,7 @@ class Student:
         possible_answers = set()
 
         for num in self.possible_answers:
-            if decimal_value in num:
+            if decimal_value in str(num):
                 possible_answers.add(num)
 
         self.possible_answers = possible_answers
@@ -130,7 +130,7 @@ class Student:
         possible_answers = set()
 
         for num in self.possible_answers:
-            if hex_value in num:
+            if hex_value in str(num):
                 possible_answers.add(num)
 
         self.possible_answers = possible_answers
@@ -211,6 +211,7 @@ class Student:
                         filtered_nums.append(num)
 
         self.possible_answers = filtered_nums
+
 
 def normalize_quadratic_equation(equation: str) -> str:
     """
