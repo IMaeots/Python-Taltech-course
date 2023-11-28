@@ -114,10 +114,10 @@ class Student:
         :param decimal_value: decimal value within the number like 9 in 192
         """
         possible_answers = set()
+        decimal_pattern = re.compile(rf'\b{decimal_value}\b')
+
         for num in self.possible_answers:
-            if decimal_value not in str(num):
-                continue
-            else:
+            if re.search(decimal_pattern, str(num)):
                 possible_answers.add(num)
 
         self.possible_answers = possible_answers
@@ -129,10 +129,10 @@ class Student:
         :param hex_value: hex value within the number like e in fe2
         """
         possible_answers = set()
+        decimal_pattern = re.compile(rf'\b{hex_value}\b')
+
         for num in self.possible_answers:
-            if hex_value not in str(num):
-                continue
-            else:
+            if re.search(decimal_pattern, str(num)):
                 possible_answers.add(num)
 
         self.possible_answers = possible_answers
@@ -149,7 +149,13 @@ class Student:
         :param multiplicative: the multiplicative to multiply or divide with
         :param is_bigger: to use the bigger or smaller result of the quadratic equation(min or max from [x1, x2])
         """
-        pass
+        x1, x2 = quadratic_equation_solver(equation)
+
+        result = x1 if is_bigger else x2
+
+        result = result * multiplicative if to_multiply else result / multiplicative
+
+        self.deal_with_dec_value(result)
 
     def deal_with_fibonacci_sequence(self, is_in: bool):
         """
@@ -180,8 +186,33 @@ class Student:
         :param increasing: boolean whether to check is in increasing or decreasing order
         :param to_be: boolean whether the number is indeed in that order
         """
-        pass
+        filtered_nums = []
 
+        def is_iterable(obj):
+            try:
+                iter(obj)
+                return True
+            except TypeError:
+                return False
+
+        if increasing:
+            for num in self.possible_answers:
+                if to_be:
+                    if all(x < y for x, y in zip(num, num[1:]) if is_iterable(num)):
+                        filtered_nums.append(num)
+                else:
+                    if any(x >= y for x, y in zip(num, num[1:]) if is_iterable(num)):
+                        filtered_nums.append(num)
+        else:
+            for num in self.possible_answers:
+                if to_be:
+                    if all(x > y for x, y in zip(num, num[1:]) if is_iterable(num)):
+                        filtered_nums.append(num)
+                else:
+                    if any(x <= y for x, y in zip(num, num[1:]) if is_iterable(num)):
+                        filtered_nums.append(num)
+
+        self.possible_answers = filtered_nums
 
 def normalize_quadratic_equation(equation: str) -> str:
     """
