@@ -94,14 +94,17 @@ class Spaceship:
     def kill_impostor(self, sheriff: Crewmate, color: str):
         """Murder an imposter if the chosen color is correct."""
         if sheriff in self.crewmate_list:
+            person_to_remove = None
             for person in self.impostor_list:
                 if person.color == color.capitalize():
-                    self.impostor_list.remove(person)
-                    self.dead_players.append(person)
-                    return
+                    person_to_remove = person
 
-            self.crewmate_list.remove(sheriff)
-            self.dead_players.append(sheriff)
+            if person_to_remove:
+                self.impostor_list.remove(person_to_remove)
+                self.dead_players.append(person_to_remove)
+            else:
+                self.crewmate_list.remove(sheriff)
+                self.dead_players.append(sheriff)
 
         return
 
