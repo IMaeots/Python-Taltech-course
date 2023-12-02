@@ -34,7 +34,7 @@ class Impostor:
 
     def __init__(self, color: str):
         """Construct the class."""
-        self.color = color.capitalize()
+        self.color = color.title()
         self.kills = 0
 
     def __repr__(self):
@@ -78,15 +78,15 @@ class Spaceship:
     def check_if_new_player(self, player):
         """Control if the body-color is not already in use."""
         for crewmate in self.crewmate_list:
-            if player.color.capitalize() == crewmate.color:
+            if player.color.title() == crewmate.color:
                 return False
 
         for impostor in self.impostor_list:
-            if player.color.capitalize() == impostor.color:
+            if player.color.title() == impostor.color:
                 return False
 
         for dead in self.dead_players:
-            if player.color.capitalize() == dead.color:
+            if player.color.title() == dead.color:
                 return False
 
         return True
@@ -96,7 +96,7 @@ class Spaceship:
         if sheriff in self.crewmate_list:
             person_to_remove = None
             for person in self.impostor_list:
-                if person.color == color.capitalize():
+                if person.color == color.title():
                     person_to_remove = person
 
             if person_to_remove:
@@ -128,7 +128,7 @@ class Spaceship:
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
         for person in self.crewmate_list:
-            if person.color == color.capitalize():
+            if person.color == color.title():
                 if person.protected:
                     person.protected = False
                 else:
@@ -156,11 +156,11 @@ class Spaceship:
     def get_role_of_player(self, color: str):
         """Return the role of player."""
         for player in self.crewmate_list:
-            if player.color == color.capitalize():
+            if player.color == color.title():
                 return player.role
 
         for player in self.impostor_list:
-            if player.color == color.capitalize():
+            if player.color == color.title():
                 return "Impostor"
 
     def get_crewmate_with_most_tasks_done(self):
@@ -237,6 +237,10 @@ if __name__ == "__main__":
     print(orange)  # -> Impostor Orange, kills: 1.
     spaceship.kill_crewmate(black, "purple")  # You can't kill another Impostor, silly!
     print(spaceship.get_dead_players())  # -> Yellow
+    print()
+
+    spaceship.kill_impostor(blue, "orange")
+    print(spaceship.get_impostor_list())
     print()
 
     print("Yellow is a Guardian angel, and can protect their allies when dead.")
