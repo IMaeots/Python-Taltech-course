@@ -130,7 +130,7 @@ class Spaceship:
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
-        return sorted(self.crewmate_list, key=lambda x: -x.tasks)
+        return sorted(self.crewmate_list, key=lambda x: x.tasks)
 
     def sort_impostors_by_kills(self):
         """Sort impostors by kills."""
@@ -147,7 +147,7 @@ class Spaceship:
 
     def get_role_of_player(self, color: str):
         """Return the role of player."""
-        for player in zip(self.crewmate_list, self.dead_players):
+        for player in self.crewmate_list:
             if player.color == color:
                 return player.role
 
