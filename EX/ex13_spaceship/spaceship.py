@@ -78,15 +78,15 @@ class Spaceship:
     def check_if_new_player(self, player):
         """Control if the body-color is not already in use."""
         for crewmate in self.crewmate_list:
-            if player.color == crewmate.color:
+            if player.color.capitalize() == crewmate.color:
                 return False
 
         for impostor in self.impostor_list:
-            if player.color == impostor.color:
+            if player.color.capitalize() == impostor.color:
                 return False
 
         for dead in self.dead_players:
-            if player.color == dead.color:
+            if player.color.capitalize() == dead.color:
                 return False
 
         return True
@@ -95,7 +95,7 @@ class Spaceship:
         """Murder an imposter if the chosen color is correct."""
         if sheriff in self.crewmate_list:
             for person in self.impostor_list:
-                if person.color.lower() == color.lower():
+                if person.color == color.capitalize():
                     self.impostor_list.remove(person)
                     self.dead_players.append(person)
                     return
@@ -121,7 +121,7 @@ class Spaceship:
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
         for person in self.crewmate_list:
-            if person.color.lower() == color.lower():
+            if person.color == color.capitalize():
                 if person.protected:
                     person.protected = False
                 else:
@@ -149,11 +149,11 @@ class Spaceship:
     def get_role_of_player(self, color: str):
         """Return the role of player."""
         for player in self.crewmate_list:
-            if player.color.lower() == color.lower():
+            if player.color == color.capitalize():
                 return player.role
 
         for player in self.impostor_list:
-            if player.color.lower() == color.lower():
+            if player.color == color.capitalize():
                 return "Impostor"
 
     def get_crewmate_with_most_tasks_done(self):
