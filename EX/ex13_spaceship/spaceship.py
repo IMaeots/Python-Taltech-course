@@ -105,7 +105,7 @@ class Spaceship:
 
     def revive_crewmate(self, altruist: Crewmate, dead_crewmate: Crewmate):
         """Help a friend in need."""
-        if altruist in self.crewmate_list:
+        if altruist in self.crewmate_list and dead_crewmate in self.dead_players:
             self.dead_players.remove(dead_crewmate)
             self.crewmate_list.append(dead_crewmate)
             self.crewmate_list.remove(altruist)
@@ -113,7 +113,7 @@ class Spaceship:
 
     def protect_crewmate(self, guardian_angel: Crewmate, crewmate_to_protect: Crewmate):
         """Enable protection for crewmate."""
-        if guardian_angel in self.dead_players:
+        if guardian_angel in self.dead_players and crewmate_to_protect in self.crewmate_list:
             crewmate_to_protect.protected = True
 
     def kill_crewmate(self, impostor: Impostor, color: str):
