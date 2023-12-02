@@ -121,7 +121,7 @@ class Spaceship:
         for person in self.crewmate_list:
             if person.color.lower() == color.lower() and person.protected:
                 person.protected = False
-            elif person.color == color:
+            elif person.color.lower() == color.lower():
                 self.crewmate_list.remove(person)
                 self.dead_players.append(person)
                 impostor.kills += 1
