@@ -116,6 +116,10 @@ class Spaceship:
     def protect_crewmate(self, guardian_angel: Crewmate, crewmate_to_protect: Crewmate):
         """Enable protection for crewmate."""
         if guardian_angel in self.dead_players and crewmate_to_protect in self.crewmate_list:
+            for person in self.crewmate_list:
+                if person.protected:
+                    person.protected = False
+
             crewmate_to_protect.protected = True
 
     def kill_crewmate(self, impostor: Impostor, color: str):
