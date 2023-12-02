@@ -91,6 +91,65 @@ class Spaceship:
 
         return True
 
+    def kill_impostor(self, sheriff: Crewmate, color: str):
+        """Murder an imposter."""
+        pass
+
+    def revive_crewmate(self, altruist: Crewmate, dead_crewmate: Crewmate):
+        """Help a friend in need."""
+        pass
+
+    def protect_crewmate(self, guardian_angel: Crewmate, crewmate_to_protect: Crewmate):
+        """Enable protection for crewmate."""
+        pass
+
+    def kill_crewmate(self, impostor: Impostor, color: str):
+        """Simulate killing a crewmate."""
+        pass
+
+    def sort_crewmates_by_tasks(self):
+        """Sort crewmates by tasks."""
+        return sorted(self.crewmate_list, key=lambda x: x.tasks)
+
+    def sort_impostors_by_kills(self):
+        """Sort impostors by kills."""
+        return sorted(self.impostor_list, key=lambda x: x.kills)
+
+    def get_regular_crewmates(self):
+        """Return a list of regular crewmates."""
+        regulars = []
+        for i in self.crewmate_list:
+            if i.role == "Crewmate":
+                regulars.append(i)
+
+        return regulars
+
+    def get_role_of_player(self, color: str):
+        """Return the role of player."""
+        for crewmate in self.crewmate_list:
+            if crewmate.color == color:
+                return crewmate.role
+
+        return "Impostor"
+
+    def get_crewmate_with_most_tasks_done(self):
+        """Return crewmate with the most tasks done."""
+        the_one = self.crewmate_list[0]
+        for crewmate in self.crewmate_list:
+            if crewmate.tasks < the_one.tasks:
+                the_one = crewmate
+
+        return the_one
+
+    def get_impostor_with_most_kills(self):
+        """Return the impostor with most kills."""
+        the_one = self.impostor_list[0]
+        for imposter in self.impostor_list:
+            if imposter.kills > the_one.kills:
+                the_one = imposter
+
+        return the_one
+
 
 """
 if __name__ == "__main__":
