@@ -92,20 +92,41 @@ class Spaceship:
         return True
 
     def kill_impostor(self, sheriff: Crewmate, color: str):
-        """Murder an imposter."""
-        pass
+        """Murder an imposter if the chosen color is correct."""
+        if sheriff in self.crewmate_list:
+            for person in self.impostor_list:
+                if person.color == color:
+                    self.impostor_list.remove(person)
+                    self.dead_players.append(person)
+                    return
+
+            self.impostor_list.remove(sheriff)
+            self.dead_players.append(sheriff)
 
     def revive_crewmate(self, altruist: Crewmate, dead_crewmate: Crewmate):
         """Help a friend in need."""
-        pass
+        if altruist in self.crewmate_list and dead_crewmate in self.dead_players:
+            self.dead_players.remove(dead_crewmate)
+            self.crewmate_list.append(dead_crewmate)
+            self.crewmate_list.remove(altruist)
+            self.dead_players.append(altruist)
 
     def protect_crewmate(self, guardian_angel: Crewmate, crewmate_to_protect: Crewmate):
         """Enable protection for crewmate."""
-        pass
+        if guardian_angel in self.dead_players:
+            crewmate_to_protect.protected = True
 
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
-        pass
+        for person in self.crewmate_list:
+            if person.color == color and person.protected:
+                person.protected = False
+            elif person.color == color:
+                self.crewmate_list.remove(person)
+                self.dead_players.append(person)
+                impostor.kills += 1
+            else:
+                continue
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
