@@ -95,7 +95,7 @@ class Spaceship:
         """Murder an imposter if the chosen color is correct."""
         if sheriff in self.crewmate_list:
             for person in self.impostor_list:
-                if person.color == color:
+                if person.color.lower() == color.lower():
                     self.impostor_list.remove(person)
                     self.dead_players.append(person)
                     return
