@@ -100,12 +100,12 @@ class Spaceship:
                     self.dead_players.append(person)
                     return
 
-            self.impostor_list.remove(sheriff)
+            self.crewmate_list.remove(sheriff)
             self.dead_players.append(sheriff)
 
     def revive_crewmate(self, altruist: Crewmate, dead_crewmate: Crewmate):
         """Help a friend in need."""
-        if altruist in self.crewmate_list and dead_crewmate in self.dead_players:
+        if altruist in self.crewmate_list:
             self.dead_players.remove(dead_crewmate)
             self.crewmate_list.append(dead_crewmate)
             self.crewmate_list.remove(altruist)
@@ -130,11 +130,11 @@ class Spaceship:
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
-        return sorted(self.crewmate_list, key=lambda x: x.tasks)
+        return sorted(self.crewmate_list, key=lambda x: -x.tasks)
 
     def sort_impostors_by_kills(self):
         """Sort impostors by kills."""
-        return sorted(self.impostor_list, key=lambda x: x.kills)
+        return sorted(self.impostor_list, key=lambda x: -x.kills)
 
     def get_regular_crewmates(self):
         """Return a list of regular crewmates."""
@@ -147,11 +147,13 @@ class Spaceship:
 
     def get_role_of_player(self, color: str):
         """Return the role of player."""
-        for crewmate in self.crewmate_list:
-            if crewmate.color == color:
-                return crewmate.role
+        for player in zip(self.crewmate_list, self.dead_players):
+            if player.color == color:
+                return player.role
 
-        return "Impostor"
+        for player in self.impostor_list:
+            if player.color == color:
+                return "Impostor"
 
     def get_crewmate_with_most_tasks_done(self):
         """Return crewmate with the most tasks done."""
