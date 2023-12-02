@@ -47,7 +47,7 @@ class Spaceship:
         self.impostor_list = []
         self.dead_players = []
 
-    def get_regular_crewmates(self):
+    def get_crewmate_list(self):
         """Get list of crewmates."""
         return self.crewmate_list
 
