@@ -119,7 +119,7 @@ class Spaceship:
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
         for person in self.crewmate_list:
-            if person.color == color and person.protected:
+            if person.color.lower() == color.lower() and person.protected:
                 person.protected = False
             elif person.color == color:
                 self.crewmate_list.remove(person)
@@ -174,7 +174,6 @@ class Spaceship:
         return the_one
 
 
-"""
 if __name__ == "__main__":
     print("Spaceship.")
 
@@ -254,4 +253,3 @@ if __name__ == "__main__":
     print(spaceship.sort_crewmates_by_tasks())  # -> Red, White
     print(spaceship.sort_impostors_by_kills())  # -> Purple, Orange, Black
     print(spaceship.get_regular_crewmates())  # -> White, Red
-"""
