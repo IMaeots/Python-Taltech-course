@@ -148,11 +148,11 @@ class Spaceship:
     def get_role_of_player(self, color: str):
         """Return the role of player."""
         for player in self.crewmate_list:
-            if player.color == color:
+            if player.color.lower() == color.lower():
                 return player.role
 
         for player in self.impostor_list:
-            if player.color == color:
+            if player.color.lower() == color.lower():
                 return "Impostor"
 
     def get_crewmate_with_most_tasks_done(self):
