@@ -3,8 +3,9 @@
 
 class Crewmate:
     """Crewmate class."""
+
     def __init__(self, color: str, role: str, tasks: int = 10):
-        """Constructor."""
+        """Construct the class."""
         self.color = color.capitalize()
 
         possible_roles = ["CREWMATE", "SHERIFF", "GUARDIAN ANGEL", "ALTRUIST"]
@@ -30,8 +31,9 @@ class Crewmate:
 
 class Impostor:
     """Impostor class."""
+
     def __init__(self, color: str):
-        """Constructor."""
+        """Construct the class."""
         self.color = color.capitalize()
         self.kills = 0
 
@@ -42,7 +44,9 @@ class Impostor:
 
 class Spaceship:
     """Spaceship class."""
+
     def __init__(self):
+        """Construct the class."""
         self.crewmate_list = []
         self.impostor_list = []
         self.dead_players = []
@@ -52,7 +56,7 @@ class Spaceship:
         return self.crewmate_list
 
     def add_crewmate(self, crewmate: Crewmate):
-        """add a crewmate."""
+        """Add a crewmate."""
         if isinstance(crewmate, Crewmate) and self.check_if_new_player(crewmate):
             self.crewmate_list.append(crewmate)
 
@@ -86,6 +90,7 @@ class Spaceship:
                 return False
 
         return True
+
 
 """
 if __name__ == "__main__":
