@@ -103,6 +103,8 @@ class Spaceship:
             self.crewmate_list.remove(sheriff)
             self.dead_players.append(sheriff)
 
+        return
+
     def revive_crewmate(self, altruist: Crewmate, dead_crewmate: Crewmate):
         """Help a friend in need."""
         if altruist in self.crewmate_list and dead_crewmate in self.dead_players:
@@ -119,14 +121,13 @@ class Spaceship:
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
         for person in self.crewmate_list:
-            if person.color.lower() == color.lower() and person.protected:
-                person.protected = False
-            elif person.color.lower() == color.lower():
-                self.crewmate_list.remove(person)
-                self.dead_players.append(person)
-                impostor.kills += 1
-            else:
-                continue
+            if person.color.lower() == color.lower():
+                if person.protected:
+                    person.protected = False
+                else:
+                    self.crewmate_list.remove(person)
+                    self.dead_players.append(person)
+                    impostor.kills += 1
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
