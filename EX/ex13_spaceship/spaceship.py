@@ -2,12 +2,14 @@
 
 
 class Crewmate:
+    """Crewmate class."""
     def __init__(self, color: str, role: str, tasks: int = 10):
+        """Constructor."""
         self.color = color.capitalize()
 
         possible_roles = ["CREWMATE", "SHERIFF", "GUARDIAN ANGEL", "ALTRUIST"]
         if role.upper() in possible_roles:
-            self.role = role.capitalize()
+            self.role = role.title()
         else:
             self.role = "Crewmate"
 
@@ -15,9 +17,11 @@ class Crewmate:
         self.protected = False
 
     def __repr__(self):
+        """Magic method repr for string representation."""
         return f"{self.color}, role: {self.role}, tasks left: {self.tasks}."
 
     def complete_task(self):
+        """Subtract task from tasks list."""
         if self.tasks > 1:
             self.tasks -= 1
         else:
@@ -25,40 +29,50 @@ class Crewmate:
 
 
 class Impostor:
+    """Impostor class."""
     def __init__(self, color: str):
+        """Constructor."""
         self.color = color.capitalize()
         self.kills = 0
 
     def __repr__(self):
+        """Magic method repr for string representation."""
         return f"Impostor {self.color}, kills: {self.kills}."
 
 
 class Spaceship:
+    """Spaceship class."""
     def __init__(self):
         self.crewmate_list = []
         self.impostor_list = []
         self.dead_players = []
 
-    def get_crewmate_list(self):
+    def get_regular_crewmates(self):
+        """Get list of crewmates."""
         return self.crewmate_list
 
     def add_crewmate(self, crewmate: Crewmate):
+        """add a crewmate."""
         if isinstance(crewmate, Crewmate) and self.check_if_new_player(crewmate):
             self.crewmate_list.append(crewmate)
 
     def get_impostor_list(self):
+        """Get list of impostors."""
         return self.impostor_list
 
     def add_impostor(self, impostor: Impostor):
+        """Add an impostor."""
         if isinstance(impostor, Impostor) and len(self.impostor_list) < 3 and self.check_if_new_player(impostor):
             self.impostor_list.append(impostor)
         else:
             return
 
     def get_dead_players(self):
+        """Get list of dead players."""
         return self.dead_players
 
     def check_if_new_player(self, player):
+        """Control if the body-color is not already in use."""
         for crewmate in self.crewmate_list:
             if player.color == crewmate.color:
                 return False
