@@ -119,7 +119,8 @@ class Spaceship:
 
     def protect_crewmate(self, guardian_angel: Crewmate, crewmate_to_protect: Crewmate):
         """Enable protection for crewmate."""
-        if guardian_angel.role == "Guardian Angel" and crewmate_to_protect.role != "Guardian Angel":
+        if guardian_angel.role == "Guardian Angel" and crewmate_to_protect.role != "Guardian Angel" \
+                and guardian_angel in self.dead_players and crewmate_to_protect in self.crewmate_list:
             for person in self.crewmate_list:
                 person.protected = False
 
@@ -127,18 +128,19 @@ class Spaceship:
 
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
-        the_person = None
-        for person in self.crewmate_list:
-            if person.color == color.title():
-                the_person = person
+        if impostor in self.impostor_list:
+            the_person = None
+            for person in self.crewmate_list:
+                if person.color == color.title():
+                    the_person = person
 
-        if the_person:
-            if the_person.protected:
-                the_person.protected = False
-            else:
-                self.dead_players.append(the_person)
-                self.crewmate_list.remove(the_person)
-                impostor.kills += 1
+            if the_person:
+                if the_person.protected:
+                    the_person.protected = False
+                else:
+                    self.dead_players.append(the_person)
+                    self.crewmate_list.remove(the_person)
+                    impostor.kills += 1
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
