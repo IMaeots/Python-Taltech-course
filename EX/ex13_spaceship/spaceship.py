@@ -93,7 +93,7 @@ class Spaceship:
 
     def kill_impostor(self, sheriff: Crewmate, color: str):
         """Murder an imposter if the chosen color is correct."""
-        if sheriff in self.crewmate_list:
+        if sheriff in self.crewmate_list and sheriff.role == "Sheriff":
             person_to_remove = None
             for person in self.impostor_list:
                 if person.color == color.title():
@@ -110,7 +110,8 @@ class Spaceship:
 
     def revive_crewmate(self, altruist: Crewmate, dead_crewmate: Crewmate):
         """Help a friend in need."""
-        if altruist in self.crewmate_list and dead_crewmate in self.dead_players:
+        if altruist in self.crewmate_list and altruist.role == "Altruist" \
+                and dead_crewmate in self.dead_players:
             self.dead_players.remove(dead_crewmate)
             self.crewmate_list.append(dead_crewmate)
             self.crewmate_list.remove(altruist)
@@ -118,7 +119,8 @@ class Spaceship:
 
     def protect_crewmate(self, guardian_angel: Crewmate, crewmate_to_protect: Crewmate):
         """Enable protection for crewmate."""
-        if guardian_angel in self.dead_players and crewmate_to_protect in self.crewmate_list:
+        if guardian_angel in self.dead_players and guardian_angel.role == "Guardian Angel" \
+                and crewmate_to_protect in self.crewmate_list:
             for person in self.crewmate_list:
                 if person.protected:
                     person.protected = False
@@ -127,14 +129,15 @@ class Spaceship:
 
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
-        for person in self.crewmate_list:
-            if person.color == color.title():
-                if person.protected:
-                    person.protected = False
-                else:
-                    self.crewmate_list.remove(person)
-                    self.dead_players.append(person)
-                    impostor.kills += 1
+        if isinstance(impostor, Impostor):
+            for person in self.crewmate_list:
+                if person.color == color.title():
+                    if person.protected:
+                        person.protected = False
+                    else:
+                        self.crewmate_list.remove(person)
+                        self.dead_players.append(person)
+                        impostor.kills += 1
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
