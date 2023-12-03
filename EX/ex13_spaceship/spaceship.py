@@ -131,7 +131,7 @@ class Spaceship:
         """Simulate killing a crewmate."""
         if isinstance(impostor, Impostor):
             for person in self.crewmate_list:
-                if person.color == color.title():
+                if person.color == color.title() and person.role == "Crewmate":
                     if person.protected:
                         person.protected = False
                     else:
