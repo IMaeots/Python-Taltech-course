@@ -135,7 +135,6 @@ class Spaceship:
                     if person.protected:
                         person.protected = False
                     else:
-                        self.crewmate_list.remove(person)
                         self.dead_players.append(person)
                         impostor.kills += 1
 
