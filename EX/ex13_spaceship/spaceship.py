@@ -131,11 +131,12 @@ class Spaceship:
         """Simulate killing a crewmate."""
         if isinstance(impostor, Impostor):
             for person in self.crewmate_list:
-                if person.color == color.title() and isinstance(person, Crewmate):
-                    if person.protected:
+                if person.color == color.title() and isinstance(person, Crewmate) and person.role == "Crewmate":
+                    if person.protected is True:
                         person.protected = False
                     else:
                         self.dead_players.append(person)
+                        self.crewmate_list.remove(person)
                         impostor.kills += 1
 
     def sort_crewmates_by_tasks(self):
