@@ -127,14 +127,18 @@ class Spaceship:
 
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
+        the_person = None
         for person in self.crewmate_list:
             if person.color == color.title():
-                if person.protected is True:
-                    person.protected = False
-                else:
-                    self.dead_players.append(person)
-                    self.crewmate_list.remove(person)
-                    impostor.kills += 1
+                the_person = person
+
+        if the_person:
+            if the_person.protected:
+                the_person.protected = False
+            else:
+                self.dead_players.append(the_person)
+                self.crewmate_list.remove(the_person)
+                impostor.kills += 1
 
     def sort_crewmates_by_tasks(self):
         """Sort crewmates by tasks."""
