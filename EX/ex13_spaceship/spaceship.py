@@ -239,7 +239,7 @@ if __name__ == "__main__":
     print(spaceship.get_dead_players())  # -> Yellow
     print()
 
-    spaceship.kill_impostor(blue, "orange")
+    spaceship.kill_impostor(blue, "black")
     print(spaceship.get_impostor_list())
     print()
 
