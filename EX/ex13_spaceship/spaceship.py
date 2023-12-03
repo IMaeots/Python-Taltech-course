@@ -12,7 +12,7 @@ class Crewmate:
         if role.upper() in possible_roles:
             self.role = role.title()
         else:
-            self.role = "Crewmate"
+            self.role = possible_roles[0].title()
 
         self.tasks = tasks
         self.protected = False
