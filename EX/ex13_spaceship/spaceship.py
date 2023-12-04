@@ -121,7 +121,7 @@ class Spaceship:
         """Enable protection for crewmate."""
         if guardian_angel.role == "Guardian Angel" and guardian_angel in self.dead_players \
                 and guardian_angel not in self.crewmate_list and crewmate_to_protect in self.crewmate_list \
-                and crewmate_to_protect.role != "Guardian Angel":
+                and crewmate_to_protect.role != "Guardian Angel" and crewmate_to_protect not in self.dead_players:
             for person in self.crewmate_list:
                 if person == crewmate_to_protect:
                     person.protected = True
