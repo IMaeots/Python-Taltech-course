@@ -68,8 +68,6 @@ class Spaceship:
         """Add an impostor."""
         if isinstance(impostor, Impostor) and len(self.impostor_list) < 3 and self.check_if_new_player(impostor):
             self.impostor_list.append(impostor)
-        else:
-            return
 
     def get_dead_players(self):
         """Get list of dead players."""
