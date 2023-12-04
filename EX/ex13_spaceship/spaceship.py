@@ -133,7 +133,7 @@ class Spaceship:
         if impostor in self.impostor_list:
             the_person = None
             for person in self.crewmate_list:
-                if person.color == color.title():
+                if person.color == color.title() and person not in self.dead_players:
                     the_person = person
 
             if the_person:
