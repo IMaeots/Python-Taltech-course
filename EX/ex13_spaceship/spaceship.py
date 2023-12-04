@@ -125,7 +125,6 @@ class Spaceship:
                 if isinstance(crewmate_to_protect, Crewmate) and crewmate_to_protect in self.crewmate_list:
                     crewmate_to_protect.protected = True
 
-
     def kill_crewmate(self, impostor: Impostor, color: str):
         """Simulate killing a crewmate."""
         if impostor in self.impostor_list:
