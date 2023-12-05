@@ -5,6 +5,7 @@ import spaceship
 
 class OPSpaceship(spaceship.Spaceship):
     """OP version of spaceship."""
+
     def __init__(self, difficulty: str):
         """Initialize the class."""
         super().__init__()
@@ -45,7 +46,7 @@ class OPSpaceship(spaceship.Spaceship):
     def check_if_game_over(self):
         """Check if the game is over."""
         if self.game is True:
-            if len(self.impostor_list) < 1 or (len(self.crewmate_list) >= len(self.impostor_list) and self.impostor_list <= 3):
+            if len(self.impostor_list) < 1 or (len(self.crewmate_list) >= len(self.impostor_list) and len(self.impostor_list) <= 3):
                 return True
 
     def start_game(self):
@@ -62,9 +63,12 @@ class OPSpaceship(spaceship.Spaceship):
 
     def cast_vote(self, player: spaceship.Crewmate | spaceship.Impostor, target_player_color: str):
         """Cast vote in the meeting."""
-        if not self.votes[player.color] and self.game is True and self.meeting is True:
-            if target_player_color in [gamer.color for gamer in zip(self.crewmate_list, self.impostor_list)]:
-                self.votes[player.color] = target_player_color.title()
+        try:
+            if not self.votes[player.color] and self.game is True and self.meeting is True:
+                if target_player_color in [gamer.color for gamer in zip(self.crewmate_list, self.impostor_list)]:
+                    self.votes[player.color] = target_player_color.title()
+        except KeyError:
+            pass
 
     def end_meeting(self):
         """End meeting."""
@@ -112,5 +116,5 @@ class OPSpaceship(spaceship.Spaceship):
         return self.votes
 
     def is_meeting(self):
-        "Return if there is a meeting going on."
+        """Return if there is a meeting going on."""
         return self.meeting
