@@ -34,28 +34,44 @@ class OPSpaceship(spaceship.Spaceship):
         if self.game is True and self.meeting is False:
             super().kill_impostor(sheriff, color)
 
-            game_over = self.check_if_game_over()
+            self.check_if_game_over()
 
     def kill_crewmate(self, impostor: spaceship.Impostor, color: str):
         """Kill crewmate."""
         if self.game is True and self.meeting is False:
             super().kill_crewmate(impostor, color)
 
-            game_over = self.check_if_game_over()
+            self.check_if_game_over()
 
     def check_if_game_over(self):
         """Check if the game is over."""
         if self.game is True:
-            if len(self.impostor_list) < 1 or (len(self.crewmate_list) >= len(self.impostor_list) and len(self.impostor_list) <= 3):
-                return True
+            win_message = None
+            if len(self.impostor_list) < 1:
+                win_message = "Crewmates won."
+            elif len(self.crewmate_list) == len(self.impostor_list) and len(self.impostor_list) <= 3:
+                win_message = "Impostors won."
+
+            if win_message is not None:
+                self.ejected_players = []
+                self.impostor_list = []
+                self.crewmate_list = []
+                self.votes = {}
+                self.game = False
+                self.meeting = False
+                return win_message
+
+        return None
 
     def start_game(self):
         """Start the game."""
         if self.game is False:
-            if len(self.impostor_list) and len(self.crewmate_list) >= 2 and len(self.impostor_list) < len(self.crewmate_list):
+            if len(self.impostor_list) and len(self.crewmate_list) >= 2 and len(self.impostor_list) < len(
+                    self.crewmate_list):
                 self.game = True
 
-    def report_dead_body(self, reporting_player: spaceship.Crewmate | spaceship.Impostor, dead_body: spaceship.Crewmate | spaceship.Impostor):
+    def report_dead_body(self, reporting_player: spaceship.Crewmate | spaceship.Impostor,
+                         dead_body: spaceship.Crewmate | spaceship.Impostor):
         """Report a dead body."""
         if reporting_player not in self.dead_players or reporting_player not in self.ejected_players:
             if dead_body in self.dead_players:
@@ -88,9 +104,11 @@ class OPSpaceship(spaceship.Spaceship):
                     self.ejected_players.append(eliminated)
                     impostors_left = len(self.impostor_list)
                     if impostors_left > 1:
-                        return f"{eliminated.color} was not an Impostor. {impostors_left} Impostors remains."
+                        return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
+                                                                           f" {impostors_left} Impostors remains.")
                     else:
-                        return f"{eliminated.color} was not an Impostor. {impostors_left} Impostor remain."
+                        return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
+                                                                           f"{impostors_left} Impostor remain.")
             else:
                 if eliminated in self.impostor_list:
                     self.impostor_list.remove(eliminated)
@@ -99,9 +117,7 @@ class OPSpaceship(spaceship.Spaceship):
                     self.crewmate_list.remove(eliminated)
                     self.ejected_players.append(eliminated)
 
-                self.check_if_game_over()
-
-                return f"{eliminated.color} was ejected."
+                return self.check_if_game_over() if not None else f"{eliminated.color} was ejected."
 
     def get_vote(self, color: str):
         """Return who a player voted for."""
