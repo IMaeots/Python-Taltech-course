@@ -96,9 +96,11 @@ class OPSpaceship(spaceship.Spaceship):
                     self.ejected_players.append(eliminated)
                     impostors_left = len(self.impostor_list)
                     if impostors_left > 1:
-                        return f"{eliminated.color} was an Impostor. {impostors_left} Impostors remains."
+                        return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
+                                                                           f" {impostors_left} Impostors remains.")
                     else:
-                        return f"{eliminated.color} was an Impostor. {impostors_left} Impostor remain."
+                        return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
+                                                                           f"{impostors_left} Impostor remain.")
                 else:
                     self.crewmate_list.remove(eliminated)
                     self.ejected_players.append(eliminated)
