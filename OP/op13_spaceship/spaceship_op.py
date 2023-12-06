@@ -80,7 +80,7 @@ class OPSpaceship(spaceship.Spaceship):
     def cast_vote(self, player: spaceship.Crewmate | spaceship.Impostor, target_player_color: str):
         """Cast vote in the meeting."""
         try:
-            if not self.votes[player.color] and self.game is True and self.meeting is True:
+            if player.color not in self.votes and self.game is True and self.meeting is True:
                 if target_player_color in [gamer.color for gamer in zip(self.crewmate_list, self.impostor_list)]:
                     self.votes[player.color] = target_player_color.title()
         except KeyError:
