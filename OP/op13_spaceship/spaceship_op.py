@@ -89,19 +89,19 @@ class OPSpaceship(spaceship.Spaceship):
         if self.game is True and self.meeting is True:
             if len(self.votes) == 0:
                 self.meeting = False
-                return f"No one was ejected. (Skipped)"
+                return "No one was ejected. (Skipped)"
             else:
                 max_value = max(self.votes.values())
                 eliminated = [key for key, value in self.votes.items() if value == max_value]
                 if eliminated != 1:
                     self.meeting = False
-                    return f"No one was ejected. (Tie)"
+                    return "No one was ejected. (Tie)"
                 else:
                     eliminated = eliminated[0]
 
                     if eliminated == "Skipped":
                         self.meeting = False
-                        return f"No one was ejected. (Skipped)"
+                        return "No one was ejected. (Skipped)"
 
                     if self.difficulty == "easy":
                         if eliminated in self.impostor_list:
