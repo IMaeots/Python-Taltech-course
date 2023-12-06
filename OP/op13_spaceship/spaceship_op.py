@@ -87,8 +87,19 @@ class OPSpaceship(spaceship.Spaceship):
     def end_meeting(self):
         """End meeting."""
         if self.game is True and self.meeting is True:
-            if self.votes:
-                eliminated = max(self.votes, key=self.votes.get)
+            if len(self.votes) == 0:
+                return f"No one was ejected. (Skipped)"
+            else:
+                max_value = max(self.votes.values())
+                eliminated = [key for key, value in self.votes.items() if value == max_value]
+                if eliminated != 1:
+                    return f"No one was ejected. (Tie)"
+                else:
+                    eliminated = eliminated[0]
+
+                    if eliminated == "Skipped":
+                        return f"No one was ejected. (Skipped)"
+
                 if self.difficulty == "easy":
                     if eliminated in self.impostor_list:
                         self.impostor_list.remove(eliminated)
