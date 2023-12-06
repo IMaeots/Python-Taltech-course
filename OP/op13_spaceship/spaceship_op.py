@@ -79,9 +79,10 @@ class OPSpaceship(spaceship.Spaceship):
 
     def cast_vote(self, player: spaceship.Crewmate | spaceship.Impostor, target_player_color: str):
         """Cast vote in the meeting."""
-        if player.color not in self.votes and self.game is True and self.meeting is True:
-            if target_player_color in [gamer.color for gamer in self.crewmate_list + self.impostor_list]:
-                self.votes[player.color] = target_player_color.title()
+        if player in self.crewmate_list or self.impostor_list:
+            if player.color not in self.votes and self.game is True and self.meeting is True:
+                if target_player_color in [gamer.color for gamer in self.crewmate_list + self.impostor_list]:
+                    self.votes[player.color] = target_player_color.title()
 
     def end_meeting(self):
         """End meeting."""
