@@ -94,9 +94,11 @@ class OPSpaceship(spaceship.Spaceship):
                         self.ejected_players.append(eliminated)
                         impostors_left = len(self.impostor_list)
                         if impostors_left > 1:
+                            self.meeting = False
                             return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
                                                                                f" {impostors_left} Impostors remains.")
                         else:
+                            self.meeting = False
                             return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
                                                                                f"{impostors_left} Impostor remain.")
                     else:
@@ -104,9 +106,11 @@ class OPSpaceship(spaceship.Spaceship):
                         self.ejected_players.append(eliminated)
                         impostors_left = len(self.impostor_list)
                         if impostors_left > 1:
+                            self.meeting = False
                             return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
                                                                                f" {impostors_left} Impostors remains.")
                         else:
+                            self.meeting = False
                             return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
                                                                                f"{impostors_left} Impostor remain.")
                 else:
@@ -117,8 +121,10 @@ class OPSpaceship(spaceship.Spaceship):
                         self.crewmate_list.remove(eliminated)
                         self.ejected_players.append(eliminated)
 
+                    self.meeting = False
                     return self.check_if_game_over() if not None else f"{eliminated.color} was ejected."
             else:
+                self.meeting = False
                 return
 
     def get_vote(self, color: str):
