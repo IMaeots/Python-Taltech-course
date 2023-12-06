@@ -86,37 +86,40 @@ class OPSpaceship(spaceship.Spaceship):
     def end_meeting(self):
         """End meeting."""
         if self.game is True and self.meeting is True:
-            eliminated = max(self.votes, key=self.votes.get)
-            if self.difficulty == "easy":
-                if eliminated in self.impostor_list:
-                    self.impostor_list.remove(eliminated)
-                    self.ejected_players.append(eliminated)
-                    impostors_left = len(self.impostor_list)
-                    if impostors_left > 1:
-                        return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
-                                                                           f" {impostors_left} Impostors remains.")
+            if self.votes:
+                eliminated = max(self.votes, key=self.votes.get)
+                if self.difficulty == "easy":
+                    if eliminated in self.impostor_list:
+                        self.impostor_list.remove(eliminated)
+                        self.ejected_players.append(eliminated)
+                        impostors_left = len(self.impostor_list)
+                        if impostors_left > 1:
+                            return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
+                                                                               f" {impostors_left} Impostors remains.")
+                        else:
+                            return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
+                                                                               f"{impostors_left} Impostor remain.")
                     else:
-                        return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
-                                                                           f"{impostors_left} Impostor remain.")
+                        self.crewmate_list.remove(eliminated)
+                        self.ejected_players.append(eliminated)
+                        impostors_left = len(self.impostor_list)
+                        if impostors_left > 1:
+                            return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
+                                                                               f" {impostors_left} Impostors remains.")
+                        else:
+                            return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
+                                                                               f"{impostors_left} Impostor remain.")
                 else:
-                    self.crewmate_list.remove(eliminated)
-                    self.ejected_players.append(eliminated)
-                    impostors_left = len(self.impostor_list)
-                    if impostors_left > 1:
-                        return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
-                                                                           f" {impostors_left} Impostors remains.")
+                    if eliminated in self.impostor_list:
+                        self.impostor_list.remove(eliminated)
+                        self.ejected_players.append(eliminated)
                     else:
-                        return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
-                                                                           f"{impostors_left} Impostor remain.")
-            else:
-                if eliminated in self.impostor_list:
-                    self.impostor_list.remove(eliminated)
-                    self.ejected_players.append(eliminated)
-                else:
-                    self.crewmate_list.remove(eliminated)
-                    self.ejected_players.append(eliminated)
+                        self.crewmate_list.remove(eliminated)
+                        self.ejected_players.append(eliminated)
 
-                return self.check_if_game_over() if not None else f"{eliminated.color} was ejected."
+                    return self.check_if_game_over() if not None else f"{eliminated.color} was ejected."
+            else:
+                return
 
     def get_vote(self, color: str):
         """Return who a player voted for."""
