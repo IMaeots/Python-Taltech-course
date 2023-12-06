@@ -34,14 +34,14 @@ class OPSpaceship(spaceship.Spaceship):
         if self.game is True and self.meeting is False:
             super().kill_impostor(sheriff, color)
 
-            self.check_if_game_over()
+            return self.check_if_game_over()
 
     def kill_crewmate(self, impostor: spaceship.Impostor, color: str):
         """Kill crewmate."""
         if self.game is True and self.meeting is False:
             super().kill_crewmate(impostor, color)
 
-            self.check_if_game_over()
+            return self.check_if_game_over()
 
     def check_if_game_over(self):
         """Check if the game is over."""
