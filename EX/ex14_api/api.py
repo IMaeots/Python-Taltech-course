@@ -77,18 +77,12 @@ def stream_request(url: str) -> str:
     :param url: The URL to send the GET request to.
     :return: A string containing the streamed content.
     """
-    content = ""
-
-    try:
-        response = requests.get(url, stream=True)
-
-        for gig in response.iter_content(chunk_size=1024):
-            if gig:
-                content += gig.decode('utf-8')
-    except requests.RequestException:
-        return ""
-
-    return content
+    response = requests.get(url, stream=True)
+    streamed_content = ""
+    for chunk in response.iter_content(chunk_size=1024):
+        if chunk:  # Filter out keep-alive new chunks
+            streamed_content += chunk.decode("utf-8")  # Assuming UTF-8 encoding
+    return streamed_content
 
 
 def get_authenticated_request(url: str, auth_token: str) -> Any | requests.RequestException:
