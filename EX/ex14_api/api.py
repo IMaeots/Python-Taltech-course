@@ -30,7 +30,7 @@ def get_request_error_handling(url: str) -> Response | RequestException:
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response.json()
+        return response
     except requests.RequestException as e:
         return e
 
@@ -78,6 +78,7 @@ def stream_request(url: str) -> str:
     :param url: The URL to send the GET request to.
     :return: A string containing the streamed content.
     """
+    content = ""
     response = requests.get(url, stream=True)
 
     if response.encoding is None:
@@ -85,7 +86,9 @@ def stream_request(url: str) -> str:
 
     for line in response.iter_lines(decode_unicode=True):
         if line:
-            print(json.loads(line))
+            content += json.loads(line)
+
+    return content
 
 
 def get_authenticated_request(url: str, auth_token: str) -> Any | requests.RequestException:
