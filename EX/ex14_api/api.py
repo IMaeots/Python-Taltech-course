@@ -18,7 +18,7 @@ def get_request(url: str) -> int:
     return requests.get(url).status_code
 
 
-def get_request_error_handling(url: str) -> Response | RequestException:
+def get_request_error_handling(url: str) -> int | RequestException:
     """
     Send an HTTP GET request to the specified URL with error handling.
 
@@ -30,7 +30,7 @@ def get_request_error_handling(url: str) -> Response | RequestException:
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response
+        return response.status_code
     except requests.RequestException as e:
         return e
 
