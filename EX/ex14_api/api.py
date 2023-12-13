@@ -85,7 +85,11 @@ def stream_request(url: str) -> str:
 
     for line in response.iter_lines(decode_unicode=True):
         if line:
-            content += json.loads(line)
+            try:
+                json_obj = json.loads(line)
+                content += json.dumps(json_obj)  # Convert back to string and append
+            except json.JSONDecodeError:
+                continue
 
     return content
 
