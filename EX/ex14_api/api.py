@@ -78,18 +78,15 @@ def stream_request(url: str) -> str:
     :return: A string containing the streamed content.
     """
     content = ""
-    response = requests.get(url, stream=True)
 
-    if response.encoding is None:
-        response.encoding = 'utf-8'
+    try:
+        response = requests.get(url, stream=True)
 
-    for line in response.iter_lines(decode_unicode=True):
-        if line:
-            try:
-                json_obj = json.loads(line)
-                content += json.dumps(json_obj)  # Convert back to string and append
-            except json.JSONDecodeError:
-                continue
+        for gig in response.iter_content(chunk_size=1024):
+            if gig:
+                content += gig.decode('utf-8')
+    except requests.RequestException:
+        return ""
 
     return content
 
