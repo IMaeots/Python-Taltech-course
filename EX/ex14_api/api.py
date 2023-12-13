@@ -30,7 +30,7 @@ def get_request_error_handling(url: str) -> Response | RequestException:
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response
+        return response.json()
     except requests.RequestException as e:
         return e
 
@@ -119,13 +119,12 @@ def advanced_user_filter(url, min_followers: int, min_posts: int, min_following:
     :param min_following: Minimum following required.
     :return: List of user data dictionaries.
     """
+
     def user_meets_criteria(user):
         """Filter correct users."""
-        return (
-            user.get('followers', 0) >= min_followers and
-            user.get('posts', 0) >= min_posts and
+        return user.get('followers', 0) >= min_followers and \
+            user.get('posts', 0) >= min_posts and \
             user.get('following', 0) >= min_following
-        )
 
     r = requests.get(url).json()
     filtered_users = filter(user_meets_criteria, r)
