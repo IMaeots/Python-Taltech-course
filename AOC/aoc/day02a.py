@@ -1,3 +1,5 @@
+"""Day 02 part B solution."""
+
 from collections import defaultdict
 
 color_limits = {'red': 12, 'green': 13, 'blue': 14}
