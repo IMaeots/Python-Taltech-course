@@ -11,13 +11,13 @@ R = len(G)
 C = len(G[0])
 
 nums = defaultdict(list)
-for r in range(len(G)):
+for r, row in enumerate(G):
     gears = set()  # Positions of '*' characters next to the current number
     n = 0
     has_part = False
-    for c in range(len(G[r]) + 1):
-        if c < C and G[r][c].isdigit():
-            n = n * 10 + int(G[r][c])
+    for c, _ in enumerate(row):
+        if c < C and row[c].isdigit():
+            n = n * 10 + int(row[c])
             for rr in [-1, 0, 1]:
                 for cc in [-1, 0, 1]:
                     if 0 <= r + rr < R and 0 <= c + cc < C:
