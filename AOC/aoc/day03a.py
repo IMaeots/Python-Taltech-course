@@ -5,29 +5,23 @@ with open('day03_data.txt', 'r') as file:
 
 data = text.split('\n')
 G = [[c for c in line] for line in data]
-R = len(G)
-C = len(G[0])
+R, C = len(G), len(G[0])
+
+def is_valid(row, col):
+    return 0 <= row < R and 0 <= col < C
 
 p1 = 0
-for r in range(len(G)):
-    gears = set()  # Positions of '*' characters next to the current number
-    n = 0
-    has_part = False
-    for c in range(len(G[r]) + 1):
-        if c < C and G[r][c].isdigit():
-            n = n * 10 + int(G[r][c])
-            for rr in [-1, 0, 1]:
-                for cc in [-1, 0, 1]:
-                    if 0 <= r + rr < R and 0 <= c + cc < C:
-                        ch = G[r + rr][c + cc]
-                        if not ch.isdigit() and ch != '.':
-                            has_part = True
-                        if ch == '*':
-                            gears.add((r + rr, c + cc))
-        elif n > 0:
-            if has_part:
-                p1 += n
-            n = 0
+for r in range(R):
+    for c in range(C):
+        if G[r][c].isdigit():
+            number = int(G[r][c])
             has_part = False
+            gears = {(r + rr, c + cc) for rr in [-1, 0, 1] for cc in [-1, 0, 1]
+                     if is_valid(r + rr, c + cc) and not G[r + rr][c + cc].isdigit() and G[r + rr][c + cc] != '.'}
+            for rr, cc in gears:
+                if G[rr][cc] == '*':
+                    has_part = True
+            if has_part:
+                p1 += number
 
 print(p1)
