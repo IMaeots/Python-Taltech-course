@@ -33,8 +33,11 @@ for r in range(len(G)):
             has_part = False
             gears = set()
 
-p2 = 0
+# Calculate gear ratios and sum them up
+gear_ratios = []
 for k, v in nums.items():
     if len(v) == 2:
-        p2 += v[0] * v[1]
-print(p2)
+        gear_ratios.append(v[0] * v[1])
+
+total_gear_ratios = sum(gear_ratios)
+print(total_gear_ratios)
