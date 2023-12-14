@@ -7,8 +7,11 @@ data = text.split('\n')
 G = [[c for c in line] for line in data]
 R, C = len(G), len(G[0])
 
+
 def is_valid(row, col):
+    """Check if valid."""
     return 0 <= row < R and 0 <= col < C
+
 
 p1 = 0
 for r in range(R):
