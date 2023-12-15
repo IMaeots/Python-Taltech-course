@@ -1,43 +1,29 @@
 """Day 03 B Solution."""
-
-from collections import defaultdict
+import math
+import re
 
 with open('day03_data.txt', 'r') as file:
     text = file.read().strip()
 
-data = text.split('\n')
-G = [[c for c in line] for line in data]
-R = len(G)
-C = len(G[0])
+lines = text.split('\n')
 
-nums = defaultdict(list)
-for r, row in enumerate(G):
-    gears = set()  # Positions of '*' characters next to the current number
-    n = 0
-    has_part = False
-    for c, _ in enumerate(row):
-        if c < C and row[c].isdigit():
-            n = n * 10 + int(row[c])
-            for rr in [-1, 0, 1]:
-                for cc in [-1, 0, 1]:
-                    if 0 <= r + rr < R and 0 <= c + cc < C:
-                        ch = G[r + rr][c + cc]
-                        if not ch.isdigit() and ch != '.':
-                            has_part = True
-                        if ch == '*':
-                            gears.add((r + rr, c + cc))
-        elif n > 0:
-            for gear in gears:
-                nums[gear].append(n)
-            n = 0
-            has_part = False
-            gears = set()
+gear_regex = r'\*'
+gears = dict()
+for i, line in enumerate(lines):
+    for m in re.finditer(gear_regex, line):
+        gears[(i, m.start())] = []
 
-# Calculate gear ratios and sum them up
-gear_ratios = []
-for k, v in nums.items():
-    if len(v) == 2:
-        gear_ratios.append(v[0] * v[1])
+number_regex = r'\d+'
+for i, line in enumerate(lines):
+    for m in re.finditer(number_regex, line):
+        for r in range(i - 1, i + 2):
+            for c in range(m.start() - 1, m.end() + 1):
+                if (r, c) in gears:
+                    gears[(r, c)].append(int(m.group()))
 
-total_gear_ratios = sum(gear_ratios)
-print(total_gear_ratios)
+gear_ratio_sum = 0
+for nums in gears.values():
+    if len(nums) == 2:
+        gear_ratio_sum += math.prod(nums)
+
+print(gear_ratio_sum)
