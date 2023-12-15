@@ -10,7 +10,7 @@ for line in text.split('\n'):
 
     while set(nums) != {0}:
         first_nums.append(nums[0])
-        nums = [nums[i] - nums[i-1] for i in range(1, len(nums))]
+        nums = [nums[i] - nums[i - 1] for i in range(1, len(nums))]
 
     for i, num in enumerate(first_nums):
         total += num if i % 2 == 0 else -num
