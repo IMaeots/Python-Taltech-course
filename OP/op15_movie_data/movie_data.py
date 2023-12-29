@@ -363,7 +363,7 @@ class MovieFilter:
 
         best_movie_index = filtered_movies['rating'].idxmax()
         best_movie = filtered_movies.loc[best_movie_index]
-        return pd.DataFrame([best_movie])
+        return best_movie
 
         # End of OP.
 
@@ -455,3 +455,7 @@ if __name__ == '__main__':
         print()
 
         print(my_movie_filter.get_top_movies_by_genre('comedy'))
+
+        print()
+
+        print(my_movie_filter.get_best_movie_by_year_genre_and_tag(1999, "comedy", "pixar"))
