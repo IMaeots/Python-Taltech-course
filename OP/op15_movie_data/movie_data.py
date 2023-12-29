@@ -304,7 +304,10 @@ class MovieFilter:
         :return: pandas DataFrame object
         """
         # Grouping by 'movieId' and calculating mean rating.
-        mean_ratings = self.movie_data.groupby('movieId').agg({'rating': 'mean'})
+        mean_ratings = self.movie_data.groupby('movieId').agg({'title': 'first',
+                                                               'genres': 'first',
+                                                               'rating': 'mean',
+                                                               'tag': 'first'})
 
         # Dropping rows with NaN values.
         mean_ratings = mean_ratings.dropna(subset=['rating'])
@@ -445,3 +448,5 @@ if __name__ == '__main__':
         print(my_movie_filter.get_decent_children_movies())
         # -> first 5 rows all Toy Story
         # dataframe size [7326 rows x 5 columns]
+
+        print(my_movie_filter.calculate_mean_rating_for_every_movie())
