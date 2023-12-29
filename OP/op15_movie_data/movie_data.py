@@ -268,10 +268,10 @@ class MovieFilter:
         Store results in self.median_rating and self.average_rating
         :return:
         """
-        valid_ratings = self.movie_data['rating'].dropna()
+        valid_movies = self.movie_data['rating'].dropna()
 
-        self.median_rating = round(valid_ratings.median(), 3)
-        self.average_rating = round(valid_ratings.mean(), 3)
+        self.median_rating = valid_movies['rating'].median().round(3)
+        self.average_rating = valid_movies['rating'].mean().round(3)
 
     def get_movies_above_average_by_genre(self, genre: str) -> pd.DataFrame:
         """Return all movies that are correct.
@@ -289,9 +289,8 @@ class MovieFilter:
         if self.average_rating is None:
             self.calculate_rating_statistics()
 
-        filtered_movies = self.movie_data[
-            (self.movie_data['genres'].str.lower().str.contains(genre.lower()))
-            & (self.movie_data['rating'] > self.average_rating)]
+        filtered_movies_by_genres = self.filter_movies_by_genre(genre)
+        filtered_movies = filtered_movies_by_genres[filtered_movies_by_genres['rating'] > self.average_rating]
 
         return filtered_movies
 
