@@ -338,14 +338,18 @@ class MovieFilter:
         :param tag: string value to filter by
         :return: pandas DataFrame object of the search result
         """
-        if year < 0 or not genre or genre is None or not tag or tag is None:
+        if year <= 0 or not genre or genre is None or not tag or tag is None:
             raise_error()
 
         # Filter movies by year, genre, and tag
-        filtered_movies = self.movie_data[
-            self.filter_movies_by_year(year).index
-            & self.filter_movies_by_genre(genre).index
-            & self.filter_movies_by_tag(tag).index]
+        filtered_movies_by_year = self.filter_movies_by_year(year)
+        filtered_movies_by_genre = self.filter_movies_by_genre(genre)
+        filtered_movies_by_tag = self.filter_movies_by_tag(tag)
+
+        filtered_movies = pd.merge(filtered_movies_by_year, filtered_movies_by_genre, how='inner', left_index=True,
+                                   right_index=True)
+        filtered_movies = pd.merge(filtered_movies, filtered_movies_by_tag, how='inner', left_index=True,
+                                   right_index=True)
 
         return filtered_movies.nlargest(1, 'rating')
 
@@ -433,3 +437,5 @@ if __name__ == '__main__':
         print(my_movie_filter.get_decent_children_movies())
         # -> first 5 rows all Toy Story
         # dataframe size [7326 rows x 5 columns]
+
+        print(my_movie_filter.get_best_movie_by_year_genre_and_tag(2019, "comedy", "fun"))
