@@ -304,7 +304,7 @@ class MovieFilter:
 
         :return: pandas DataFrame object
         """
-        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3).reset_index()
+        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3)
 
         return mean_ratings.dropna(subset=['rating'])
 
@@ -437,5 +437,3 @@ if __name__ == '__main__':
         print(my_movie_filter.get_decent_children_movies())
         # -> first 5 rows all Toy Story
         # dataframe size [7326 rows x 5 columns]
-
-        print(my_movie_filter.get_best_movie_by_year_genre_and_tag(2019, "comedy", "fun"))
