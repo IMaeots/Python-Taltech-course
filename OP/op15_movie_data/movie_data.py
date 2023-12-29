@@ -274,9 +274,10 @@ class MovieFilter:
         self.average_rating = round(valid_ratings.mean(), 3)
 
     def get_movies_above_average_by_genre(self, genre: str) -> pd.DataFrame:
-        """Return all movies with the given genre where the rating is above
-        the calculated self.average_rating value. Search is case-insensitive.
+        """Return all movies that are correct.
 
+        Return all movies with the given genre where the rating is above
+        the calculated self.average_rating value. Search is case-insensitive.
         If genre is an empty string or None, raise ValueError.
 
         :param genre: string value to filter by
@@ -295,9 +296,10 @@ class MovieFilter:
         return filtered_movies
 
     def calculate_mean_rating_for_every_movie(self) -> pd.DataFrame:
-        """Return a new DataFrame where there is only one line per unique movie and the rating of every movie is the
-        mean rating of all the individual ratings for that movie in self.movie_data, rounded to three decimal places.
+        """Return a new DataFrame.
 
+        Return a new DataFrame where there is only one line per unique movie and the rating of every movie is the
+        mean rating of all the individual ratings for that movie in self.movie_data, rounded to three decimal places.
         If the mean rating value is NaN, it should be dropped from the result.
 
         :return: pandas DataFrame object
@@ -343,8 +345,7 @@ class MovieFilter:
         filtered_movies = self.movie_data[
             (self.filter_movies_by_year(year))
             & (self.filter_movies_by_genre(genre))
-            & (self.filter_movies_by_tag(tag))
-            ]
+            & (self.filter_movies_by_tag(tag))]
 
         return filtered_movies.nlargest(1, 'rating')
 
