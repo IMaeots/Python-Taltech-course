@@ -271,7 +271,7 @@ class MovieFilter:
         valid_ratings = self.movie_data['rating'].dropna()
 
         self.median_rating = round(valid_ratings.median(), 3)
-        self.average_rating = valid_ratings['rating'].mean().round(3)
+        self.average_rating = round(valid_ratings.mean(), 3)
 
     def get_movies_above_average_by_genre(self, genre: str) -> pd.DataFrame:
         """Return all movies that are correct.
