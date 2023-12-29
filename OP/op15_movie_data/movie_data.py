@@ -304,8 +304,10 @@ class MovieFilter:
 
         :return: pandas DataFrame object
         """
-        return (pd.DataFrame({'mean_rating': self.movie_data.groupby('movieId')['rating'].mean().round(3)})
-                .dropna())
+        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3)
+        mean_ratings_df = pd.DataFrame({'mean_rating': mean_ratings})
+        mean_ratings_df = mean_ratings_df.dropna()
+        return mean_ratings_df
 
     def get_top_movies_by_genre(self, genre: str, n: int = 3) -> pd.DataFrame:
         """
