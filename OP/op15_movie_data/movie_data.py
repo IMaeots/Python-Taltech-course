@@ -330,7 +330,8 @@ class MovieFilter:
         if not genre or genre is None or n < 0:
             raise_error()
 
-        filtered_movies = self.filter_movies_by_genre(genre)
+        movies = self.calculate_mean_rating_for_every_movie()
+        filtered_movies = movies[movies['genres'].str.lower().str.contains(genre.lower())]
 
         if filtered_movies.empty:
             return pd.DataFrame()
@@ -450,3 +451,7 @@ if __name__ == '__main__':
         # dataframe size [7326 rows x 5 columns]
 
         print(my_movie_filter.calculate_mean_rating_for_every_movie())
+
+        print()
+
+        print(my_movie_filter.get_top_movies_by_genre('comedy'))
