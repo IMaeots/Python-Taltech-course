@@ -40,9 +40,8 @@ class MovieData:
         :return: None
         """
         self.movies = pd.read_csv(movies_filename)
-        self.ratings = pd.read_csv(ratings_filename).drop(columns=['userId', 'timestamp'], axis=1)
-        big_tags = pd.read_csv(tags_filename).drop(columns=['userId', 'timestamp'], axis=1)
-        self.tags = big_tags.groupby("movieId").agg({'tag': lambda x: ' '.join(x)})
+        self.ratings = pd.read_csv(ratings_filename)
+        self.tags = pd.read_csv(tags_filename)
 
         if self.ratings is None or self.tags is None or self.movies is None:
             raise_error()
@@ -65,6 +64,11 @@ class MovieData:
         :param nan_placeholder: Value to replace all np.nan-valued elements in column 'tag'.
         :return: None
         """
+        # Format ratings and tags.
+        self.ratings.drop(columns=['userId', 'timestamp'], axis=1)
+        self.tags.drop(columns=['userId', 'timestamp'], axis=1).groupby("movieId").agg({'tag': lambda x: ' '.join(x)})
+
+        # Aggregate movie dataframe.
         movie_dataframe = self.movies.merge(self.ratings, on="movieId", how="left")
         self.aggregate_movie_dataframe = movie_dataframe.merge(self.tags, on="movieId", how="left")
         self.aggregate_movie_dataframe['tag'] = self.aggregate_movie_dataframe['tag'].fillna(nan_placeholder)
