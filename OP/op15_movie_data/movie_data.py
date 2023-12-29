@@ -304,7 +304,13 @@ class MovieFilter:
 
         :return: pandas DataFrame object
         """
-        return self.movie_data.groupby('movieId').agg({'rating': 'mean'}).round(3).dropna()
+        # Grouping by 'movieId' and calculating mean rating, rounding to 3 decimal places.
+        mean_ratings = self.movie_data.groupby('movieId')['rating'].agg(mean_rating='mean').round(3)
+
+        # Dropping rows with NaN values.
+        mean_ratings = mean_ratings.dropna()
+
+        return mean_ratings
 
     def get_top_movies_by_genre(self, genre: str, n: int = 3) -> pd.DataFrame:
         """
