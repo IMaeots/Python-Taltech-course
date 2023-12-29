@@ -135,115 +135,6 @@ class MovieFilter:
         self.median_rating = None or float
         self.average_rating = None or float
 
-    # Start of OP methods.
-
-    def get_median_rating(self):
-        """
-        Return self.median_rating.
-
-        :return: float value of the median rating for all entries in self.movie_data
-        """
-        return self.median_rating
-
-    def get_average_rating(self):
-        """
-        Return self.average_rating.
-
-        :return: float value of the average rating for all entries in self.movie_data
-        """
-        return self.average_rating
-
-    def calculate_rating_statistics(self):
-        """
-        Calculate median and average ratings for all entries in self.movie_data, rounded to three decimal places.
-
-        Store results in self.median_rating and self.average_rating
-        :return:
-        """
-        valid_ratings = self.movie_data['rating'].dropna()
-
-        self.median_rating = round(valid_ratings.median(), 3)
-        self.average_rating = round(valid_ratings.mean(), 3)
-
-    def get_movies_above_average_by_genre(self, genre: str) -> pd.DataFrame:
-        """
-        Return all movies with the given genre where the rating is above
-        the calculated self.average_rating value. Search is case-insensitive.
-
-        If genre is an empty string or None, raise ValueError.
-
-        :param genre: string value to filter by
-        :return: pandas DataFrame object of the search result
-        """
-        if not genre:
-            raise_error()
-
-        if self.average_rating is None:
-            self.calculate_rating_statistics()
-
-        filtered_movies = self.movie_data[
-            (self.movie_data['genres'].str.lower().str.contains(genre.lower()))
-            & (self.movie_data['rating'] > self.average_rating)]
-
-        return filtered_movies
-
-    def calculate_mean_rating_for_every_movie(self) -> pd.DataFrame:
-        """
-        Return a new DataFrame where there is only one line per unique movie and the rating of every movie is the
-        mean rating of all the individual ratings for that movie in self.movie_data, rounded to three decimal places.
-
-        If the mean rating value is NaN, it should be dropped from the result.
-
-        :return: pandas DataFrame object
-        """
-        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3).reset_index()
-
-        return mean_ratings.dropna(subset=['rating'])
-
-    def get_top_movies_by_genre(self, genre: str, n: int = 3) -> pd.DataFrame:
-        """
-        Return the top n best rated movies with the given genre. Search is case-insensitive.
-
-        If genre is an empty string or None of if n is negative, a ValueError should be raised.
-
-        :param genre: string value to filter by
-        :param n: number of best rated movies to include in the result
-        :return: pandas DataFrame object of the search result
-        """
-        if not genre or genre is None or n < 0:
-            raise_error()
-
-        genre_movies = self.movie_data[self.movie_data['genres'].str.lower().str.contains(genre)]
-        mean_ratings = genre_movies.groupby('movieId')['rating'].mean().round(3).reset_index()
-
-        return mean_ratings.sort_values(by='rating', ascending=False).head(n)
-
-    def get_best_movie_by_year_genre_and_tag(self, year: int, genre: str, tag: str) -> pd.DataFrame:
-        """
-        Return the best rated movie with given year of release, genre and tag. Search is case-insensitive.
-
-        If year is negative, a ValueError should be raised.
-        If either tag or genre is an empty string or None, a ValueError should be raised.
-
-        :param year: integer value to filter by
-        :param genre: string value to filter by
-        :param tag: string value to filter by
-        :return: pandas DataFrame object of the search result
-        """
-        if year < 0 or not genre or genre is None or not tag or tag is None:
-            raise_error()
-
-        # Filter movies by year, genre, and tag
-        filtered_movies = self.movie_data[
-            (self.movie_data['year_column'].str.lower().str.contains(year)) &
-            (self.movie_data['genre_column'].str.lower().str.contains(genre)) &
-            (self.movie_data['tag_column'].str.lower().str.contains(tag))
-            ]
-
-        return filtered_movies.nlargest(1, 'rating_column')
-
-    # End of OP.
-
     def set_movie_data(self, movie_data: pd.DataFrame) -> None:
         """
         Set the value of self.movie_data to be given argument movie_data.
@@ -351,6 +242,113 @@ class MovieFilter:
         """
         return self.movie_data[(self.movie_data['genres'].str.lower().str.contains('children'))
                                & (self.movie_data['rating'] >= 3.0)]
+
+    # Start of OP methods.
+
+    def get_median_rating(self):
+        """
+        Return self.median_rating.
+
+        :return: float value of the median rating for all entries in self.movie_data
+        """
+        return self.median_rating
+
+    def get_average_rating(self):
+        """
+        Return self.average_rating.
+
+        :return: float value of the average rating for all entries in self.movie_data
+        """
+        return self.average_rating
+
+    def calculate_rating_statistics(self):
+        """
+        Calculate median and average ratings for all entries in self.movie_data, rounded to three decimal places.
+
+        Store results in self.median_rating and self.average_rating
+        :return:
+        """
+        valid_ratings = self.movie_data['rating'].dropna()
+
+        self.median_rating = round(valid_ratings.median(), 3)
+        self.average_rating = round(valid_ratings.mean(), 3)
+
+    def get_movies_above_average_by_genre(self, genre: str) -> pd.DataFrame:
+        """Return all movies with the given genre where the rating is above
+        the calculated self.average_rating value. Search is case-insensitive.
+
+        If genre is an empty string or None, raise ValueError.
+
+        :param genre: string value to filter by
+        :return: pandas DataFrame object of the search result
+        """
+        if not genre:
+            raise_error()
+
+        if self.average_rating is None:
+            self.calculate_rating_statistics()
+
+        filtered_movies = self.movie_data[
+            (self.movie_data['genres'].str.lower().str.contains(genre.lower()))
+            & (self.movie_data['rating'] > self.average_rating)]
+
+        return filtered_movies
+
+    def calculate_mean_rating_for_every_movie(self) -> pd.DataFrame:
+        """Return a new DataFrame where there is only one line per unique movie and the rating of every movie is the
+        mean rating of all the individual ratings for that movie in self.movie_data, rounded to three decimal places.
+
+        If the mean rating value is NaN, it should be dropped from the result.
+
+        :return: pandas DataFrame object
+        """
+        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3).reset_index()
+
+        return mean_ratings.dropna(subset=['rating'])
+
+    def get_top_movies_by_genre(self, genre: str, n: int = 3) -> pd.DataFrame:
+        """
+        Return the top n best rated movies with the given genre. Search is case-insensitive.
+
+        If genre is an empty string or None of if n is negative, a ValueError should be raised.
+
+        :param genre: string value to filter by
+        :param n: number of best rated movies to include in the result
+        :return: pandas DataFrame object of the search result
+        """
+        if not genre or genre is None or n < 0:
+            raise_error()
+
+        genre_movies = self.movie_data[self.movie_data['genres'].str.lower().str.contains(genre)]
+        mean_ratings = genre_movies.groupby('movieId')['rating'].mean().round(3).reset_index()
+
+        return mean_ratings.sort_values(by='rating', ascending=False).head(n)
+
+    def get_best_movie_by_year_genre_and_tag(self, year: int, genre: str, tag: str) -> pd.DataFrame:
+        """
+        Return the best rated movie with given year of release, genre and tag. Search is case-insensitive.
+
+        If year is negative, a ValueError should be raised.
+        If either tag or genre is an empty string or None, a ValueError should be raised.
+
+        :param year: integer value to filter by
+        :param genre: string value to filter by
+        :param tag: string value to filter by
+        :return: pandas DataFrame object of the search result
+        """
+        if year < 0 or not genre or genre is None or not tag or tag is None:
+            raise_error()
+
+        # Filter movies by year, genre, and tag
+        filtered_movies = self.movie_data[
+            (self.filter_movies_by_year(year))
+            & (self.filter_movies_by_genre(genre))
+            & (self.filter_movies_by_tag(tag))
+            ]
+
+        return filtered_movies.nlargest(1, 'rating')
+
+    # End of OP.
 
 
 if __name__ == '__main__':
