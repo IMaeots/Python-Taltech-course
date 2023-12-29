@@ -109,9 +109,7 @@ class MovieData:
 
 
 def extract_year_from_title(title):
-    """
-    Extracts the year from the title if it follows the format "Title (Year)"
-    """
+    """Extract the year from the title."""
     year_pattern = re.compile(r'\((\d{4})\)')
     match = year_pattern.search(title)
     if match:
@@ -182,7 +180,7 @@ class MovieFilter:
         if not genre or genre.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['genres'] == genre]
+        return self.movie_data[self.movie_data['genres'].lower().contains(genre.lower())]
 
     def filter_movies_by_tag(self, tag: str) -> pd.DataFrame:
         """
@@ -199,7 +197,7 @@ class MovieFilter:
         if not tag or tag.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['tag'].str.lower().contains(tag.lower())]
+        return self.movie_data[self.movie_data['tag'].lower().contains(tag.lower())]
 
     def filter_movies_by_year(self, year: int) -> pd.DataFrame:
         """
@@ -231,7 +229,8 @@ class MovieFilter:
 
         :return: pandas DataFrame object of the search result
         """
-        return self.movie_data[(self.movie_data['genres'] == "Comedy") & (self.movie_data['rating'] >= 3.0)]
+        return self.movie_data[(self.movie_data['genres'].lower().contains('comedy'))
+                               & (self.movie_data['rating'] >= 3.0)]
 
     def get_decent_children_movies(self) -> pd.DataFrame | None:
         """
@@ -239,7 +238,8 @@ class MovieFilter:
 
         :return: pandas DataFrame object of the search result
         """
-        return self.movie_data[(self.movie_data['genres'] == "Children") & (self.movie_data['rating'] >= 3.0)]
+        return self.movie_data[(self.movie_data['genres'].lower().contains('children'))
+                               & (self.movie_data['rating'] >= 3.0)]
 
 
 if __name__ == '__main__':
