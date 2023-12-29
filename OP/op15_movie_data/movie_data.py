@@ -304,7 +304,7 @@ class MovieFilter:
 
         :return: pandas DataFrame object
         """
-        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3)
+        mean_ratings = self.movie_data.groupby('movieId')['rating'].mean().round(3).remove_index()
 
         return mean_ratings.dropna(subset=['rating'])
 
