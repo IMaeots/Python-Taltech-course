@@ -325,10 +325,12 @@ class MovieFilter:
         if not genre or genre is None or n < 0:
             raise_error()
 
-        genre_movies = self.filter_movies_by_genre(genre)
-        mean_ratings = genre_movies.groupby('movieId')['rating'].mean().round(3)
+        filtered_movies = self.filter_movies_by_genre(genre)
 
-        return mean_ratings.sort_values(by='rating', ascending=False).head(n)
+        if filtered_movies.empty:
+            return pd.DataFrame()
+
+        return filtered_movies.nlargest(n, 'rating')
 
     def get_best_movie_by_year_genre_and_tag(self, year: int, genre: str, tag: str) -> pd.DataFrame:
         """
