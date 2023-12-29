@@ -180,7 +180,7 @@ class MovieFilter:
         if not genre or genre.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['genres'].lower().contains(genre.lower())]
+        return self.movie_data[self.movie_data['genres'].str.lower().contains(genre.lower())]
 
     def filter_movies_by_tag(self, tag: str) -> pd.DataFrame:
         """
@@ -197,7 +197,7 @@ class MovieFilter:
         if not tag or tag.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['tag'].lower().contains(tag.lower())]
+        return self.movie_data[self.movie_data['tag'].str.lower().contains(tag.lower())]
 
     def filter_movies_by_year(self, year: int) -> pd.DataFrame:
         """
@@ -229,7 +229,7 @@ class MovieFilter:
 
         :return: pandas DataFrame object of the search result
         """
-        return self.movie_data[(self.movie_data['genres'].lower().contains('comedy'))
+        return self.movie_data[(self.movie_data['genres'].str.lower().contains('comedy'))
                                & (self.movie_data['rating'] >= 3.0)]
 
     def get_decent_children_movies(self) -> pd.DataFrame | None:
@@ -238,7 +238,7 @@ class MovieFilter:
 
         :return: pandas DataFrame object of the search result
         """
-        return self.movie_data[(self.movie_data['genres'].lower().contains('children'))
+        return self.movie_data[(self.movie_data['genres'].str.lower().contains('children'))
                                & (self.movie_data['rating'] >= 3.0)]
 
 
