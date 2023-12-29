@@ -342,10 +342,11 @@ class MovieFilter:
             raise_error()
 
         # Filter movies by year, genre, and tag
-        filtered_movies = self.movie_data[
-            (self.filter_movies_by_year(year))
-            & (self.filter_movies_by_genre(genre))
-            & (self.filter_movies_by_tag(tag))]
+        year_filtered = self.filter_movies_by_year(year)
+        genre_filtered = self.filter_movies_by_genre(genre)
+        tag_filtered = self.filter_movies_by_tag(tag)
+
+        filtered_movies = self.movie_data[year_filtered & genre_filtered & tag_filtered]
 
         return filtered_movies.nlargest(1, 'rating')
 
