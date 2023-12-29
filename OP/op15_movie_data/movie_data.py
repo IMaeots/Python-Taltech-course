@@ -325,8 +325,8 @@ class MovieFilter:
         if not genre or genre is None or n < 0:
             raise_error()
 
-        genre_movies = self.movie_data[self.movie_data['genres'].str.lower().str.contains(genre)]
-        mean_ratings = genre_movies.groupby('movieId')['rating'].mean().round(3).reset_index()
+        genre_movies = self.filter_movies_by_genre(genre)
+        mean_ratings = genre_movies.groupby('movieId')['rating'].mean().round(3)
 
         return mean_ratings.sort_values(by='rating', ascending=False).head(n)
 
