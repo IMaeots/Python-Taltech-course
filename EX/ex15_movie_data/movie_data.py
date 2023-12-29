@@ -65,8 +65,9 @@ class MovieData:
         :return: None
         """
         # Format ratings and tags.
-        self.ratings.drop(columns=['userId', 'timestamp'], axis=1)
-        self.tags.drop(columns=['userId', 'timestamp'], axis=1).groupby("movieId").agg({'tag': lambda x: ' '.join(x)})
+        self.ratings = self.ratings.drop(columns=['userId', 'timestamp'], axis=1)
+        self.tags = (self.tags.drop(columns=['userId', 'timestamp'], axis=1)
+                     .groupby("movieId").agg({'tag': lambda x: ' '.join(x)}))
 
         # Aggregate movie dataframe.
         movie_dataframe = self.movies.merge(self.ratings, on="movieId", how="left")
