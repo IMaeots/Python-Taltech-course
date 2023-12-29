@@ -347,17 +347,14 @@ class MovieFilter:
 
         # Filter movies by year, genre, and tag
         filtered_movies_by_year = self.filter_movies_by_year(year)
-        filtered_movies_by_genre = self.filter_movies_by_genre(genre)
-        filtered_movies_by_tag = self.filter_movies_by_tag(tag)
+        filtered_movies_by_year_and_tag = filtered_movies_by_year[filtered_movies_by_year['tag'].str.lower().str.contains(tag.lower())]
+        filtered_movies = filtered_movies_by_year_and_tag[filtered_movies_by_year_and_tag['genres'].str.lower().str.contains(genre.lower())]
 
-        filtered_movies = pd.merge(filtered_movies_by_year, filtered_movies_by_genre, how='inner', left_index=True,
-                                   right_index=True)
-        filtered_movies = pd.merge(filtered_movies, filtered_movies_by_tag, how='inner', left_index=True,
-                                   right_index=True)
+        best_movie_index = filtered_movies['rating'].idxmax()
+        best_movie = filtered_movies.loc[best_movie_index]
+        return pd.DataFrame([best_movie])
 
-        return filtered_movies.nlargest(1, 'rating')
-
-    # End of OP.
+        # End of OP.
 
 
 if __name__ == '__main__':
