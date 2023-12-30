@@ -356,19 +356,17 @@ class MovieFilter:
         if year <= 0 or not genre or genre is None or not tag or tag is None:
             raise_error()
 
-        movies = self.calculate_mean_rating_for_every_movie()
+        unique_movies = self.calculate_mean_rating_for_every_movie()
 
         # Filter movies by year, genre, and tag
-        filtered_movies_by_year = movies[movies['title'].apply(extract_year_from_title) == year]
+        filtered_movies_by_year = unique_movies[unique_movies['title'].apply(extract_year_from_title) == year]
         filtered_movies_by_year_genre = filtered_movies_by_year[
             filtered_movies_by_year['genres'].str.contains(genre, case=False)]
         filtered_movies = filtered_movies_by_year_genre[
             filtered_movies_by_year_genre['tag'].str.contains(tag, case=False)]
 
-        if filtered_movies.empty:
-            return pd.DataFrame()
-
-        return filtered_movies.sort_values(by='rating', ascending=False).head(1)
+        top_movie = filtered_movies.nlargest(1, 'rating')
+        return top_movie
 
         # End of OP.
 
