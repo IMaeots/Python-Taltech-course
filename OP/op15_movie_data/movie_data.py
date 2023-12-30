@@ -337,8 +337,9 @@ class MovieFilter:
 
         self.calculate_mean_rating_for_every_movie()
         filtered_movies = self.filter_movies_by_genre(genre)
+        top_genre_movies = filtered_movies.sort_values(by='rating', ascending=False).head(n)
 
-        return filtered_movies.nlargest(n, 'rating')
+        return top_genre_movies
 
     def get_best_movie_by_year_genre_and_tag(self, year: int, genre: str, tag: str) -> pd.DataFrame:
         """
