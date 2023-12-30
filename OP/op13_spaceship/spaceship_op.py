@@ -51,14 +51,16 @@ class OPSpaceship(spaceship.Spaceship):
     def check_if_game_over(self):
         """Check if the game is over."""
         if self.game is True:
-            win_message = None
             if len(self.impostor_list) < 1:
                 win_message = "Crewmates won."
             elif len(self.crewmate_list) == len(self.impostor_list) and len(self.impostor_list) <= 3:
                 win_message = "Impostors won."
+            else:
+                win_message = None
 
             if win_message is not None:
                 self.ejected_players = []
+                self.dead_players = []
                 self.impostor_list = []
                 self.crewmate_list = []
                 self.votes = {}
