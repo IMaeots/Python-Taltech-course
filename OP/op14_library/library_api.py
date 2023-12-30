@@ -61,7 +61,7 @@ class LibraryStats:
     def get_favourite_book(self, borrower_name: str) -> str:
         """Return the most borrowed book by the person."""
         my_list = self.user_transactions[borrower_name]
-        return max(my_list, key=my_list.count)
+        return max(my_list, key=my_list.count)[0]
 
     def get_borrow_history(self, borrower_name: str) -> list[str]:
         """Return a list of books borrowed by person."""
