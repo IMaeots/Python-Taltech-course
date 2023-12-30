@@ -114,7 +114,10 @@ class OPSpaceship(spaceship.Spaceship):
             eliminated_person = [person for person in self.crewmate_list + self.impostor_list
                                  if person.color == eliminated_person_color][0]
 
-            self.meeting_vote_someone_out(eliminated_person)
+            if self.difficulty == 'easy':
+                return self.easy_meeting_voting(eliminated_person)
+            else:
+                return self.hard_meeting_voting(eliminated_person)
         else:
             self.meeting = False
             self.votes = {}
@@ -160,56 +163,57 @@ class OPSpaceship(spaceship.Spaceship):
             max_keys = [key for key, value in vote_count.items() if value == max_value]
         return max_value, max_keys
 
-    def meeting_vote_someone_out(self, eliminated_person):
-        """Decide on difficulty how to display voting out - and who."""
-        if self.difficulty == "easy":
-            if eliminated_person in self.impostor_list:
-                self.impostor_list.remove(eliminated_person)
-                self.ejected_players.append(eliminated_person)
-                impostors_left = len(self.impostor_list)
-                if impostors_left > 1:
-                    self.meeting = False
-                    self.votes = {}
-                    end = self.check_if_game_over()
-                    if self.game:
-                        return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remain."
-                    return end
-                else:
-                    self.meeting = False
-                    self.votes = {}
-                    end = self.check_if_game_over()
-                    if self.game:
-                        return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remains."
-                    return end
-            elif eliminated_person in self.crewmate_list:
-                self.crewmate_list.remove(eliminated_person)
-                self.ejected_players.append(eliminated_person)
-                impostors_left = len(self.impostor_list)
-                if impostors_left > 1:
-                    self.meeting = False
-                    self.votes = {}
-                    end = self.check_if_game_over()
-                    if self.game:
-                        return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remain."
-                    return end
-                else:
-                    self.meeting = False
-                    self.votes = {}
-                    end = self.check_if_game_over()
-                    if self.game:
-                        return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remains."
-                    return end
-        else:
-            if eliminated_person in self.impostor_list:
-                self.impostor_list.remove(eliminated_person)
-                self.ejected_players.append(eliminated_person)
-            elif eliminated_person in self.crewmate_list:
-                self.crewmate_list.remove(eliminated_person)
-                self.ejected_players.append(eliminated_person)
+    def easy_meeting_voting(self, eliminated_person):
+        """Voting mechanism on difficulty: easy"""
+        if eliminated_person in self.impostor_list:
+            self.impostor_list.remove(eliminated_person)
+            self.ejected_players.append(eliminated_person)
+            impostors_left = len(self.impostor_list)
+            if impostors_left > 1:
+                self.meeting = False
+                self.votes = {}
+                end = self.check_if_game_over()
+                if self.game:
+                    return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remain."
+                return end
+            else:
+                self.meeting = False
+                self.votes = {}
+                end = self.check_if_game_over()
+                if self.game:
+                    return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remains."
+                return end
+        elif eliminated_person in self.crewmate_list:
+            self.crewmate_list.remove(eliminated_person)
+            self.ejected_players.append(eliminated_person)
+            impostors_left = len(self.impostor_list)
+            if impostors_left > 1:
+                self.meeting = False
+                self.votes = {}
+                end = self.check_if_game_over()
+                if self.game:
+                    return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remain."
+                return end
+            else:
+                self.meeting = False
+                self.votes = {}
+                end = self.check_if_game_over()
+                if self.game:
+                    return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remains."
+                return end
 
-            self.meeting = False
-            self.votes = {}
-            end = self.check_if_game_over()
-            if self.game:
-                return f"{eliminated_person.color} was ejected."
-            return end
+    def hard_meeting_voting(self, eliminated_person):
+        """Voting mechanism on difficulty: hard"""
+        if eliminated_person in self.impostor_list:
+            self.impostor_list.remove(eliminated_person)
+            self.ejected_players.append(eliminated_person)
+        elif eliminated_person in self.crewmate_list:
+            self.crewmate_list.remove(eliminated_person)
+            self.ejected_players.append(eliminated_person)
+
+        self.meeting = False
+        self.votes = {}
+        end = self.check_if_game_over()
+        if self.game:
+            return f"{eliminated_person.color} was ejected."
+        return end
