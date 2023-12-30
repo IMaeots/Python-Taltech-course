@@ -85,8 +85,9 @@ class OPSpaceship(spaceship.Spaceship):
     def cast_vote(self, player: spaceship.Crewmate | spaceship.Impostor, target_player_color: str):
         """Cast vote in the meeting."""
         if self.game is True and self.meeting is True:
+            target_player_color = target_player_color.title()
             if player in self.crewmate_list or player in self.impostor_list:
-                if player.color not in self.votes:
+                if player.color.title() not in self.votes:
                     if any(target_player_color == obj.color for obj in (self.crewmate_list + self.impostor_list)):
                         self.votes[player.color] = target_player_color
 
@@ -170,7 +171,7 @@ class OPSpaceship(spaceship.Spaceship):
 
     def get_vote(self, color: str):
         """Return who a player voted for."""
-        if color.title() in self.votes.keys():
+        if color.title() in self.votes:
             return self.votes[color.title()]
         else:
             return "No vote found"
