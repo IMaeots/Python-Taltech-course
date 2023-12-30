@@ -112,7 +112,9 @@ class OPSpaceship(spaceship.Spaceship):
                     self.votes = {}
                     return "No one was ejected. (Tie)"
 
-                eliminated_person = max_keys[0]
+                eliminated_person_color = max_keys[0]
+                eliminated_person = [person for person in self.crewmate_list + self.impostor_list
+                                     if person.color == eliminated_person_color][0]
                 if self.difficulty == "easy":
                     if eliminated_person in self.impostor_list:
                         self.impostor_list.remove(eliminated_person)
