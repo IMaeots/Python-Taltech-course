@@ -97,86 +97,73 @@ class OPSpaceship(spaceship.Spaceship):
         """End meeting."""
         self.dead_players = []
         if self.game is True and self.meeting is True:
-            if len(self.votes) == 0:
+            vote_count = self.count_votes()
+            players_not_voted = len(self.impostor_list + self.crewmate_list) - len(self.votes)
+            max_value, max_keys = self.determine_max_votes(vote_count)
+            if max_value < players_not_voted:
                 self.meeting = False
+                self.votes = {}
                 return "No one was ejected. (Skipped)"
-            else:
-                vote_count = {}
-                for color in self.votes.values():
-                    if color not in vote_count:
-                        vote_count[color] = 1
+
+            if len(max_keys) != 1 or max_value == players_not_voted:
+                self.meeting = False
+                self.votes = {}
+                return "No one was ejected. (Tie)"
+
+            eliminated_person_color = max_keys[0]
+            eliminated_person = [person for person in self.crewmate_list + self.impostor_list
+                                 if person.color == eliminated_person_color][0]
+            if self.difficulty == "easy":
+                if eliminated_person in self.impostor_list:
+                    self.impostor_list.remove(eliminated_person)
+                    self.ejected_players.append(eliminated_person)
+                    impostors_left = len(self.impostor_list)
+                    if impostors_left > 1:
+                        self.meeting = False
+                        self.votes = {}
+                        end = self.check_if_game_over()
+                        if self.game:
+                            return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remain."
+                        return end
                     else:
-                        vote_count[color] += 1
+                        self.meeting = False
+                        self.votes = {}
+                        end = self.check_if_game_over()
+                        if self.game:
+                            return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remains."
+                        return end
+                elif eliminated_person in self.crewmate_list:
+                    self.crewmate_list.remove(eliminated_person)
+                    self.ejected_players.append(eliminated_person)
+                    impostors_left = len(self.impostor_list)
+                    if impostors_left > 1:
+                        self.meeting = False
+                        self.votes = {}
+                        end = self.check_if_game_over()
+                        if self.game:
+                            return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remain."
+                        return end
+                    else:
+                        self.meeting = False
+                        self.votes = {}
+                        end = self.check_if_game_over()
+                        if self.game:
+                            return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remains."
+                        return end
+            else:
+                if eliminated_person in self.impostor_list:
+                    self.impostor_list.remove(eliminated_person)
+                    self.ejected_players.append(eliminated_person)
+                elif eliminated_person in self.crewmate_list:
+                    self.crewmate_list.remove(eliminated_person)
+                    self.ejected_players.append(eliminated_person)
 
-                player_count = len(self.impostor_list + self.crewmate_list)
-                players_not_voted = player_count - len(self.votes)
-
-                max_value = max(vote_count.values())
-                max_keys = [key for key, value in vote_count.items() if value == max_value]
-                if len(max_keys) != 1 or max_value == players_not_voted:
-                    self.meeting = False
-                    self.votes = {}
-                    return "No one was ejected. (Tie)"
-
-                if max_value < players_not_voted:
-                    self.meeting = False
-                    self.votes = {}
-                    return "No one was ejected. (Skipped)"
-
-                eliminated_person_color = max_keys[0]
-                eliminated_person = [person for person in self.crewmate_list + self.impostor_list
-                                     if person.color == eliminated_person_color][0]
-                if self.difficulty == "easy":
-                    if eliminated_person in self.impostor_list:
-                        self.impostor_list.remove(eliminated_person)
-                        self.ejected_players.append(eliminated_person)
-                        impostors_left = len(self.impostor_list)
-                        if impostors_left > 1:
-                            self.meeting = False
-                            self.votes = {}
-                            end = self.check_if_game_over()
-                            if self.game:
-                                return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remain."
-                            return end
-                        else:
-                            self.meeting = False
-                            self.votes = {}
-                            end = self.check_if_game_over()
-                            if self.game:
-                                return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remains."
-                            return end
-                    elif eliminated_person in self.crewmate_list:
-                        self.crewmate_list.remove(eliminated_person)
-                        self.ejected_players.append(eliminated_person)
-                        impostors_left = len(self.impostor_list)
-                        if impostors_left > 1:
-                            self.meeting = False
-                            self.votes = {}
-                            end = self.check_if_game_over()
-                            if self.game:
-                                return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remain."
-                            return end
-                        else:
-                            self.meeting = False
-                            self.votes = {}
-                            end = self.check_if_game_over()
-                            if self.game:
-                                return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remains."
-                            return end
-                else:
-                    if eliminated_person in self.impostor_list:
-                        self.impostor_list.remove(eliminated_person)
-                        self.ejected_players.append(eliminated_person)
-                    elif eliminated_person in self.crewmate_list:
-                        self.crewmate_list.remove(eliminated_person)
-                        self.ejected_players.append(eliminated_person)
-
-                    self.meeting = False
-                    self.votes = {}
-                    end = self.check_if_game_over()
-                    if self.game:
-                        return f"{eliminated_person.color} was ejected."
-                    return end
+                self.meeting = False
+                self.votes = {}
+                end = self.check_if_game_over()
+                if self.game:
+                    return f"{eliminated_person.color} was ejected."
+                return end
         else:
             self.meeting = False
             self.votes = {}
@@ -200,3 +187,20 @@ class OPSpaceship(spaceship.Spaceship):
     def is_meeting(self):
         """Return if there is a meeting going on."""
         return self.meeting
+
+    # Helper functions for end_meeting function.
+    def count_votes(self):
+        """Count votes."""
+        vote_count = {}
+        for color in self.votes.values():
+            if color not in vote_count:
+                vote_count[color] = 1
+            else:
+                vote_count[color] += 1
+        return vote_count
+
+    def determine_max_votes(self, vote_count):
+        """Determine max votes."""
+        max_value = max(vote_count.values())
+        max_keys = [key for key, value in vote_count.items() if value == max_value]
+        return max_value, max_keys
