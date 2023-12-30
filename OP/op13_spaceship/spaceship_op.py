@@ -113,10 +113,15 @@ class OPSpaceship(spaceship.Spaceship):
 
                 max_value = max(vote_count.values())
                 max_keys = [key for key, value in vote_count.items() if value == max_value]
-                if max_value <= players_not_voted or len(max_keys) != 1:
+                if len(max_keys) != 1 or max_value == players_not_voted:
                     self.meeting = False
                     self.votes = {}
                     return "No one was ejected. (Tie)"
+
+                if max_value < players_not_voted:
+                    self.meeting = False
+                    self.votes = {}
+                    return "No one was ejected. (Skipped)"
 
                 eliminated_person_color = max_keys[0]
                 eliminated_person = [person for person in self.crewmate_list + self.impostor_list
