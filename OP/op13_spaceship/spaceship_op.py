@@ -109,7 +109,7 @@ class OPSpaceship(spaceship.Spaceship):
                         vote_count[color] += 1
 
                 player_count = len(self.impostor_list + self.crewmate_list)
-                players_not_voted = player_count - len(vote_count)
+                players_not_voted = player_count - len(self.votes)
 
                 max_value = max(vote_count.values())
                 max_keys = [key for key, value in vote_count.items() if value == max_value]
