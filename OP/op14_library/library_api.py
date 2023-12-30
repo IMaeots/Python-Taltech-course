@@ -76,7 +76,7 @@ class LibraryStats:
         return [date for action, date in self.book_transactions[book_name]]
 
     def get_current_status(self, book_name: str) -> str:
-        """Return the status of book - 'laenutatud' or 'tagastatud'"""
+        """Return the status of book - 'laenutatud' or 'tagastatud'."""
         if book_name in self.book_transactions:
             return self.book_transactions[book_name][-1]
         else:
@@ -89,6 +89,15 @@ class Controller:
     def __init__(self, library_stats: LibraryStats):
         """Construct the controller that has all necessary information."""
         self.library_stats = library_stats
+        self.path_function_map = {
+            r'/book/([^/]+)/borrows': self.library_stats.get_total_borrows_of_book,
+            r'/book/([^/]+)/most-frequent-borrower': self.library_stats.get_most_frequent_borrower,
+            r'/book/([^/]+)/borrow-dates': self.library_stats.get_borrow_dates,
+            r'/book/([^/]+)/current-status': self.library_stats.get_current_status,
+            r'/book/([^/]+)/total-borrows': self.library_stats.get_total_borrows_by,
+            r'/book/([^/]+)/favourite-book': self.library_stats.get_favourite_book,
+            r'/book/([^/]+)/borrow-history': self.library_stats.get_borrow_history,
+        }
 
     def get(self, path: str):
         """Get request."""
@@ -99,6 +108,18 @@ class Controller:
         elif path == '/total':
             return self.library_stats.get_total_transactions()
 
+        match = None
+        for pattern, func in self.path_function_map.items():
+            match = re.match(pattern, path)
+        if match:
+            name = match.group(1)
+            return func(name)
+
+        # Handle cases where no match was found
+        return "No matching route found"
+
+
+"""        
         match = re.match(r'/book/([^/]+)/borrows', path)
         if match:
             name = match.group(1)
@@ -133,7 +154,7 @@ class Controller:
         if match:
             name = match.group(1)
             return self.library_stats.get_borrow_history(name)
-
+"""
 
 if __name__ == "__main__":
     library_stats = LibraryStats('data.txt')
