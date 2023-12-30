@@ -360,10 +360,10 @@ class MovieFilter:
 
         # Filter movies by year, genre, and tag
         filtered_movies_by_year = movies[movies['title'].apply(extract_year_from_title) == year]
-        filtered_movies_by_year_and_tag = filtered_movies_by_year[
-            filtered_movies_by_year['tag'].str.contains(tag, case=False)]
-        filtered_movies = filtered_movies_by_year_and_tag[
-            filtered_movies_by_year_and_tag['genres'].str.contains(genre, case=False)]
+        filtered_movies_by_year_genre = filtered_movies_by_year[
+            filtered_movies_by_year['genres'].str.contains(genre, case=False)]
+        filtered_movies = filtered_movies_by_year_genre[
+            filtered_movies_by_year_genre['tag'].str.contains(tag, case=False)]
 
         if filtered_movies.empty:
             return pd.DataFrame()
@@ -464,4 +464,4 @@ if __name__ == '__main__':
         print()
         print()
 
-        print(my_movie_filter.get_best_movie_by_year_genre_and_tag(1999, "comedy", "pixar"))
+        print(my_movie_filter.get_best_movie_by_year_genre_and_tag(1995, "comedy", "pixar"))
