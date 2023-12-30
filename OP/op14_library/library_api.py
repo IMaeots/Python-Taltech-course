@@ -94,9 +94,9 @@ class Controller:
             r'/book/([^/]+)/most-frequent-borrower': self.library_stats.get_most_frequent_borrower,
             r'/book/([^/]+)/borrow-dates': self.library_stats.get_borrow_dates,
             r'/book/([^/]+)/current-status': self.library_stats.get_current_status,
-            r'/book/([^/]+)/total-borrows': self.library_stats.get_total_borrows_by,
-            r'/book/([^/]+)/favourite-book': self.library_stats.get_favourite_book,
-            r'/book/([^/]+)/borrow-history': self.library_stats.get_borrow_history,
+            r'/borrower/([^/]+)/total-borrows': self.library_stats.get_total_borrows_by,
+            r'/borrower/([^/]+)/favourite-book': self.library_stats.get_favourite_book,
+            r'/borrower/([^/]+)/borrow-history': self.library_stats.get_borrow_history,
         }
 
     def get(self, path: str):
