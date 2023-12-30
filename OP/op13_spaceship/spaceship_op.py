@@ -92,10 +92,6 @@ class OPSpaceship(spaceship.Spaceship):
 
     def end_meeting(self):
         """End meeting."""
-        for person in self.dead_players:
-            self.ejected_players.append(person)
-            self.dead_players.remove(person)
-
         if self.game is True and self.meeting is True:
             if len(self.votes) == 0:
                 self.meeting = False
