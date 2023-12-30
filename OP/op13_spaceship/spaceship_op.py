@@ -40,13 +40,13 @@ class OPSpaceship(spaceship.Spaceship):
         """Kill impostor."""
         if self.game is True and self.meeting is False:
             super().kill_impostor(sheriff, color)
-            self.check_if_game_over()
+            return self.check_if_game_over()
 
     def kill_crewmate(self, impostor: spaceship.Impostor, color: str):
         """Kill crewmate."""
         if self.game is True and self.meeting is False:
             super().kill_crewmate(impostor, color)
-            self.check_if_game_over()
+            return self.check_if_game_over()
 
     def check_if_game_over(self):
         """Check if the game is over."""
@@ -64,7 +64,9 @@ class OPSpaceship(spaceship.Spaceship):
                 self.votes = {}
                 self.game = False
                 self.meeting = False
-                print(win_message)
+
+                return win_message
+        return
 
     def start_game(self):
         """Start the game."""
@@ -122,17 +124,17 @@ class OPSpaceship(spaceship.Spaceship):
                         if impostors_left > 1:
                             self.meeting = False
                             self.votes = {}
-                            self.check_if_game_over()
+                            end = self.check_if_game_over()
                             if self.game:
                                 return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remains."
-                            return
+                            return end
                         else:
                             self.meeting = False
                             self.votes = {}
-                            self.check_if_game_over()
+                            end = self.check_if_game_over()
                             if self.game:
                                 return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remain."
-                            return
+                            return end
                     elif eliminated_person in self.crewmate_list:
                         self.crewmate_list.remove(eliminated_person)
                         self.ejected_players.append(eliminated_person)
@@ -140,17 +142,17 @@ class OPSpaceship(spaceship.Spaceship):
                         if impostors_left > 1:
                             self.meeting = False
                             self.votes = {}
-                            self.check_if_game_over()
+                            end = self.check_if_game_over()
                             if self.game:
                                 return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remains."
-                            return
+                            return end
                         else:
                             self.meeting = False
                             self.votes = {}
-                            self.check_if_game_over()
+                            end = self.check_if_game_over()
                             if self.game:
                                 return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remain."
-                            return
+                            return end
                 else:
                     if eliminated_person in self.impostor_list:
                         self.impostor_list.remove(eliminated_person)
@@ -161,9 +163,10 @@ class OPSpaceship(spaceship.Spaceship):
 
                     self.meeting = False
                     self.votes = {}
-                    self.check_if_game_over()
+                    end = self.check_if_game_over()
                     if self.game:
                         return f"{eliminated_person.color} was ejected."
+                    return end
         else:
             self.meeting = False
             self.votes = {}
