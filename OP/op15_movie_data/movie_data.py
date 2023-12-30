@@ -357,6 +357,9 @@ class MovieFilter:
         filtered_movies_by_year_and_tag = filtered_movies_by_year[filtered_movies_by_year['tag'].str.lower().str.contains(tag.lower())]
         filtered_movies = filtered_movies_by_year_and_tag[filtered_movies_by_year_and_tag['genres'].str.lower().str.contains(genre.lower())]
 
+        if filtered_movies.empty:
+            return pd.DataFrame()
+
         best_movie_index = filtered_movies['rating'].idxmax()
         best_movie = filtered_movies.loc[best_movie_index]
         return best_movie
