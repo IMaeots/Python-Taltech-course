@@ -362,9 +362,7 @@ class MovieFilter:
         if filtered_movies.empty:
             return pd.DataFrame()
 
-        best_movie_index = filtered_movies['rating'].idxmax()
-        best_movie = filtered_movies.loc[best_movie_index]
-        return best_movie
+        return filtered_movies.nlargest(1, 'rating')
 
         # End of OP.
 
