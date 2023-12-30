@@ -56,7 +56,7 @@ class LibraryStats:
 
     def get_total_borrows_by(self, borrower_name: str) -> int:
         """Return the num of times the person has borrowed books."""
-        return len(self.user_transactions[borrower_name])
+        return sum(1 for action in self.user_transactions[borrower_name] if action == 'laenutus')
 
     def get_favourite_book(self, borrower_name: str) -> str:
         """Return the most borrowed book by the person."""
@@ -73,14 +73,17 @@ class LibraryStats:
 
     def get_borrow_dates(self, book_name: str) -> list[str]:
         """Return a list of dates when book was borrowed."""
-        return [date for action, date in self.book_transactions[book_name]]
+        return [date for action, date in self.book_transactions[book_name] if action == 'laenutus']
 
     def get_current_status(self, book_name: str) -> str:
         """Return the status of book - 'laenutatud' or 'tagastatud'."""
         if book_name in self.book_transactions:
-            return self.book_transactions[book_name][-1]
+            if self.book_transactions[book_name][-1][0] == 'tagastus':
+                return 'tagastatud'
+            else:
+                return 'laenutatud'
         else:
-            return "tagastus"
+            return "tagastatud"
 
 
 class Controller:
