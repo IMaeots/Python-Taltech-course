@@ -178,7 +178,10 @@ class OPSpaceship(spaceship.Spaceship):
 
     def get_vote(self, color: str):
         """Return who a player voted for."""
-        return self.votes[color.title()]
+        if color.title() in self.votes.keys():
+            return self.votes[color.title()]
+        else:
+            return "No vote found"
 
     def get_ejected_players(self):
         """Get ejected players."""
