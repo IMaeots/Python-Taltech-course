@@ -201,6 +201,10 @@ class OPSpaceship(spaceship.Spaceship):
 
     def determine_max_votes(self, vote_count):
         """Determine max votes."""
-        max_value = max(vote_count.values())
-        max_keys = [key for key, value in vote_count.items() if value == max_value]
+        if len(vote_count) == 0:
+            max_value = 0
+            max_keys = ""
+        else:
+            max_value = max(vote_count.values())
+            max_keys = [key for key, value in vote_count.items() if value == max_value]
         return max_value, max_keys
