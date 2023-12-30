@@ -333,9 +333,6 @@ class MovieFilter:
         movies = self.calculate_mean_rating_for_every_movie()
         filtered_movies = movies[movies['genres'].str.lower().str.contains(genre.lower())]
 
-        if filtered_movies.empty:
-            return pd.DataFrame()
-
         return filtered_movies.nlargest(n, 'rating')
 
     def get_best_movie_by_year_genre_and_tag(self, year: int, genre: str, tag: str) -> pd.DataFrame:
@@ -353,13 +350,12 @@ class MovieFilter:
         if year <= 0 or not genre or genre is None or not tag or tag is None:
             raise_error()
 
+        movies = self.calculate_mean_rating_for_every_movie()
+
         # Filter movies by year, genre, and tag
-        filtered_movies_by_year = self.filter_movies_by_year(year)
+        filtered_movies_by_year = movies[movies['title'].apply(extract_year_from_title) == year]
         filtered_movies_by_year_and_tag = filtered_movies_by_year[filtered_movies_by_year['tag'].str.lower().str.contains(tag.lower())]
         filtered_movies = filtered_movies_by_year_and_tag[filtered_movies_by_year_and_tag['genres'].str.lower().str.contains(genre.lower())]
-
-        if filtered_movies.empty:
-            return pd.DataFrame()
 
         best_movie_index = filtered_movies['rating'].idxmax()
         best_movie = filtered_movies.loc[best_movie_index]
