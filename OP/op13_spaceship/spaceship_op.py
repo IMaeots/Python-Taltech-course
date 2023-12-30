@@ -16,6 +16,7 @@ class OPSpaceship(spaceship.Spaceship):
 
         self.ejected_players = []
         self.meeting = False
+        self.players_voted = []
         self.votes = {}
         self.game = False
 
@@ -33,21 +34,13 @@ class OPSpaceship(spaceship.Spaceship):
         """Kill impostor."""
         if self.game is True and self.meeting is False:
             super().kill_impostor(sheriff, color)
-
-            message = self.check_if_game_over()
-
-            if message:
-                print(message)
+            self.check_if_game_over()
 
     def kill_crewmate(self, impostor: spaceship.Impostor, color: str):
         """Kill crewmate."""
         if self.game is True and self.meeting is False:
             super().kill_crewmate(impostor, color)
-
-            message = self.check_if_game_over()
-
-            if message:
-                print(message)
+            self.check_if_game_over()
 
     def check_if_game_over(self):
         """Check if the game is over."""
@@ -62,18 +55,17 @@ class OPSpaceship(spaceship.Spaceship):
                 self.ejected_players = []
                 self.impostor_list = []
                 self.crewmate_list = []
+                self.players_voted = []
                 self.votes = {}
                 self.game = False
                 self.meeting = False
-                return win_message
-
-        return None
+                print(win_message)
 
     def start_game(self):
         """Start the game."""
         if self.game is False:
-            if len(self.impostor_list) and len(self.crewmate_list) >= 2 and len(self.impostor_list) < len(
-                    self.crewmate_list):
+            if 0 < len(self.impostor_list) < len(
+                    self.crewmate_list) and len(self.crewmate_list) >= 2:
                 self.game = True
 
     def report_dead_body(self, reporting_player: spaceship.Crewmate | spaceship.Impostor,
@@ -85,67 +77,101 @@ class OPSpaceship(spaceship.Spaceship):
 
     def cast_vote(self, player: spaceship.Crewmate | spaceship.Impostor, target_player_color: str):
         """Cast vote in the meeting."""
-        if player in self.crewmate_list or self.impostor_list:
-            if player.color not in self.votes and self.game is True and self.meeting is True:
-                if target_player_color in [gamer.color for gamer in self.crewmate_list + self.impostor_list]:
-                    self.votes[player.color] = target_player_color.title()
+        if player not in self.players_voted:
+            self.players_voted.append(player)
+            if self.game is True and self.meeting is True:
+                if player in self.crewmate_list or player in self.impostor_list:
+                    if target_player_color.title() not in self.votes.keys():
+                        self.votes[target_player_color.title()] = 1
+                    else:
+                        self.votes[target_player_color.title()] += 1
+
+    def get_object_by_color(self, color, object_list):
+        for obj in object_list:
+            if obj.color == color:
+                return obj
+        return None
 
     def end_meeting(self):
         """End meeting."""
         if self.game is True and self.meeting is True:
             if len(self.votes) == 0:
                 self.meeting = False
+                self.players_voted = []
                 return "No one was ejected. (Skipped)"
             else:
                 max_value = max(self.votes.values())
                 eliminated = [key for key, value in self.votes.items() if value == max_value]
-                if eliminated != 1:
+                if len(eliminated) != 1:
                     self.meeting = False
+                    self.players_voted = []
                     return "No one was ejected. (Tie)"
                 else:
-                    eliminated = eliminated[0]
-
-                    if eliminated == "Skipped":
-                        self.meeting = False
-                        return "No one was ejected. (Skipped)"
-
                     if self.difficulty == "easy":
-                        if eliminated in self.impostor_list:
-                            self.impostor_list.remove(eliminated)
-                            self.ejected_players.append(eliminated)
+                        eliminated_person = self.get_object_by_color(eliminated, self.impostor_list)
+                        if eliminated_person:
+                            self.impostor_list.remove(eliminated_person)
+                            self.ejected_players.append(eliminated_person)
                             impostors_left = len(self.impostor_list)
                             if impostors_left > 1:
                                 self.meeting = False
-                                return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
-                                                                                   f" {impostors_left} Impostors remains.")
+                                self.players_voted = []
+                                self.votes = {}
+                                self.check_if_game_over()
+                                if self.game:
+                                    return f"{eliminated} was an Impostor. {impostors_left} Impostors remains."
+                                return
                             else:
                                 self.meeting = False
-                                return self.check_if_game_over() if not None else (f"{eliminated.color} was an Impostor. \\"
-                                                                                   f"{impostors_left} Impostor remain.")
-                        else:
-                            self.crewmate_list.remove(eliminated)
-                            self.ejected_players.append(eliminated)
+                                self.players_voted = []
+                                self.votes = {}
+                                self.check_if_game_over()
+                                if self.game:
+                                    return f"{eliminated} was an Impostor. {impostors_left} Impostor remain."
+                                return
+
+                        eliminated_person = self.get_object_by_color(eliminated, self.crewmate_list)
+                        if eliminated_person:
+                            self.crewmate_list.remove(eliminated_person)
+                            self.ejected_players.append(eliminated_person)
                             impostors_left = len(self.impostor_list)
                             if impostors_left > 1:
                                 self.meeting = False
-                                return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
-                                                                                   f" {impostors_left} Impostors remains.")
+                                self.players_voted = []
+                                self.votes = {}
+                                self.check_if_game_over()
+                                if self.game:
+                                    return f"{eliminated} was not an Impostor. {impostors_left} Impostors remains."
+                                return
                             else:
                                 self.meeting = False
-                                return self.check_if_game_over() if not None else (f"{eliminated.color} was not an Impostor. \\"
-                                                                                   f"{impostors_left} Impostor remain.")
+                                self.players_voted = []
+                                self.votes = {}
+                                self.check_if_game_over()
+                                if self.game:
+                                    return f"{eliminated} was not an Impostor. {impostors_left} Impostor remain."
+                                return
                     else:
-                        if eliminated in self.impostor_list:
-                            self.impostor_list.remove(eliminated)
-                            self.ejected_players.append(eliminated)
+                        eliminated_person = self.get_object_by_color(eliminated, self.impostor_list)
+                        if eliminated_person:
+                            self.impostor_list.remove(eliminated_person)
+                            self.ejected_players.append(eliminated_person)
                         else:
-                            self.crewmate_list.remove(eliminated)
-                            self.ejected_players.append(eliminated)
+                            eliminated_person = self.get_object_by_color(eliminated, self.crewmate_list)
+                            if eliminated_person:
+                                self.crewmate_list.remove(eliminated)
+                                self.ejected_players.append(eliminated)
 
                         self.meeting = False
-                        return self.check_if_game_over() if not None else f"{eliminated.color} was ejected."
+                        self.players_voted = []
+                        self.votes = {}
+                        self.check_if_game_over()
+                        if self.game:
+                            return f"{eliminated} was ejected."
         else:
             self.meeting = False
+            self.players_voted = []
+            self.votes = {}
             return
 
     def get_vote(self, color: str):
