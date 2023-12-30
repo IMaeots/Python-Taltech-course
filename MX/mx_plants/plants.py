@@ -1,12 +1,9 @@
 """Plants."""
 
-import random
-
 
 # Exercise 1: Create Plant Care Reminders
 def create_care_reminders(plants: list, care_info: dict) -> dict:
-    """
-    Create care reminders for garden plants.
+    """Create care reminders for garden plants.
 
     Given a list of plant names and a dictionary containing care information for each plant
     (key is plant name and value is care info).
@@ -105,7 +102,7 @@ def group_plants_by_growth_type(growth_type: dict) -> dict:
 
 
 # Exercise 7: Generate Garden Layout
-def generate_garden_layout(rows: int, columns: int, plant_varieties: list,  exclusion_list: list) -> dict:
+def generate_garden_layout(rows: int, columns: int, plant_varieties: list, exclusion_list: list) -> dict:
     """
     Generate a garden layout with rows and columns, assigning random plant varieties to each location.
 
@@ -157,7 +154,8 @@ def count_plant_types(plants: list) -> dict:
 
 
 # Exercise 10: Determine Garden Plant Health
-def determine_plant_health(plants: list, watering_frequency: dict, sunlight_hours: dict, pest_infestation: dict) -> dict:
+def determine_plant_health(plants: list, watering_frequency: dict, sunlight_hours: dict,
+                           pest_infestation: dict) -> dict:
     """
     Exercise 10: Determine Garden Plant Health
 
