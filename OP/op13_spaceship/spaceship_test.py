@@ -25,6 +25,7 @@ def test__kill_crewmate_less_votes_than_skips():
 
 
 def test__add_crewmate_sheriff():
+    """Test adding crewmate as sheriff."""
     spaceship = OPSpaceship("easy")
     crewmate2 = Crewmate("Red", "Sheriff")
     spaceship.add_crewmate(crewmate2)

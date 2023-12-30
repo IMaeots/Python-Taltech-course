@@ -3,6 +3,14 @@
 import spaceship
 
 
+def get_object_by_color(color, object_list):
+    """Return object from color."""
+    for obj in object_list:
+        if obj.color == color:
+            return obj
+    return None
+
+
 class OPSpaceship(spaceship.Spaceship):
     """OP version of spaceship."""
 
@@ -86,12 +94,6 @@ class OPSpaceship(spaceship.Spaceship):
                     else:
                         self.votes[target_player_color.title()] += 1
 
-    def get_object_by_color(self, color, object_list):
-        for obj in object_list:
-            if obj.color == color:
-                return obj
-        return None
-
     def end_meeting(self):
         """End meeting."""
         if self.game is True and self.meeting is True:
@@ -108,7 +110,7 @@ class OPSpaceship(spaceship.Spaceship):
                     return "No one was ejected. (Tie)"
                 else:
                     if self.difficulty == "easy":
-                        eliminated_person = self.get_object_by_color(eliminated, self.impostor_list)
+                        eliminated_person = get_object_by_color(eliminated, self.impostor_list)
                         if eliminated_person:
                             self.impostor_list.remove(eliminated_person)
                             self.ejected_players.append(eliminated_person)
@@ -130,7 +132,7 @@ class OPSpaceship(spaceship.Spaceship):
                                     return f"{eliminated} was an Impostor. {impostors_left} Impostor remain."
                                 return
 
-                        eliminated_person = self.get_object_by_color(eliminated, self.crewmate_list)
+                        eliminated_person = get_object_by_color(eliminated, self.crewmate_list)
                         if eliminated_person:
                             self.crewmate_list.remove(eliminated_person)
                             self.ejected_players.append(eliminated_person)
@@ -152,12 +154,12 @@ class OPSpaceship(spaceship.Spaceship):
                                     return f"{eliminated} was not an Impostor. {impostors_left} Impostor remain."
                                 return
                     else:
-                        eliminated_person = self.get_object_by_color(eliminated, self.impostor_list)
+                        eliminated_person = get_object_by_color(eliminated, self.impostor_list)
                         if eliminated_person:
                             self.impostor_list.remove(eliminated_person)
                             self.ejected_players.append(eliminated_person)
                         else:
-                            eliminated_person = self.get_object_by_color(eliminated, self.crewmate_list)
+                            eliminated_person = get_object_by_color(eliminated, self.crewmate_list)
                             if eliminated_person:
                                 self.crewmate_list.remove(eliminated)
                                 self.ejected_players.append(eliminated)
