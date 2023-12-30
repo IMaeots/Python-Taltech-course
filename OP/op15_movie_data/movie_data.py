@@ -134,6 +134,7 @@ class MovieFilter:
         self.movie_data = None or pd.DataFrame
         self.median_rating = None or float
         self.average_rating = None or float
+        self.mean_ratings = None
 
     def set_movie_data(self, movie_data: pd.DataFrame) -> None:
         """
@@ -182,7 +183,10 @@ class MovieFilter:
         if not genre or genre.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['genres'].str.contains(genre, case=False)]
+        if self.mean_ratings:
+            return self.mean_ratings[self.mean_ratings['genres'].str.contains(genre, case=False)]
+        else:
+            return self.movie_data[self.movie_data['genres'].str.contains(genre, case=False)]
 
     def filter_movies_by_tag(self, tag: str) -> pd.DataFrame:
         """
@@ -314,6 +318,7 @@ class MovieFilter:
 
         # Round to 3 decimal places.
         mean_ratings['rating'] = round(mean_ratings['rating'], 3)
+        self.mean_ratings = mean_ratings
 
         return mean_ratings
 
@@ -330,8 +335,8 @@ class MovieFilter:
         if not genre or genre is None or n < 0:
             raise_error()
 
-        movies = self.calculate_mean_rating_for_every_movie()
-        filtered_movies = movies[movies['genres'].str.contains(genre, case=False)]
+        self.calculate_mean_rating_for_every_movie()
+        filtered_movies = self.filter_movies_by_genre(genre)
 
         return filtered_movies.nlargest(n, 'rating')
 
