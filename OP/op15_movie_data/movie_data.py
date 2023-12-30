@@ -368,7 +368,7 @@ class MovieFilter:
         if filtered_movies.empty:
             return pd.DataFrame()
 
-        return filtered_movies.nlargest(1, 'rating')
+        return filtered_movies.sort_values(by='rating', ascending=False).head(1)
 
         # End of OP.
 
