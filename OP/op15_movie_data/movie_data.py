@@ -354,8 +354,10 @@ class MovieFilter:
 
         # Filter movies by year, genre, and tag
         filtered_movies_by_year = movies[movies['title'].apply(extract_year_from_title) == year]
-        filtered_movies_by_year_and_tag = filtered_movies_by_year[filtered_movies_by_year['tag'].str.lower().str.contains(tag.lower())]
-        filtered_movies = filtered_movies_by_year_and_tag[filtered_movies_by_year_and_tag['genres'].str.lower().str.contains(genre.lower())]
+        filtered_movies_by_year_and_tag = filtered_movies_by_year[
+            filtered_movies_by_year['tag'].str.lower().str.contains(tag.lower())]
+        filtered_movies = filtered_movies_by_year_and_tag[
+            filtered_movies_by_year_and_tag['genres'].str.lower().str.contains(genre.lower())]
 
         if filtered_movies.empty:
             return pd.DataFrame()
@@ -453,7 +455,7 @@ if __name__ == '__main__':
 
         print()
 
-        print(my_movie_filter.get_top_movies_by_genre('comedy'))
+        print(my_movie_filter.get_top_movies_by_genre('Musical', 5))
 
         print()
 
