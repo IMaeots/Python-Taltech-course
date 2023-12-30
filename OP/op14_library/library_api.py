@@ -29,7 +29,7 @@ class LibraryStats:
 
                 if borrower not in self.user_transactions:
                     self.user_transactions[borrower] = []
-                self.user_transactions[borrower].append(book)
+                self.user_transactions[borrower].append((book, action))
 
                 if book not in self.book_transactions:
                     self.book_transactions[book] = []
@@ -56,7 +56,7 @@ class LibraryStats:
 
     def get_total_borrows_by(self, borrower_name: str) -> int:
         """Return the num of times the person has borrowed books."""
-        return sum(1 for action in self.user_transactions[borrower_name] if action == 'laenutus')
+        return sum(1 for book, action in self.user_transactions[borrower_name] if action == 'laenutus')
 
     def get_favourite_book(self, borrower_name: str) -> str:
         """Return the most borrowed book by the person."""
@@ -65,7 +65,7 @@ class LibraryStats:
 
     def get_borrow_history(self, borrower_name: str) -> list[str]:
         """Return a list of books borrowed by person."""
-        return self.user_transactions[borrower_name]
+        return [t[0] for t in self.user_transactions[borrower_name]]
 
     def get_most_frequent_borrower(self, book_name: str) -> str:
         """Return the person with the most borrows."""
