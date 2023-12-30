@@ -157,7 +157,7 @@ def count_plant_types(plants: list) -> dict:
 def determine_plant_health(plants: list, watering_frequency: dict, sunlight_hours: dict,
                            pest_infestation: dict) -> dict:
     """
-    Exercise 10: Determine Garden Plant Health
+    Exercise 10: Determine Garden Plant Health.
 
     Determine the health status of garden plants based on multiple factors such as watering frequency, sunlight hours,
     and pest infestation.
