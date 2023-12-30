@@ -108,19 +108,18 @@ class Controller:
         elif path == '/total':
             return self.library_stats.get_total_transactions()
 
-        match = None
         for pattern, func in self.path_function_map.items():
             match = re.match(pattern, path)
-        if match:
-            name = match.group(1)
-            return func(name)
+            if match:
+                name = match.group(1)
+                return func(name)
 
         # Handle cases where no match was found
         return "No matching route found"
 
 
 """        
-        match = re.match(r'/book/([^/]+)/borrows', path)
+    match = re.match(r'/book/([^/]+)/borrows', path)
         if match:
             name = match.group(1)
             return self.library_stats.get_total_borrows_of_book(name)
