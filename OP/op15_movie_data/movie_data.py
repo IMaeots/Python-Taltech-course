@@ -183,7 +183,7 @@ class MovieFilter:
         if not genre or genre.strip() == "":
             raise_error()
 
-        if self.mean_ratings:
+        if self.mean_ratings is not None:
             return self.mean_ratings[self.mean_ratings['genres'].str.contains(genre, case=False)]
         else:
             return self.movie_data[self.movie_data['genres'].str.contains(genre, case=False)]
