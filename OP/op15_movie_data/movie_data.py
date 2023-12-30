@@ -456,5 +456,6 @@ if __name__ == '__main__':
         print(my_movie_filter.get_top_movies_by_genre('Musical', 5))
 
         print()
+        print()
 
         print(my_movie_filter.get_best_movie_by_year_genre_and_tag(1999, "comedy", "pixar"))
