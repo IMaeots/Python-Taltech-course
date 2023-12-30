@@ -146,7 +146,7 @@ class OPSpaceship(spaceship.Spaceship):
                             self.votes = {}
                             end = self.check_if_game_over()
                             if self.game:
-                                return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remains."
+                                return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostors remain."
                             return end
                         else:
                             self.meeting = False
