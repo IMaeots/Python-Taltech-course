@@ -128,14 +128,14 @@ class OPSpaceship(spaceship.Spaceship):
                             self.votes = {}
                             end = self.check_if_game_over()
                             if self.game:
-                                return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remains."
+                                return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostors remain."
                             return end
                         else:
                             self.meeting = False
                             self.votes = {}
                             end = self.check_if_game_over()
                             if self.game:
-                                return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remain."
+                                return f"{eliminated_person.color} was an Impostor. {impostors_left} Impostor remains."
                             return end
                     elif eliminated_person in self.crewmate_list:
                         self.crewmate_list.remove(eliminated_person)
@@ -153,7 +153,7 @@ class OPSpaceship(spaceship.Spaceship):
                             self.votes = {}
                             end = self.check_if_game_over()
                             if self.game:
-                                return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remain."
+                                return f"{eliminated_person.color} was not an Impostor. {impostors_left} Impostor remains."
                             return end
                 else:
                     if eliminated_person in self.impostor_list:
