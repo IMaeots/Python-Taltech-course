@@ -164,7 +164,7 @@ class OPSpaceship(spaceship.Spaceship):
         return max_value, max_keys
 
     def easy_meeting_voting(self, eliminated_person):
-        """Voting mechanism on difficulty: easy"""
+        """Voting mechanism on difficulty: easy."""
         if eliminated_person in self.impostor_list:
             self.impostor_list.remove(eliminated_person)
             self.ejected_players.append(eliminated_person)
@@ -203,7 +203,7 @@ class OPSpaceship(spaceship.Spaceship):
                 return end
 
     def hard_meeting_voting(self, eliminated_person):
-        """Voting mechanism on difficulty: hard"""
+        """Voting mechanism on difficulty: hard."""
         if eliminated_person in self.impostor_list:
             self.impostor_list.remove(eliminated_person)
             self.ejected_players.append(eliminated_person)
