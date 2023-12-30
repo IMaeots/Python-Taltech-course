@@ -182,7 +182,7 @@ class MovieFilter:
         if not genre or genre.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['genres'].str.lower().str.contains(genre.lower())]
+        return self.movie_data[self.movie_data['genres'].str.contains(genre, case=False)]
 
     def filter_movies_by_tag(self, tag: str) -> pd.DataFrame:
         """
@@ -199,7 +199,7 @@ class MovieFilter:
         if not tag or tag.strip() == "":
             raise_error()
 
-        return self.movie_data[self.movie_data['tag'].str.lower().str.contains(tag.lower())]
+        return self.movie_data[self.movie_data['tag'].str.contains(tag, case=False)]
 
     def filter_movies_by_year(self, year: int) -> pd.DataFrame:
         """
@@ -231,7 +231,7 @@ class MovieFilter:
 
         :return: pandas DataFrame object of the search result
         """
-        return self.movie_data[(self.movie_data['genres'].str.lower().str.contains('comedy'))
+        return self.movie_data[(self.movie_data['genres'].str.contains('comedy'))
                                & (self.movie_data['rating'] >= 3.0)]
 
     def get_decent_children_movies(self) -> pd.DataFrame | None:
@@ -240,7 +240,7 @@ class MovieFilter:
 
         :return: pandas DataFrame object of the search result
         """
-        return self.movie_data[(self.movie_data['genres'].str.lower().str.contains('children'))
+        return self.movie_data[(self.movie_data['genres'].str.contains('children'))
                                & (self.movie_data['rating'] >= 3.0)]
 
     # Start of OP methods.
@@ -331,7 +331,7 @@ class MovieFilter:
             raise_error()
 
         movies = self.calculate_mean_rating_for_every_movie()
-        filtered_movies = movies[movies['genres'].str.lower().str.contains(genre.lower())]
+        filtered_movies = movies[movies['genres'].str.contains(genre, case=False)]
 
         return filtered_movies.nlargest(n, 'rating')
 
@@ -355,9 +355,9 @@ class MovieFilter:
         # Filter movies by year, genre, and tag
         filtered_movies_by_year = movies[movies['title'].apply(extract_year_from_title) == year]
         filtered_movies_by_year_and_tag = filtered_movies_by_year[
-            filtered_movies_by_year['tag'].str.lower().str.contains(tag.lower())]
+            filtered_movies_by_year['tag'].str.contains(tag, case=False)]
         filtered_movies = filtered_movies_by_year_and_tag[
-            filtered_movies_by_year_and_tag['genres'].str.lower().str.contains(genre.lower())]
+            filtered_movies_by_year_and_tag['genres'].str.contains(genre, case=False)]
 
         if filtered_movies.empty:
             return pd.DataFrame()
