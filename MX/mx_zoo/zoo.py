@@ -1,4 +1,6 @@
 """A small exercise in zookeeping."""
+from functools import reduce
+from math import ceil
 
 
 def parse_animal(animal_str: str) -> list:
@@ -74,7 +76,11 @@ def find_how_many_pumpkins_are_needed_to_feed_animals(animal_data: list) -> int:
     :param animal_data: List of structured animal data.
     :return: Total number of pumpkins needed, rounded up to the nearest whole number.
     """
-    return 0
+    herbivorous_and_omnivorous = filter(lambda animal: animal[5] in ['herbivorous', 'omnivorous'], animal_data)
+    total_weight = reduce(lambda acc, animal: acc + ((animal[3][1] + animal[3][0]) / 2) * 2, herbivorous_and_omnivorous,
+                          0)
+    pumpkin_consumption = total_weight * 0.06 * 90
+    return ceil(pumpkin_consumption / 3)
 
 
 def total_noise_level(animal_data: list) -> float:
@@ -88,7 +94,8 @@ def total_noise_level(animal_data: list) -> float:
     :param animal_data: A list containing details about multiple animals.
     :return: The total noise level of all animals in the list.
     """
-    return 0
+    return reduce(lambda acc, animal: acc + ((animal[3][1] + animal[3][0]) / 2), animal_data,
+                  0) * 0.01
 
 
 def zoo_parade_length(animal_data: list) -> float:
