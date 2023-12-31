@@ -207,7 +207,14 @@ def create_diamond(height: int, current=1) -> str:
         return ''
 
     spaces = ' ' * abs(height - current)
-    row = '*' * (2 * (height - abs(height - current)) - 1)
+
+    if current < height:
+        row = '*' * (2 * current - 1)
+    elif current == height:
+        row = '*' * (height * 2 - 1) + '\n' + '*' * (height * 2 - 1)
+    else:
+        row = '*' * (2 * (height * 2 - current) - 1)
+
     return create_diamond(height, current + 1) + spaces + row + '\n'
 
 
