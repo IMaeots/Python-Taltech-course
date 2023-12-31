@@ -109,7 +109,7 @@ def zoo_parade_length(animal_data: list) -> float:
     :param animal_data: A list containing details about multiple animals.
     :return: The total parade length of all animals in the list.
     """
-    return 0
+    return reduce(lambda acc, animal: acc + (animal[4][0] + animal[4][1]) / 2, animal_data, 0)
 
 
 def animal_olympics_winner(animal_data: list) -> str:
@@ -124,7 +124,7 @@ def animal_olympics_winner(animal_data: list) -> str:
     :param animal_data: A list containing details about multiple animals.
     :return: The species name of the winning animal.
     """
-    return ""
+    return min(animal_data, key=lambda animal: (animal[3][0] + animal[3][1]) / 2)[0]
 
 
 def total_feather_count(animal_data: list) -> float:
@@ -139,7 +139,7 @@ def total_feather_count(animal_data: list) -> float:
     :param animal_data: A list containing details about multiple animals.
     :return: The total feather count of all animals in the list.
     """
-    return 0
+    return reduce(lambda acc, animal: acc + (animal[3][0] + animal[3][1]) * 500, animal_data, 0)
 
 
 def zoo_weight_on_other_planet(animal_data: list) -> float:
@@ -154,7 +154,7 @@ def zoo_weight_on_other_planet(animal_data: list) -> float:
     :param animal_data: A list containing details about multiple animals.
     :return: The total weight of the zoo on the other planet.
     """
-    return 0
+    return reduce(lambda acc, animal: acc + (animal[3][0] + animal[3][1]) / 4, animal_data, 0)
 
 
 def sort_alphabetically_by_scientific_name(animal_data: list) -> list:
@@ -169,7 +169,7 @@ def sort_alphabetically_by_scientific_name(animal_data: list) -> list:
     :param animal_data: List of structured animal data.
     :return: List of tuples with (common name, scientific name) sorted by scientific name.
     """
-    return []
+    return sorted(map(lambda animal: (animal[0], animal[1]), animal_data), key=lambda x: x[1])
 
 
 def find_animals_whose_height_is_less_than(animal_data: list, height_limit: float) -> list:
@@ -182,7 +182,9 @@ def find_animals_whose_height_is_less_than(animal_data: list, height_limit: floa
     :param height_limit: Maximum height (in meters) as a float.
     :return: List of common names of animals that are shorter than the specified height limit, sorted from shortest to tallest.
     """
-    return []
+    return sorted(map(lambda obj: obj[0],
+                      filter(lambda animal: animal[4][1] <= height_limit, animal_data)),
+                  reverse=True)
 
 
 def filter_animals_based_on_diet(animal_data: list, diet: str) -> list:
@@ -195,7 +197,8 @@ def filter_animals_based_on_diet(animal_data: list, diet: str) -> list:
     :param diet: A string indicating the diet (e.g., "herbivorous", "carnivorous").
     :return: Alphabetically sorted list of common names of animals that match the specified diet.
     """
-    return []
+    return sorted(map(lambda obj: obj[0],
+                      filter(lambda animal: animal[5] == diet, animal_data)))
 
 
 def find_animal_with_longest_lifespan(animal_data: list) -> str:
@@ -209,7 +212,7 @@ def find_animal_with_longest_lifespan(animal_data: list) -> str:
     :param animal_data: List of structured animal data.
     :return: The common name of the animal with the longest lifespan.
     """
-    return ""
+    return max(animal_data, key=lambda animal: animal[2])[0]
 
 
 def create_animal_descriptions(animal_data: list) -> list:
@@ -226,7 +229,10 @@ def create_animal_descriptions(animal_data: list) -> list:
     :param animal_data: List of structured animal data.
     :return: List of string descriptions for each animal.
     """
-    return []
+    return list(map(
+        lambda obj: f"{obj[0]} ({obj[1]}) lives in {obj[6]} and its diet is {obj[5]}.\
+     These animals can live up to {obj[2]} years, and they weigh between {obj[3][0]}\
+     kg and {obj[3][1]} kg as adults.", animal_data))
 
 
 def calculate_ecological_impact_score(animal_data: list) -> float:
@@ -254,7 +260,34 @@ def calculate_ecological_impact_score(animal_data: list) -> float:
     :param animal_data: List of structured animal data.
     :return: The total ecological impact score.
     """
-    return 0
+    individual_scores = map(calculate_individual_score, animal_data)
+    total_score = sum(individual_scores)
+
+    return total_score
+
+
+def calculate_individual_score(animal) -> int | float:
+    """Calculate the individuals' score."""
+    base_score = 10
+    weight_factor = 0.001 * ((animal[3][0] + animal[3][1]) / 2)
+
+    diet_factor = {
+        'Herbivorous': 1.2,
+        'Carnivorous': 1.5,
+        'Omnivorous': 1.3
+    }.get(animal[5].title(), 1.0)
+
+    habitat_score = {
+        'Savannah': 5,
+        'Tropics': 4,
+        'Temperate Forest': 3
+    }.get(animal[6].title(), 0)
+
+    individual_score = base_score + weight_factor
+    individual_score *= diet_factor
+    individual_score += habitat_score
+
+    return individual_score
 
 
 if __name__ == '__main__':
