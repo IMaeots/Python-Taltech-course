@@ -55,7 +55,8 @@ def animals_starting_with(animal_data: list, letter: str) -> list:
     :param letter: The starting letter to filter animals by.
     :return: An alphabetically sorted list of common names of animals that start with the given letter.
     """
-    return sorted([animal[0] for animal in animal_data if animal[0][0].lower() == letter.lower()])
+    filtered_animals = filter(lambda x: x[0][0].lower() == letter.lower(), animal_data)
+    return list(map(lambda x: x[0], filtered_animals))
 
 
 def find_how_many_pumpkins_are_needed_to_feed_animals(animal_data: list) -> int:
