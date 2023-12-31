@@ -215,6 +215,9 @@ def create_diamond(height: int, current=1) -> str:
     else:
         row = '*' * (2 * (height * 2 - current) - 1)
 
+    if current == height * 2:
+        return row  # No newline for the last row
+
     return create_diamond(height, current + 1) + spaces + row + '\n'
 
 
