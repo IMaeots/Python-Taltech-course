@@ -230,9 +230,9 @@ def create_animal_descriptions(animal_data: list) -> list:
     :return: List of string descriptions for each animal.
     """
     return list(map(
-        lambda obj: f"{obj[0]} ({obj[1]}) lives in {obj[6]} and its diet is {obj[5]}."
-                    f"These animals can live up to {obj[2]} years, and they weigh between {obj[3][0]}"
-                    f" kg and {obj[3][1]} kg as adults.", animal_data))
+        lambda obj: f"""{obj[0]} ({obj[1]}) lives in {obj[6]} and its diet is {obj[5]}.
+     These animals can live up to {obj[2]} years, and they weigh between {obj[3][0]}
+     kg and {obj[3][1]} kg as adults.""", animal_data))
 
 
 def calculate_ecological_impact_score(animal_data: list) -> float:
