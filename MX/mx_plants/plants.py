@@ -1,4 +1,5 @@
 """Plants."""
+import random
 
 
 # Exercise 1: Create Plant Care Reminders
@@ -66,7 +67,8 @@ def calculate_total_plant_costs(plant_prices: dict, plant_inventory: dict) -> di
     :param plant_inventory: dictionary with amount of plants
     :return: dictionary with plants as keys and total cost as values
     """
-    return {plant1: price * amount for plant1, price in plant_prices.items() for plant2, amount in plant_inventory.items() if plant1 == plant2}
+    return {plant1: price * amount for plant1, price in plant_prices.items() for plant2, amount in
+            plant_inventory.items() if plant1 == plant2}
 
 
 # Exercise 5: Calculate Garden Space Requirements
@@ -84,7 +86,8 @@ def calculate_space_requirements(space_per_plant: dict, space_threshold: float) 
     :param space_threshold: minimum space requirement threshold used to categorize plants
     :return: dictionary with plants as keys and "High Space" or "Low Space" as values
     """
-    return {plant: ("High Space" if space > space_threshold else "Low Space") for plant, space in space_per_plant.items()}
+    return {plant: ("High Space" if space > space_threshold else "Low Space")
+            for plant, space in space_per_plant.items()}
 
 
 # Exercise 6: Group Plants by Growth Type
@@ -98,7 +101,8 @@ def group_plants_by_growth_type(growth_type: dict) -> dict:
     :param growth_type: dictionary with plants as keys and growth type as values
     :return: dictionary with growth types as keys and a list of plants with that growth type as values
     """
-    pass
+    return {growth: [plant for plant, g_type in growth_type.items() if g_type == growth]
+            for growth in set(growth_type.values())}
 
 
 # Exercise 7: Generate Garden Layout
@@ -119,7 +123,10 @@ def generate_garden_layout(rows: int, columns: int, plant_varieties: list, exclu
     :param exclusion_list: locations to be skipped
     :return: dictionary representing the garden layout
     """
-    pass
+    return {(r, c): random.choice(plant_varieties)
+            for r in range(1, rows + 1)
+            for c in range(1, columns + 1)
+            if (r, c) not in exclusion_list}
 
 
 # Exercise 8: Calculate Sunlight Requirements
@@ -137,7 +144,9 @@ def calculate_sunlight_requirements(plant_types: dict, sunlight_needs: dict, wea
     :param sunlight_needs: dictionary with plants as keys and sunlight needs in hours per day as values
     :return: dictionary with plants as keys and sunlight requirements as values
     """
-    pass
+    return {
+        plant: round(sunlight_needs[plant] * 1.2 if weather_condition == 'sunny' else sunlight_needs[plant] * 0.8, 2)
+        for plant, plant_type in plant_types.items() if plant_type == 'Sun-Loving'}
 
 
 # Exercise 9: Count Plant Types
@@ -150,7 +159,7 @@ def count_plant_types(plants: list) -> dict:
     :param plants: list of plant names
     :return: dictionary with plant types as keys and their counts as values
     """
-    pass
+    return {plant: plants.count(plant) for plant in set(plants)}
 
 
 # Exercise 10: Determine Garden Plant Health
@@ -181,7 +190,15 @@ def determine_plant_health(plants: list, watering_frequency: dict, sunlight_hour
      affected by pest infestation
     :return: dict, where keys are plants and values are their health status
     """
-    pass
+    return {plant: 'Healthy' if calculate_health_score(plant,
+                                                       watering_frequency.get(plant, 0),
+                                                       sunlight_hours.get(plant, 0),
+                                                       pest_infestation.get(plant, False)) > 8
+    else 'Needs Attention' if calculate_health_score(plant,
+                                                     watering_frequency.get(plant, 0),
+                                                     sunlight_hours.get(plant, 0),
+                                                     pest_infestation.get(plant, False)) > 5
+    else 'Unhealthy' for plant in plants}
 
 
 def calculate_health_score(plant: str, watering_frequency: int, sunlight_hours: float, pest_infestation: bool) -> float:
@@ -205,7 +222,13 @@ def calculate_health_score(plant: str, watering_frequency: int, sunlight_hours: 
     :param pest_infestation: bool, indicates whether the plant is affected by pest infestation
     :return: float, health score of the plant
     """
-    pass
+    base_score = len(plant)
+    watering_score = max(0, (7 - watering_frequency) // 2)
+    sunlight_score = max(2, sunlight_hours // 4)
+    pest_score = -3 if pest_infestation else 0
+
+    health_score = base_score + watering_score + sunlight_score + pest_score
+    return health_score
 
 
 if __name__ == '__main__':
