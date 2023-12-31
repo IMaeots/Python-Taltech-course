@@ -182,8 +182,8 @@ def find_animals_whose_height_is_less_than(animal_data: list, height_limit: floa
     :param height_limit: Maximum height (in meters) as a float.
     :return: List of common names of animals that are shorter than the specified height limit, sorted from shortest to tallest.
     """
-    return sorted(map(lambda obj: obj[0],
-                      filter(lambda animal: animal[4][1] <= height_limit, animal_data)))
+    return list(map(lambda obj: obj[0],
+                    filter(lambda animal: animal[4][1] <= height_limit, animal_data)))
 
 
 def filter_animals_based_on_diet(animal_data: list, diet: str) -> list:
@@ -231,7 +231,7 @@ def create_animal_descriptions(animal_data: list) -> list:
     return list(map(
         lambda obj: f"{obj[0]} ({obj[1]}) lives in {obj[6]} and its diet is {obj[5]}."
                     f"These animals can live up to {obj[2]} years, and they weigh between {obj[3][0]}"
-                    f"kg and {obj[3][1]} kg as adults.", animal_data))
+                    f" kg and {obj[3][1]} kg as adults.", animal_data))
 
 
 def calculate_ecological_impact_score(animal_data: list) -> float:
