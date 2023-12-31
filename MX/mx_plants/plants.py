@@ -224,7 +224,7 @@ def calculate_health_score(plant: str, watering_frequency: int, sunlight_hours: 
     """
     base_score = len(plant)
     watering_score = max(0, (7 - watering_frequency) // 2)
-    sunlight_score = max(2, sunlight_hours // 4)
+    sunlight_score = min(2, int(sunlight_hours) // 4)
     pest_score = -3 if pest_infestation else 0
 
     health_score = base_score + watering_score + sunlight_score + pest_score
