@@ -50,7 +50,7 @@ def calculate_watering_schedule(plants: list, watering_frequency: int) -> dict:
     :param watering_frequency: frequency of watering in days
     :return: dictionary with plants as keys and watering days as values
     """
-    pass
+    return {name: round((len(name.strip()) * watering_frequency) / (plants.index(name) + 1), 2) for name in plants}
 
 
 # Exercise 4: Calculate Total Garden Plant Costs
@@ -66,7 +66,7 @@ def calculate_total_plant_costs(plant_prices: dict, plant_inventory: dict) -> di
     :param plant_inventory: dictionary with amount of plants
     :return: dictionary with plants as keys and total cost as values
     """
-    pass
+    return {plant1: price * amount for plant1, price in plant_prices.items() for plant2, amount in plant_inventory.items() if plant1 == plant2}
 
 
 # Exercise 5: Calculate Garden Space Requirements
@@ -84,7 +84,7 @@ def calculate_space_requirements(space_per_plant: dict, space_threshold: float) 
     :param space_threshold: minimum space requirement threshold used to categorize plants
     :return: dictionary with plants as keys and "High Space" or "Low Space" as values
     """
-    pass
+    return {plant: ("High Space" if space > space_threshold else "Low Space") for plant, space in space_per_plant.items()}
 
 
 # Exercise 6: Group Plants by Growth Type
