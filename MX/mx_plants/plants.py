@@ -192,13 +192,13 @@ def determine_plant_health(plants: list, watering_frequency: dict, sunlight_hour
     """
     return {
         plant: 'Healthy' if calculate_health_score(plant,
-                                                       watering_frequency.get(plant, 0),
-                                                       sunlight_hours.get(plant, 0),
-                                                       pest_infestation.get(plant, False)) > 8
+                                                   watering_frequency.get(plant, 0),
+                                                   sunlight_hours.get(plant, 0),
+                                                   pest_infestation.get(plant, False)) > 8
         else 'Needs Attention' if calculate_health_score(plant,
-                                                     watering_frequency.get(plant, 0),
-                                                     sunlight_hours.get(plant, 0),
-                                                     pest_infestation.get(plant, False)) > 5
+                                                         watering_frequency.get(plant, 0),
+                                                         sunlight_hours.get(plant, 0),
+                                                         pest_infestation.get(plant, False)) > 5
         else 'Unhealthy' for plant in plants}
 
 
