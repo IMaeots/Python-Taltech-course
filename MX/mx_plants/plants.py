@@ -190,15 +190,16 @@ def determine_plant_health(plants: list, watering_frequency: dict, sunlight_hour
      affected by pest infestation
     :return: dict, where keys are plants and values are their health status
     """
-    return {plant: 'Healthy' if calculate_health_score(plant,
+    return {
+        plant: 'Healthy' if calculate_health_score(plant,
                                                        watering_frequency.get(plant, 0),
                                                        sunlight_hours.get(plant, 0),
                                                        pest_infestation.get(plant, False)) > 8
-    else 'Needs Attention' if calculate_health_score(plant,
+        else 'Needs Attention' if calculate_health_score(plant,
                                                      watering_frequency.get(plant, 0),
                                                      sunlight_hours.get(plant, 0),
                                                      pest_infestation.get(plant, False)) > 5
-    else 'Unhealthy' for plant in plants}
+        else 'Unhealthy' for plant in plants}
 
 
 def calculate_health_score(plant: str, watering_frequency: int, sunlight_hours: float, pest_infestation: bool) -> float:
