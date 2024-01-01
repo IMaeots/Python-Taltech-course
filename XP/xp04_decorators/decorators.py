@@ -116,11 +116,6 @@ def catch(*error_classes):
 
         return wrapper
 
-    # Handle the case when no error classes are provided (catch all exceptions).
-    if len(error_classes) == 1 and isinstance(error_classes[0], type) and issubclass(error_classes[0],
-                                                                                     BaseException):
-        return decorator(error_classes[0])
-
     return decorator
 
 
