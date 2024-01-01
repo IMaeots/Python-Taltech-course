@@ -116,14 +116,26 @@ def catch(*error_classes):
 
         return wrapper
 
+    # Handle the case when no error classes are provided (catch all exceptions).
+    if len(error_classes) == 1 and isinstance(error_classes[0], type) and issubclass(error_classes[0],
+                                                                                     BaseException):
+        return decorator(error_classes[0])
+
     return decorator
 
 
 def check_type(value, expected_type, param_name, is_return_value=False):
     """
-    Check the type.
+    Check if a value matches the expected type.
 
-    Helper function for enforce_types.
+    :param value: The value to be checked.
+    :param expected_type: The expected type or types (can be a Union).
+    :param param_name: The name of the parameter (for error message identification).
+    :param is_return_value: Flag indicating if the value is a return value. Defaults to False.
+
+    :raises TypeError: If the type of the value doesn't match the expected type.
+
+    :return: None
     """
     if expected_type is None:
         if value is not None:
