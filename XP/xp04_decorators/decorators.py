@@ -119,6 +119,35 @@ def catch(*error_classes):
     return decorator
 
 
+def check_type(value, expected_type, param_name, is_return_value=False):
+    """Check the type.
+
+        Helper function for enforce_types.
+    """
+    if expected_type is None:
+        if value is not None:
+            if param_name == '':
+                raise TypeError(
+                    f"Returned value must be of type NoneType, but was {repr(value)} of type {type(value).__name__}")
+            else:
+                raise TypeError(
+                    f"Argument '{param_name}' must be of type NoneType, but was {repr(value)} of type {type(value).__name__}")
+
+    else:
+        if isinstance(expected_type, type):
+            expected_types = (expected_type,)
+        else:
+            expected_types = get_args(expected_type)
+
+        actual_type = type(value)
+        if not any(isinstance(value, t) for t in expected_types):
+            expected_types_str = ', '.join(
+                t.__name__ for t in expected_types[:-1]) + f" or {expected_types[-1].__name__}"
+            message = "Returned value" if is_return_value else f"Argument '{param_name}'"
+            raise TypeError(
+                f"{message} must be of type {expected_types_str}, but was {repr(value)} of type {actual_type.__name__}")
+
+
 def enforce_types(func):
     """
     Enforce the types of the function's parameters and return value.
@@ -146,29 +175,6 @@ def enforce_types(func):
     signature = inspect.signature(func)
     parameters = signature.parameters
     return_annotation = signature.return_annotation
-
-    def check_type(value, expected_type, param_name, is_return_value=False):
-        if expected_type is None:
-            if value is not None:
-                if param_name == '':
-                    raise TypeError(
-                        f"Returned value must be of type NoneType, but was {repr(value)} of type {type(value).__name__}")
-                else:
-                    raise TypeError(
-                        f"Argument '{param_name}' must be of type NoneType, but was {repr(value)} of type {type(value).__name__}")
-
-        else:
-            if isinstance(expected_type, type):
-                expected_types = (expected_type,)
-            else:
-                expected_types = get_args(expected_type)
-
-            actual_type = type(value)
-            if not any(isinstance(value, t) for t in expected_types):
-                expected_types_str = ', '.join(t.__name__ for t in expected_types[:-1]) + f" or {expected_types[-1].__name__}"
-                message = "Returned value" if is_return_value else f"Argument '{param_name}'"
-                raise TypeError(
-                    f"{message} must be of type {expected_types_str}, but was {repr(value)} of type {actual_type.__name__}")
 
     def wrapper(*args, **kwargs):
         bound_args = signature.bind(*args, **kwargs)
