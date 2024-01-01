@@ -142,8 +142,11 @@ def check_type(value, expected_type, param_name, is_return_value=False):
 
         actual_type = type(value)
         if not any(isinstance(value, t) for t in expected_types):
-            expected_types_str = ', '.join(
-                t.__name__ for t in expected_types[:-1]) + f" or {expected_types[-1].__name__}"
+            if len(expected_types) == 1:
+                expected_types_str = expected_types[0].__name__
+            else:
+                expected_types_str = ', '.join(
+                    t.__name__ for t in expected_types[:-1]) + f" or {expected_types[-1].__name__}"
             message = "Returned value" if is_return_value else f"Argument '{param_name}'"
             raise TypeError(
                 f"{message} must be of type {expected_types_str}, but was {repr(value)} of type {actual_type.__name__}")
