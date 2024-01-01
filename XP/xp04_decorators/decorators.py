@@ -120,9 +120,10 @@ def catch(*error_classes):
 
 
 def check_type(value, expected_type, param_name, is_return_value=False):
-    """Check the type.
+    """
+    Check the type.
 
-        Helper function for enforce_types.
+    Helper function for enforce_types.
     """
     if expected_type is None:
         if value is not None:
