@@ -1,6 +1,7 @@
 """XP - decorators."""
 import inspect
 import time
+from typing import get_args
 
 
 def double(func):
@@ -101,6 +102,7 @@ def catch(*error_classes):
     :param error_classes: The exceptions to catch.
     :return: Inner function.
     """
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
@@ -141,28 +143,46 @@ def enforce_types(func):
     :param func: The decorated function.
     :return: Inner function.
     """
-    signature = inspect.signature(func)  # Use inspect module.
+    signature = inspect.signature(func)
     parameters = signature.parameters
     return_annotation = signature.return_annotation
 
-    def wrapper(*args, **kwargs):
-        # Validate arguments based on their annotations in parameters.
-        bound_arguments = signature.bind(*args, **kwargs)
-        bound_arguments.apply_defaults()
+    def check_type(value, expected_type, param_name, is_return_value=False):
+        if expected_type is None:
+            if value is not None:
+                raise TypeError(
+                    f"Argument '{param_name}' must be None, but was {repr(value)} of type {type(value).__name__}")
+        else:
+            if isinstance(expected_type, type):
+                expected_types = (expected_type,)
+            else:
+                expected_types = get_args(expected_type)
 
-        for param_name, param_value in bound_arguments.arguments.items():
-            param_annotation = parameters[param_name].annotation
-            if param_annotation != inspect.Parameter.empty and not isinstance(param_value, param_annotation):
-                raise TypeError(f"Argument '{param_name}' must be of type {param_annotation.__name__}, "
-                                f"but was {param_value!r} of type {type(param_value).__name__}")
+            actual_type = type(value)
+            if not any(isinstance(value, t) for t in expected_types):
+                expected_types_str = ', '.join(t.__name__ for t in expected_types)
+                message = f"Returned value" if is_return_value else f"Argument '{param_name}'"
+                raise TypeError(
+                    f"{message} must be of type {expected_types_str}, but was {repr(value)} of type {actual_type.__name__}")
+
+    def wrapper(*args, **kwargs):
+        bound_args = signature.bind(*args, **kwargs)
+        bound_args.apply_defaults()
+
+        # Check arguments.
+        for param_name, param in parameters.items():
+            if param.annotation != inspect.Parameter.empty:
+                expected_type = param.annotation
+                value = bound_args.arguments[param_name]
+                check_type(value, expected_type, param_name)
 
         # Execute the function.
         result = func(*args, **kwargs)
 
-        # Validate the return value based on the return_annotation.
-        if return_annotation != inspect.Signature.empty and not isinstance(result, return_annotation):
-            raise TypeError(f"Returned value must be of type {return_annotation.__name__}, "
-                            f"but was {result!r} of type {type(result).__name__}")
+        # Check return value.
+        if return_annotation != inspect.Signature.empty:
+            expected_return_type = return_annotation
+            check_type(result, expected_return_type, '', is_return_value=True)
 
         return result
 
@@ -238,9 +258,9 @@ if __name__ == '__main__':
 
     print()
 
-    print(process_file_contents("hi"))  # This assumes you have a file "data.txt". It should print out the file
+    # print(process_file_contents("hi"))  # This assumes you have a file "data.txt". It should print out the file
     # contents in a list with "hi" in front of each line like ["hiLine 1", "hiLine 2", ...].
-    print(process_file_contents())  # This should just print out the file contents in a list.
+    # print(process_file_contents())  # This should just print out the file contents in a list.
     print()
 
     print(no_more_duck_typing(5, None))  # 5
