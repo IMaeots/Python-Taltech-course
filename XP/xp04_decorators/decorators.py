@@ -150,8 +150,13 @@ def enforce_types(func):
     def check_type(value, expected_type, param_name, is_return_value=False):
         if expected_type is None:
             if value is not None:
-                raise TypeError(
-                    f"Argument '{param_name}' must be None, but was {repr(value)} of type {type(value).__name__}")
+                if param_name == '':
+                    raise TypeError(
+                        f"Returned value must be of type NoneType, but was {repr(value)} of type {type(value).__name__}")
+                else:
+                    raise TypeError(
+                        f"Argument '{param_name}' must be of type NoneType, but was {repr(value)} of type {type(value).__name__}")
+
         else:
             if isinstance(expected_type, type):
                 expected_types = (expected_type,)
@@ -160,7 +165,7 @@ def enforce_types(func):
 
             actual_type = type(value)
             if not any(isinstance(value, t) for t in expected_types):
-                expected_types_str = ', '.join(t.__name__ for t in expected_types)
+                expected_types_str = ', '.join(t.__name__ for t in expected_types[:-1]) + f" or {expected_types[-1].__name__}"
                 message = "Returned value" if is_return_value else f"Argument '{param_name}'"
                 raise TypeError(
                     f"{message} must be of type {expected_types_str}, but was {repr(value)} of type {actual_type.__name__}")
