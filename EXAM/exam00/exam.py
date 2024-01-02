@@ -348,6 +348,9 @@ class Hotel:
         If there are several with the same amount of matching features, return the one with the smallest room number.
         If there is no available rooms, return None
         """
+        if len(self.available_rooms) == 0:
+            return None
+
         current_room = None
         features_in_current_room = 0
         for hotel_room in self.available_rooms:
@@ -364,12 +367,10 @@ class Hotel:
                         current_room = hotel_room
                         features_in_current_room = features_in_hotel_room
 
-        if current_room is not None:
-            self.available_rooms.remove(current_room)
-            self.booked_rooms.append(current_room)
-            return current_room
+        self.available_rooms.remove(current_room)
+        self.booked_rooms.append(current_room)
+        return current_room
 
-        return None
 
     def get_available_rooms(self) -> list:
         """Return a list of available (not booked) rooms."""
