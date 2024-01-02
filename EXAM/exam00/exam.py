@@ -423,7 +423,7 @@ class Hotel:
         if profits:
             best = max(profits, key=profits.get)
             if isinstance(best, list):
-                return sorted(best, key=lambda x: x[0])[0]
+                return sorted(best, key=lambda x: -x[0])[0]
             else:
                 return best
 
