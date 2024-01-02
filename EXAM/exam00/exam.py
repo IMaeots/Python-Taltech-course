@@ -401,7 +401,7 @@ class Hotel:
         }
         """
         profits = {}
-        for room in self.rooms:
+        for room in self.booked_rooms:
             for feature in room.features:
                 if feature not in profits:
                     profits[feature] = room.price
