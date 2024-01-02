@@ -176,8 +176,11 @@ def longest_substring(text: str) -> str:
             if len(current) > len(longest):
                 longest = current
         else:
-            old_char_index = current.index(char)
-            current = current[old_char_index + 1:] + char
+            try:
+                old_char_index = current.index(char)
+                current = current[old_char_index + 1:] + char
+            except ValueError:
+                current = char
 
     return longest
 
