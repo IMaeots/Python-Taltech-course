@@ -1,4 +1,5 @@
 """Exam0."""
+import re
 from typing import Optional
 
 
@@ -65,7 +66,15 @@ def get_names_from_results(results_string: str, min_result: int) -> list:
     get_names_from_results("ago 123,peeter 11,kitty11!! 33", 11) => ["ago", "peeter",  "kitty11!!"]
     get_names_from_results("ago 123,peeter 11,kusti riin 14", 12) => ["ago", "kusti riin"]
     """
-    pass
+    results = results_string.strip().split(',')
+    pattern = r"([\s\w]+)\s{1}(\d+)"
+    winners = []
+    for element in results:
+        match = re.search(pattern, element)
+        if int(match.group(2)) >= min_result:
+            winners.append(match.group(1))
+
+    return winners
 
 
 def tic_tac_toe(game: list) -> int:
@@ -306,10 +315,7 @@ class Hotel:
 
 
 if __name__ == '__main__':
-    print(close_far(1, 2, 10))
-    print(close_far(1, 2, 3))
-    print(close_far(4, 1, 3))
-
+    print()
     """
     hotel = Hotel()
     room1 = Room(1, 100)
