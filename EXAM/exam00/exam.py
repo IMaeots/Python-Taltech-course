@@ -292,10 +292,10 @@ class Room:
         - the room is booked.
         Otherwise, add the feature to the room and return True
         """
-        if feature in self.features or self.booked:
+        if feature.lower() in self.features or self.booked:
             return False
         else:
-            self.features.append(feature)
+            self.features.append(feature.lower())
             return True
 
     def get_features(self) -> list:
