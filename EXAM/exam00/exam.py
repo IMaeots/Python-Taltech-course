@@ -368,9 +368,9 @@ class Hotel:
                         features_in_current_room = features_in_hotel_room
 
         self.available_rooms.remove(current_room)
+        current_room.booked = True
         self.booked_rooms.append(current_room)
         return current_room
-
 
     def get_available_rooms(self) -> list:
         """Return a list of available (not booked) rooms."""
