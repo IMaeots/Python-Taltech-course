@@ -351,8 +351,8 @@ class Hotel:
         current_room = None
         features_in_current_room = 0
         for hotel_room in self.available_rooms:
-            features_in_hotel_room = sum(1 for feature in hotel_room.features if feature in required_features)
-            if not current_room:
+            features_in_hotel_room = sum(1 for feature in set(hotel_room.features) if feature in required_features)
+            if current_room is None:
                 current_room = hotel_room
                 features_in_current_room = features_in_hotel_room
             else:
