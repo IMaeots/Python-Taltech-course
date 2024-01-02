@@ -352,13 +352,17 @@ class Hotel:
         features_in_current_room = 0
         for hotel_room in self.available_rooms:
             features_in_hotel_room = sum(1 for feature in hotel_room.features if feature in required_features)
-            if features_in_hotel_room > features_in_current_room:
+            if not current_room:
                 current_room = hotel_room
                 features_in_current_room = features_in_hotel_room
-            elif features_in_hotel_room == features_in_current_room:
-                if current_room.number > hotel_room.number:
+            else:
+                if features_in_hotel_room > features_in_current_room:
                     current_room = hotel_room
                     features_in_current_room = features_in_hotel_room
+                elif features_in_hotel_room == features_in_current_room:
+                    if current_room.number > hotel_room.number:
+                        current_room = hotel_room
+                        features_in_current_room = features_in_hotel_room
 
         if current_room:
             self.booked_rooms.append(current_room)
