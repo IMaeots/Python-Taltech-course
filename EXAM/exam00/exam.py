@@ -402,7 +402,7 @@ class Hotel:
         """
         profits = {}
         for room in self.rooms:
-            for feature in room:
+            for feature in room.features:
                 if feature not in profits:
                     profits[feature] = room.price
                 else:
