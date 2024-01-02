@@ -168,7 +168,17 @@ def longest_substring(text: str) -> str:
     abBcd => Bcd
     '' -> ''
     """
-    pass
+    longest = ""
+    current = ""
+    for char in text:
+        if char.lower() not in current.lower():
+            current += char
+            if len(current) > len(longest):
+                longest = current
+        else:
+            current = char
+
+    return longest
 
 
 class Student:
@@ -348,6 +358,8 @@ class Hotel:
 
 if __name__ == '__main__':
     print()
+    print(longest_substring("aaa"))
+    print(longest_substring("abBca"))
     """
     hotel = Hotel()
     room1 = Room(1, 100)
