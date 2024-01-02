@@ -140,7 +140,7 @@ def rainbows(field: str, lower=False) -> int:
         field = field.lower()
         lower = True
 
-    if field[0:7] == "rainbow" or field[7::-1] == "rainbow":
+    if field[0:7] == "rainbow" or field[6::-1] == "rainbow":
         field = field[7:]
         total = 1
     else:
@@ -358,8 +358,7 @@ class Hotel:
 
 if __name__ == '__main__':
     print()
-    print(longest_substring("aaa"))
-    print(longest_substring("abBca"))
+    print(rainbows("wobniarwobniar"))
     """
     hotel = Hotel()
     room1 = Room(1, 100)
