@@ -422,7 +422,10 @@ class Hotel:
         profits = self.get_feature_profits()
         if profits:
             best = max(profits, key=profits.get)
-            return sorted(best, key=lambda x: x[0])[0]
+            if isinstance(best, list):
+                return sorted(best, key=lambda x: x[0])[0]
+            else:
+                return best
 
         return None
 
