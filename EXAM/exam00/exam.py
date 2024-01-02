@@ -24,7 +24,6 @@ def find_capital_letters(s: str) -> str:
     return capital_letters
 
 
-
 def close_far(a: int, b: int, c: int) -> bool:
     """
     Return if one value is "close" and other is "far".
@@ -38,7 +37,14 @@ def close_far(a: int, b: int, c: int) -> bool:
     close_far(1, 2, 3) => False
     close_far(4, 1, 3) => True
     """
-    pass
+    if b == a or (b - 1) == a or (b + 1) == a:
+        if c != b or c != a or (c - 1) != b or (c + 1) != b or (c - 1) != a or (c + 1) != a:
+            return True
+    elif c == a or (c - 1) == a or (c + 1) == a:
+        if b != c or b != a or (b - 1) != c or (b + 1) != c or (b - 1) != a or (b + 1) != a:
+            return True
+
+    return False
 
 
 def get_names_from_results(results_string: str, min_result: int) -> list:
