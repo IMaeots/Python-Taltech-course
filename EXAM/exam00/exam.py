@@ -177,7 +177,7 @@ def longest_substring(text: str) -> str:
                 longest = current
         else:
             try:
-                old_char_index = current.index(char)
+                old_char_index = current.lower().index(char.lower())
                 current = current[old_char_index + 1:] + char
             except ValueError:
                 current = char
@@ -362,7 +362,7 @@ class Hotel:
 
 if __name__ == '__main__':
     print()
-    print(longest_substring("JGPJCYUBZWJOYJFPIFGFUEZLBNRBQLSLFFBHCPTWDDAVHRWAQSHMMIXEFXRWXAXRXFUZ"))  # GPJCYUBZW
+    print(longest_substring("mStdIwoWyirTbbfhshMaGurSUxHgjVkOwWqjzhbdbxqXecviJpXDqmmNDtqsbEcTPQAiXkNMEAkSsxRpJmDVHebWMlivlpKAzEPfHZbTbSHxxlGVLgboeRjsHgSgnuTKRnklmTAeEjKFlYpMCLsSHnpveQeYJcCvfsOrlSxYOoOSxzZxZaBxYpd"))  # sbEcTPQAiXkNM
     """
     hotel = Hotel()
     room1 = Room(1, 100)
