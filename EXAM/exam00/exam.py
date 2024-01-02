@@ -38,10 +38,10 @@ def close_far(a: int, b: int, c: int) -> bool:
     close_far(4, 1, 3) => True
     """
     if b == a or (b - 1) == a or (b + 1) == a:
-        if c != b or c != a or (c - 1) != b or (c + 1) != b or (c - 1) != a or (c + 1) != a:
+        if c != b and c != a and (c - 1) != b and (c + 1) != b and (c - 1) != a and (c + 1) != a:
             return True
-    elif c == a or (c - 1) == a or (c + 1) == a:
-        if b != c or b != a or (b - 1) != c or (b + 1) != c or (b - 1) != a or (b + 1) != a:
+    if c == a or (c - 1) == a or (c + 1) == a:
+        if b != c and b != a and (b - 1) != c and (b + 1) != c and (b - 1) != a and (b + 1) != a:
             return True
 
     return False
@@ -306,6 +306,11 @@ class Hotel:
 
 
 if __name__ == '__main__':
+    print(close_far(1, 2, 10))
+    print(close_far(1, 2, 3))
+    print(close_far(4, 1, 3))
+
+    """
     hotel = Hotel()
     room1 = Room(1, 100)
     room1.add_feature("tv")
@@ -334,3 +339,4 @@ if __name__ == '__main__':
     assert hotel.get_most_profitable_feature() == 'tv'
 
     # TODO: try to add a room so that two or more features have the same profit
+    """
