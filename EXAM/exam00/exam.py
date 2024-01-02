@@ -365,6 +365,7 @@ class Hotel:
                         features_in_current_room = features_in_hotel_room
 
         if current_room:
+            self.available_rooms.remove(current_room)
             self.booked_rooms.append(current_room)
             return current_room
 
