@@ -176,7 +176,8 @@ def longest_substring(text: str) -> str:
             if len(current) > len(longest):
                 longest = current
         else:
-            current = char
+            old_char_index = current.index(char)
+            current = current[old_char_index + 1:] + char
 
     return longest
 
@@ -358,7 +359,7 @@ class Hotel:
 
 if __name__ == '__main__':
     print()
-    print(rainbows("wobniarwobniar"))
+    print(longest_substring("JGPJCYUBZWJOYJFPIFGFUEZLBNRBQLSLFFBHCPTWDDAVHRWAQSHMMIXEFXRWXAXRXFUZ"))  # GPJCYUBZW
     """
     hotel = Hotel()
     room1 = Room(1, 100)
