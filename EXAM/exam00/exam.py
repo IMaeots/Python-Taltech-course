@@ -425,7 +425,7 @@ class Hotel:
             if len(best) < 2:
                 return best
             else:
-                return min(best, key=best[0])
+                return sorted(best, key=lambda x: x[0])[0]
 
         return None
 
