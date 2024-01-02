@@ -71,7 +71,7 @@ def get_names_from_results(results_string: str, min_result: int) -> list:
     winners = []
     for element in results:
         match = re.search(pattern, element)
-        if int(match.group(2)) >= min_result:
+        if match and int(match.group(2)) >= min_result:
             winners.append(match.group(1))
 
     return winners
