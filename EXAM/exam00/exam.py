@@ -422,7 +422,10 @@ class Hotel:
         profits = self.get_feature_profits()
         best = max(profits, key=profits.get)
         if best:
-            return best
+            if len(best) < 2:
+                return best
+            else:
+                return min(best, key=best[0])
 
         return None
 
