@@ -420,8 +420,8 @@ class Hotel:
         If there are no features booked, return None.
         """
         profits = self.get_feature_profits()
-        best = max(profits, key=profits.get)
-        if best:
+        if profits:
+            best = max(profits, key=profits.get)
             return sorted(best, key=lambda x: x[0])[0]
 
         return None
