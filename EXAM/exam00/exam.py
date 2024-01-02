@@ -422,10 +422,7 @@ class Hotel:
         profits = self.get_feature_profits()
         if profits:
             best = max(profits, key=profits.get)
-            if isinstance(best, list):
-                return TypeError(f"this is mine: {best}")
-            else:
-                return best
+            return best
 
         return None
 
