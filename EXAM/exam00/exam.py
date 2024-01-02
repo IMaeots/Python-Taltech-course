@@ -97,7 +97,24 @@ def tic_tac_toe(game: list) -> int:
     :param game
     :return: winning player id
     """
-    pass
+    if game[0][0] == game[0][1] == game[0][2] != 0:
+        return game[0][0]
+    elif game[1][0] == game[1][1] == game[1][2] != 0:
+        return game[1][0]
+    elif game[2][0] == game[2][1] == game[2][2] != 0:
+        return game[2][0]
+    elif game[0][0] == game[1][0] == game[2][0] != 0:
+        return game[0][0]
+    elif game[0][1] == game[1][1] == game[2][1] != 0:
+        return game[0][1]
+    elif game[0][2] == game[1][2] == game[2][2] != 0:
+        return game[0][2]
+    elif game[0][0] == game[1][1] == game[2][2] != 0:
+        return game[0][0]
+    elif game[0][2] == game[1][1] == game[2][0] != 0:
+        return game[0][2]
+    else:
+        return 0
 
 
 def rainbows(field: str, lower=False) -> int:
