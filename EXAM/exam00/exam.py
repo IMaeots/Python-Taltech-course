@@ -129,10 +129,25 @@ def rainbows(field: str, lower=False) -> int:
     assert rainbows("WoBniar") == 1  # Vikerkaar on tagurpidi ja sisaldab suuri tähti
     assert rainbows("rainbowobniar") == 1  # Kaks vikerkaart jagavad tähte seega üks neist ei ole valiidne
 
+    :param lower: if string is already lower or not
     :param field: string to search rainbows from
     :return: number of rainbows in the string
     """
-    pass
+    if not field or len(field) < 7:
+        return 0
+
+    if not lower:
+        field = field.lower()
+        lower = True
+
+    if field[0:7] == "rainbow" or field[7::-1] == "rainbow":
+        field = field[7:]
+        total = 1
+    else:
+        field = field[1:]
+        total = 0
+
+    return rainbows(field, lower) + total
 
 
 def longest_substring(text: str) -> str:
