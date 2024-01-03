@@ -28,10 +28,10 @@ class Student:
         f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence)}." if there are multiple possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
-        # if (sentence):
-        #     return f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence}."
-        # else:
-        #     return f"The number I needed to guess was {final_answer}."
+        if sentence:
+            return f"Possible answers are {sorted(self.possible_answers)}."
+        else:
+            return f"The number I needed to guess was {self.biggest_number}."
 
     def intersect_possible_answers(self, update: list):
         """
