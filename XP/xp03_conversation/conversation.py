@@ -2,6 +2,7 @@
 import re
 import math
 from typing import Union
+from testing import regex_a, regex_b, regex_c
 
 
 class Student:
