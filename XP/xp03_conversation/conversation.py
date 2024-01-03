@@ -285,15 +285,14 @@ def quadratic_equation_solver(equation: str) -> Union[None, float, tuple]:
     all numbers are returned as floats.
     """
     a, b, c = extract_coefficients(normalize_quadratic_equation(equation))
-    delta = b**2 - 4*a*c
-    if delta < 0:
+    disc = b**2 - 4 * a * c
+    if disc < 0:
         return None
-    elif delta == 0:
-        solution = -b / (2*a)
-        return solution
+    elif disc == 0:
+        return -b / (2 * a)
     else:
-        solution1 = (-b + math.sqrt(delta)) / (2 * a)
-        solution2 = (-b - math.sqrt(delta)) / (2*a)
+        solution1 = (-b + math.sqrt(disc)) / (2 * a)
+        solution2 = (-b - math.sqrt(disc)) / (2 * a)
 
     return min(solution1, solution2), max(solution1, solution2)
 
