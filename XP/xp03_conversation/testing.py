@@ -10,7 +10,8 @@ if __name__ == '__main__':
     def print_regex_results(regex, f1):
         """Print regex results to display."""
         for match in re.finditer(regex, f1):
-            print(match.group(1))
+            if match:
+                print(match.group(1))
 
     f = "3x2 - 4x + 1"
 
