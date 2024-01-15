@@ -35,3 +35,12 @@ You can clone this repository to your local machine using:
 ```bash
 git clone https://github.com/IMaeots/TalTech-Python-course.git
 ```
+
+## License
+Copyright 2024 IMaeots
+
+Licensed under the Apache License, Version 2.0 (the "License.txt");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+`http://www.apache.org/licenses/LICENSE-2.0`
